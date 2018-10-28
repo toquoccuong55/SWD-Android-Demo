@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".fragment.ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp150"
+                android:background="@color/black_two"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp110"
+                android:gravity="bottom">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="KIM CHONG DOE"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp15"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp5"
+                            android:text="BiciPoint : 101"
+                            android:textColor="@color/black_two"
+                            android:textSize="@dimen/sp15" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp8"
+                        android:gravity="center">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="@dimen/dp72"
+                            android:layout_height="@dimen/dp72"
+                            android:src="@mipmap/ic_launcher_round"
+                            app:civ_border_color="@color/white"
+                            app:civ_border_width="@dimen/dp5" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|bottom"
+                            android:layout_marginBottom="@dimen/dp5"
+                            android:src="@mipmap/ic_pencil" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp16"
+            app:cardCornerRadius="@dimen/dp10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_info_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingTop="@dimen/dp12"
+                    android:paddingRight="@dimen/dp12"
+                    android:paddingBottom="@dimen/dp12">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="left|center"
+                        android:src="@mipmap/ic_personal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:text="Thông tin cá nhân"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp14" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp24"
+                            android:layout_height="@dimen/dp24"
+                            android:src="@mipmap/ic_view_more" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_shipping_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingTop="@dimen/dp12"
+                    android:paddingRight="@dimen/dp12"
+                    android:paddingBottom="@dimen/dp12">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="left|center"
+                        android:src="@mipmap/ic_shipping_address" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:text="Địa chỉ giao hàng"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp14" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp24"
+                            android:layout_height="@dimen/dp24"
+                            android:src="@mipmap/ic_view_more" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_order_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingTop="@dimen/dp12"
+                    android:paddingRight="@dimen/dp12"
+                    android:paddingBottom="@dimen/dp12">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="left|center"
+                        android:src="@mipmap/ic_order_history_grey" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:text="Lịch sử đặt hằng"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp14" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp24"
+                            android:layout_height="@dimen/dp24"
+                            android:src="@mipmap/ic_view_more" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_about_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingTop="@dimen/dp12"
+                    android:paddingRight="@dimen/dp12"
+                    android:paddingBottom="@dimen/dp12">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="left|center"
+                        android:src="@mipmap/ic_about_us" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:text="Về chúng tôi"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp14" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp24"
+                            android:layout_height="@dimen/dp24"
+                            android:src="@mipmap/ic_view_more" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingTop="@dimen/dp12"
+                    android:paddingRight="@dimen/dp12"
+                    android:paddingBottom="@dimen/dp12">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="left|center"
+                        android:src="@mipmap/ic_telephone_grey" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:text="Liên hệ"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp14" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp24"
+                            android:layout_height="@dimen/dp24"
+                            android:src="@mipmap/ic_view_more" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingTop="@dimen/dp12"
+                    android:paddingRight="@dimen/dp12"
+                    android:paddingBottom="@dimen/dp12">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="left|center"
+                        android:src="@mipmap/ic_logout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:text="Đăng xuất"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp14" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp24"
+            android:text="Hotline: 1900 9999"
+            android:textAlignment="center"
+            android:textColor="@color/charcoal"
+            android:textSize="@dimen/sp16" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp2"
+            android:text="©2018 Kixify Cor. Ver 1.01"
+            android:textAlignment="center"
+            android:textColor="@color/charcoal"
+            android:textSize="@dimen/sp12" />
+
+    </LinearLayout>
+
+</LinearLayout>

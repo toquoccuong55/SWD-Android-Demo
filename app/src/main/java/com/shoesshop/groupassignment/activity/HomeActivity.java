@@ -7,8 +7,9 @@ import android.os.Bundle;
 
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.adapter.TabAdapter;
+import com.shoesshop.groupassignment.fragment.CartFragment;
 import com.shoesshop.groupassignment.fragment.HomeFragment;
-import com.shoesshop.groupassignment.fragment.Tab2Fragment;
+import com.shoesshop.groupassignment.fragment.WishlistFragment;
 import com.shoesshop.groupassignment.fragment.ProfileFragment;
 
 public class HomeActivity extends AppCompatActivity {
@@ -21,12 +22,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mViewPager = findViewById(R.id.view_pager);
+        mTabLayout = findViewById(R.id.tab_layout);
 
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         mTabAdapter.addFragment(new HomeFragment(), "Home");
-        mTabAdapter.addFragment(new Tab2Fragment(), "Tab 2");
+        mTabAdapter.addFragment(new WishlistFragment(), "Wishlist");
+        mTabAdapter.addFragment(new CartFragment(), "Giỏ hàng");
         mTabAdapter.addFragment(new ProfileFragment(), "Profile");
         mViewPager.setAdapter(mTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
