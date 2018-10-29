@@ -55,19 +55,15 @@
                         android:layout_height="wrap_content"
                         android:gravity="right|center_vertical">
 
-                        <LinearLayout
-                            android:id="@+id/linear_layout_wishlist"
-                            android:layout_width="@dimen/dp40"
+                        <Button
+                            android:layout_width="@dimen/dp70"
                             android:layout_height="@dimen/dp40"
-                            android:layout_marginRight="@dimen/dp20"
-                            android:background="@drawable/background_button_wishlist_off"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="@dimen/dp25"
-                                android:layout_height="@dimen/dp25"
-                                android:src="@mipmap/ic_heart" />
-                        </LinearLayout>
+                            android:layout_marginRight="@dimen/dp15"
+                            android:background="@drawable/button_add_to_cart"
+                            android:text="Xong"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp14"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -84,9 +80,9 @@
                     android:background="@color/white" />
 
                 <LinearLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp16"
                     android:paddingRight="@dimen/dp16">
@@ -209,10 +205,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginBottom="@dimen/dp20"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginBottom="@dimen/dp20"
                         android:orientation="vertical">
 
 
@@ -248,50 +244,18 @@ Style Code: 378037-623"
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:paddingTop="@dimen/dp5"
-                    android:paddingLeft="@dimen/dp5"
-                    android:background="@drawable/backgroun_maybe_you_care"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_marginTop="@dimen/dp20"
-                    android:layout_marginBottom="@dimen/dp80"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Có thể bạn sẽ quan tâm"
-                        android:textColor="@color/black_two"
-                        android:textSize="@dimen/sp14" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view_related_products"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp5"></android.support.v7.widget.RecyclerView>
-                </LinearLayout>
-
+                    android:gravity="center"
+                    android:paddingTop="@dimen/dp20"
+                    android:paddingBottom="@dimen/dp50"
+                    android:text="Bỏ sản phẩm này"
+                    android:textColor="@color/pinkish_red"
+                    android:textSize="@dimen/sp18" />
             </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
-    <Button
-        android:id="@+id/button_add_to_cart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginLeft="@dimen/dp30"
-        android:layout_marginRight="@dimen/dp30"
-        android:layout_marginBottom="@dimen/dp15"
-        android:background="@drawable/button_add_to_cart"
-        android:text="Thêm vào giỏ hàng"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp16"
-        android:textStyle="bold" />
 
 </FrameLayout>

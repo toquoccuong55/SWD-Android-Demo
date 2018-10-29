@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp20"
+    tools:context=".activity.AboutUsActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp56"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp10">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
+                            android:src="@mipmap/ic_back" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp20"
+                        android:text="Về chúng tôi"
+                        android:textColor="@color/black_two"
+                        android:textSize="@dimen/sp16" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp16"
+                android:paddingTop="@dimen/dp5"
+                android:paddingRight="@dimen/dp16">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shoematic là một nơi mà mọi người trên khắp đất nước Việt Nam có thể kết nối, tìm và mua các sản phẩm sneakers độc nhất vô nhị.
+
+Trái tim và linh hồn của Shoematic chính là cộng đồng sneakers trên toàn Việt Nam: các nhà doanh nhân và chủ cửa hãng những người sử dụng Shoematic để bán, người mua tìm kiếm giày sneakers, họ không thể tìm bất cứ nơi nào khác, và nhân viên Shoematic những người duy trì và nuôi nấng nơi này. Shoematic là nơi mà chúng tôi cùng nhau xây dựng nên.
+
+Sứ mệnh của chúng tôi là thay đổi cách mà mọi người mua và bán giày sneakers online trong khi vẫn xây dựng ra một thế giới đầy thành quả và bền vững
+
+Chúng tôi đã xây dựng nên một nơi mang tính con người, đáng tin và lấy cộng đồng làm trung tâm rộng khắp cả nước và địa phương. Chúng tôi cam kết đến những doanh nhân đầy tài năng là chuyển đam mê của họ vào những mô hình kinh doanh và tạo ra một thế giới tốt đẹp hơn thông qua nền tảng của chúng tối, những nhân viên của chúng tôi, những thành viên của chúng tôi và cộng đồng chúng tôi phục vụ.
+
+Khi chúng tôi đang lớn dần, sự cam kết đến sứ mệnh vẫn còn nằm ở phần cốt lõi trong sự định danh của chúng tôi. Điều này đan xen vào các quyết định mà chúng tôi tạo nên cho sự giàu có lâu dài của nơi này.
+
+"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp14" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

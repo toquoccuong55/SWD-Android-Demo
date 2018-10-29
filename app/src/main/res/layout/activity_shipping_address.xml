@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_layout_shipping_address_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:layout_marginTop="@dimen/dp20"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp48"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/dp10">
+
+            <ImageView
+                android:layout_width="@dimen/dp25"
+                android:layout_height="@dimen/dp25"
+                android:src="@mipmap/ic_back" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp60"
+            android:text="Địa chỉ"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp18" />
+
+        <Button
+            android:id="@+id/button_save_address"
+            android:layout_width="@dimen/dp64"
+            android:layout_height="@dimen/dp32"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="@dimen/dp16"
+            android:background="@drawable/button_add_to_cart"
+            android:text="Lưu"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp20">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linear_layout_show_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginRight="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp8"
+                android:background="@drawable/background_personal_info"
+                android:orientation="vertical"
+                android:padding="@dimen/dp16">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Địa điểm"
+                    android:textColor="@color/charcoal"
+                    android:textSize="@dimen/sp12" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+
+                    <TextView
+                        android:id="@+id/text_view_address_type"
+                        android:layout_width="@dimen/dp16"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="95"
+                        android:text="Cơ quan"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp16" />
+
+                    <ImageView
+
+                        android:layout_width="@dimen/dp16"
+                        android:layout_height="@dimen/dp16"
+                        android:layout_weight="5"
+                        android:src="@mipmap/ic_arrow_down" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_shipping_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginRight="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp8"
+                android:background="@drawable/background_personal_info"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Địa chỉ"
+                    android:textColor="@color/charcoal"
+                    android:textSize="@dimen/sp12" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:paddingRight="@dimen/dp24"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp16"
+                        tools:text="Toà nhà Anna, Công viên phần mềm Quang Trung, Quận 12, TPHCM" />
+
+                    <ImageView
+                        android:id="@+id/image_delete_address"
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@mipmap/ic_delete"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_receiver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginRight="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp8"
+                android:background="@drawable/background_personal_info"
+                android:orientation="vertical"
+                android:padding="@dimen/dp16">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Người nhận"
+                    android:textColor="@color/charcoal"
+                    android:textSize="@dimen/sp12" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_customer_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:paddingRight="@dimen/dp24"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/dp16"
+                        tools:text="Phan Hoàng Vũ" />
+
+                    <ImageView
+                        android:id="@+id/image_delete_receiver"
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@mipmap/ic_delete"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginRight="@dimen/dp16"
+                android:background="@drawable/background_personal_info"
+                android:orientation="vertical"
+                android:padding="@dimen/dp16">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Số điện thoại"
+                    android:textColor="@color/charcoal"
+                    android:textSize="@dimen/sp12" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:paddingRight="@dimen/dp24"
+                        android:textColor="@color/charcoal"
+                        android:textSize="@dimen/sp16"
+                        tools:text="+84 98 765 4321" />
+
+                    <ImageView
+                        android:id="@+id/image_delete_phone"
+                        android:layout_width="@dimen/dp24"
+                        android:layout_height="@dimen/dp24"
+                        android:layout_gravity="right|center_vertical"
+                        android:src="@mipmap/ic_delete"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -14,8 +14,17 @@
     <color name="gray_two">#898989</color>
     <color name="gray_three">#e6e6e6</color>
     <color name="orange">#ff761a</color>
-
-
-
-
+    <color name="brownish_grey_two">#6e6e6e</color>
+    <color name="white_four">#f1f1f1</color>
+    <color name="warm_grey_three">#939393</color>
+    <color name="pinkish_red">#df3339</color>
+    <color name="greyish_brown_two">#585858</color>
+    <color name="warm_grey_four">#9a9a9a</color>
+    <color name="brownish_grey">#646464</color>
+    <color name="grey2">#979797</color>
+    <color name="light_black">#646464</color>
+    <color name="strawberry">#ee2b32</color>
+    <color name="warm_grey">#707070</color>
+    <color name="warm_grey_two">#777777</color>
+    <color name="grey">#f1f1f1</color>
 </resources>

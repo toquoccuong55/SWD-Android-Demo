@@ -43,7 +43,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="KIM CHONG DOE"
+                            android:text="TÔ QUỐC CƯỜNG"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp15"
                             android:textStyle="bold" />
@@ -52,7 +52,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp5"
-                            android:text="BiciPoint : 101"
+                            android:text="+84 382923 539"
                             android:textColor="@color/black_two"
                             android:textSize="@dimen/sp15" />
                     </LinearLayout>
@@ -66,7 +66,7 @@
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="@dimen/dp72"
                             android:layout_height="@dimen/dp72"
-                            android:src="@mipmap/ic_launcher_round"
+                            android:src="@mipmap/ic_avatar"
                             app:civ_border_color="@color/white"
                             app:civ_border_width="@dimen/dp5" />
 
@@ -75,7 +75,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right|bottom"
                             android:layout_marginBottom="@dimen/dp5"
-                            android:src="@mipmap/ic_pencil" />
+                            android:src="@mipmap/ic_pencil"
+                            android:visibility="gone" />
 
                     </FrameLayout>
 
@@ -333,7 +334,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp2"
-            android:text="©2018 Kixify Cor. Ver 1.01"
+            android:text="©2018 Shoematic. Ver 1.01"
             android:textAlignment="center"
             android:textColor="@color/charcoal"
             android:textSize="@dimen/sp12" />
