@@ -66,7 +66,7 @@
                             <ImageView
                                 android:layout_width="@dimen/dp25"
                                 android:layout_height="@dimen/dp25"
-                                android:src="@mipmap/ic_heart" />
+                                android:src="@mipmap/ic_wishlist" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -84,9 +84,9 @@
                     android:background="@color/white" />
 
                 <LinearLayout
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/dp16"
                     android:paddingRight="@dimen/dp16">
@@ -112,7 +112,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="right"
                             android:text="500.000đ"
-                            android:textColor="@color/black_two"
+                            android:textColor="@color/strawberry"
                             android:textSize="@dimen/sp18"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -190,7 +190,7 @@
                                 android:layout_marginRight="@dimen/dp14"
                                 android:gravity="center"
                                 android:text="1"
-                                android:textColor="@color/black_two"
+                                android:textColor="@color/strawberry"
                                 android:textSize="@dimen/sp22" />
 
                             <TextView
@@ -209,10 +209,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginBottom="@dimen/dp20"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginBottom="@dimen/dp20"
                         android:orientation="vertical">
 
 
@@ -249,15 +249,15 @@ Style Code: 378037-623"
                 </LinearLayout>
 
                 <LinearLayout
-                    android:paddingTop="@dimen/dp5"
-                    android:paddingLeft="@dimen/dp5"
-                    android:background="@drawable/backgroun_maybe_you_care"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp16"
                     android:layout_marginTop="@dimen/dp20"
                     android:layout_marginBottom="@dimen/dp80"
-                    android:orientation="vertical">
+                    android:background="@drawable/backgroun_maybe_you_care"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/dp5"
+                    android:paddingTop="@dimen/dp5">
 
 
                     <TextView

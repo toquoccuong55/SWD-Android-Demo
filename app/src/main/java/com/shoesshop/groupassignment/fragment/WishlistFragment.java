@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shoesshop.groupassignment.R;
+import com.shoesshop.groupassignment.activity.ProductDetailActivity;
 import com.shoesshop.groupassignment.adapter.WishlistAdapter;
 import com.shoesshop.groupassignment.model.Wishlist;
 
@@ -59,6 +60,12 @@ public class WishlistFragment extends Fragment {
 
         mWishlistAdapter = new WishlistAdapter(mWishlist, getContext());
         mRecyclerViewWishlist.setAdapter(mWishlistAdapter);
+        mWishlistAdapter.setmOnItemClickListener(new WishlistAdapter.OnItemClickListener() {
+            @Override
+            public void setOnItemClickListener(int position) {
+                ProductDetailActivity.intentToProductDetailActivitiy(getActivity());
+            }
+        });
     }
 
 }

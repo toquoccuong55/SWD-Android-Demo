@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginTop="@dimen/dp20"
+    android:orientation="vertical"
     tools:context=".fragment.CartFragment">
 
     <android.support.v4.widget.NestedScrollView
@@ -19,7 +19,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -57,169 +56,181 @@
                 </LinearLayout>
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_marginRight="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="@color/white"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CHI TIẾT ĐƠN HÀNG"
-                        android:textColor="@color/brownish_grey_two"
-                        android:textSize="@dimen/sp14"
-                        android:textStyle="bold" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycler_view_order_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp12"></android.support.v7.widget.RecyclerView>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp1"
-                        android:layout_marginTop="@dimen/dp30"
-                        android:alpha="0.22"
-                        android:background="@color/gray" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_marginTop="@dimen/dp20"
-                    android:layout_marginRight="@dimen/dp16"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="THÔNG TIN GIAO HÀNG"
-                        android:textColor="@color/brownish_grey_two"
-                        android:textSize="@dimen/sp14"
-                        android:textStyle="bold" />
 
                     <LinearLayout
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp11"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp18"
-                            android:layout_height="@dimen/dp18"
-                            android:src="@mipmap/ic_user" />
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:layout_marginRight="@dimen/dp16"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp10"
-                            android:text="Anh Cường - 0980123123" />
+                            android:text="CHI TIẾT ĐƠN HÀNG"
+                            android:textColor="@color/brownish_grey_two"
+                            android:textSize="@dimen/sp14"
+                            android:textStyle="bold" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler_view_order_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp12"></android.support.v7.widget.RecyclerView>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp1"
+                            android:layout_marginTop="@dimen/dp30"
+                            android:alpha="0.22"
+                            android:background="@color/gray" />
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp28"
-                        android:layout_marginTop="@dimen/dp12"
-                        android:alpha="0.65"
-                        android:text="Vui lòng nhập địa chỉ tại đây."
-                        android:textColor="@color/brownish_grey_two"
-                        android:textSize="@dimen/sp11" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp1"
-                        android:layout_marginTop="@dimen/dp20"
-                        android:alpha="0.22"
-                        android:background="@color/gray" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_marginTop="@dimen/dp20"
-                    android:layout_marginRight="@dimen/dp16"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="GHI CHÚ"
-                        android:textColor="@color/brownish_grey_two"
-                        android:textSize="@dimen/sp14"
-                        android:textStyle="bold" />
-
                     <LinearLayout
+                        android:id="@+id/linear_layout_delivery_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp11"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp18"
-                            android:layout_height="@dimen/dp18"
-                            android:src="@mipmap/ic_chat" />
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginRight="@dimen/dp16"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp12"
+                            android:text="THÔNG TIN GIAO HÀNG"
+                            android:textColor="@color/brownish_grey_two"
+                            android:textSize="@dimen/sp14"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp11"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp18"
+                                android:layout_height="@dimen/dp18"
+                                android:src="@mipmap/ic_user" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp10"
+                                android:text="Anh Cường - 0980123123" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp28"
+                            android:layout_marginTop="@dimen/dp12"
                             android:alpha="0.65"
-                            android:text="Bạn có ghi chú gì không?"
+                            android:text="Vui lòng nhập địa chỉ tại đây."
                             android:textColor="@color/brownish_grey_two"
                             android:textSize="@dimen/sp11" />
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp1"
+                            android:layout_marginTop="@dimen/dp20"
+                            android:alpha="0.22"
+                            android:background="@color/gray" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp1"
-                        android:layout_marginTop="@dimen/dp20"
-                        android:alpha="0.22"
-                        android:background="@color/gray" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_marginTop="@dimen/dp20"
-                    android:layout_marginRight="@dimen/dp16"
-                    android:layout_marginBottom="@dimen/dp20"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="PHƯƠNG THỨC THANH TOÁN"
-                        android:textColor="@color/brownish_grey_two"
-                        android:textSize="@dimen/sp14"
-                        android:textStyle="bold" />
-
                     <LinearLayout
+                        android:id="@+id/linear_layout_note"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp11"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp18"
-                            android:layout_height="@dimen/dp18"
-                            android:src="@mipmap/ic_payment" />
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginRight="@dimen/dp16"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp12"
-                            android:alpha="0.65"
-                            android:text="Hãy chọn phương thức thanh toán."
+                            android:text="GHI CHÚ"
                             android:textColor="@color/brownish_grey_two"
-                            android:textSize="@dimen/sp11" />
+                            android:textSize="@dimen/sp14"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp11"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp18"
+                                android:layout_height="@dimen/dp18"
+                                android:src="@mipmap/ic_chat" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp12"
+                                android:alpha="0.65"
+                                android:text="Bạn có ghi chú gì không?"
+                                android:textColor="@color/brownish_grey_two"
+                                android:textSize="@dimen/sp11" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp1"
+                            android:layout_marginTop="@dimen/dp20"
+                            android:alpha="0.22"
+                            android:background="@color/gray" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginRight="@dimen/dp16"
+                        android:layout_marginBottom="@dimen/dp20"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PHƯƠNG THỨC THANH TOÁN"
+                            android:textColor="@color/brownish_grey_two"
+                            android:textSize="@dimen/sp14"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp11"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp18"
+                                android:layout_height="@dimen/dp18"
+                                android:src="@mipmap/ic_payment" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp12"
+                                android:alpha="0.65"
+                                android:text="Hãy chọn phương thức thanh toán."
+                                android:textColor="@color/brownish_grey_two"
+                                android:textSize="@dimen/sp11" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -350,6 +361,7 @@
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/button_set_order"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp20"

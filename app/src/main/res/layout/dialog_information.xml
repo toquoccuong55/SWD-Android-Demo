@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_related_product"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_view_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn có chắc chắn muốn đăng xuất?"
+            android:textColor="@color/brownish_grey"
+            android:textSize="@dimen/sp14"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_view_sub_infor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:text="Tất cả thông tin sẽ bị xóa sau khi đăng xuất"
+            android:textColor="@color/brownish_grey"
+            android:textSize="@dimen/sp12" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp1"
+        android:layout_marginTop="@dimen/dp11"
+        android:alpha="0.1"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_options"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp60"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_num1"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp20"
+            android:background="@color/white"
+            android:text="Đồng ý"
+            android:textAllCaps="false"
+            android:textColor="@color/brownish_grey"
+            android:textSize="@dimen/sp14" />
+
+        <View
+            android:layout_width="@dimen/dp1"
+            android:layout_height="match_parent"
+            android:alpha="0.1"
+            android:background="@color/black" />
+
+        <Button
+            android:id="@+id/button_num2"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp20"
+            android:background="@color/white"
+            android:text="Hủy"
+            android:textAllCaps="false"
+            android:textColor="@color/brownish_grey"
+            android:textSize="@dimen/sp14"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

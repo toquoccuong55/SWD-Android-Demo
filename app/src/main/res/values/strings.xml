@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GroupAssignment</string>
-    <string name="FACEBOOK_APP_ID">330661124150637</string>
-    <string name="ACCOUNT_KIT_CLIENT_TOKEN">4485f2cacd657e6479e648f099444140</string>
-    <string name="ak_login_protocol_schema">4485f2cacd657e6479e648f099444140</string>
+    <string name="FACEBOOK_APP_ID">1227690800705980</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">33355bd537fbbce81964032f5b1162a2</string>
+    <string name="ak_login_protocol_schema">ak33355bd537fbbce81964032f5b1162a2</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

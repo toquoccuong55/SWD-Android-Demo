@@ -1,5 +1,6 @@
 package com.shoesshop.groupassignment.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //test local
+                LoginActivity.intentToLoginActivitiy(SplashActivity.this);
             }
         }, ConstantDataManager.SPLASH_TIME_OUT);
     }

@@ -14,16 +14,22 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.shoesshop.groupassignment.R;
+import com.shoesshop.groupassignment.activity.EditOrderDetailActivity;
+import com.shoesshop.groupassignment.activity.NoteActivity;
+import com.shoesshop.groupassignment.activity.OrderSuccessActivity;
+import com.shoesshop.groupassignment.activity.PaymentActivity;
+import com.shoesshop.groupassignment.activity.ShippingAddressActivity;
 import com.shoesshop.groupassignment.adapter.OrderDetailAdapter;
 import com.shoesshop.groupassignment.model.OrderDetail;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartFragment extends Fragment {
-    private RecyclerView mRecyclerViewOrderDetail;
+public class CartFragment extends Fragment implements View.OnClickListener {
+    private RecyclerView mRcvOrderDetail;
     private OrderDetailAdapter mOrderDetailAdapter;
     private List<OrderDetail> mOrderDetailList;
+    private LinearLayout mLnlDeliveryInfo, mLnlNote, mLnlPayment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,11 +46,17 @@ public class CartFragment extends Fragment {
     }
 
     private void initialView() {
-        mRecyclerViewOrderDetail = getView().findViewById(R.id.recycler_view_order_detail);
-        mRecyclerViewOrderDetail.setHasFixedSize(true);
+        mRcvOrderDetail = getView().findViewById(R.id.recycler_view_order_detail);
+        mRcvOrderDetail.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerViewOrderDetail.setLayoutManager(layoutManager);
+        mRcvOrderDetail.setLayoutManager(layoutManager);
 
+        mLnlDeliveryInfo = getView().findViewById(R.id.linear_layout_delivery_info);
+        mLnlDeliveryInfo.setOnClickListener(this);
+        mLnlNote = getView().findViewById(R.id.linear_layout_note);
+        mLnlNote.setOnClickListener(this);
+        mLnlPayment = getView().findViewById(R.id.linear_layout_payment);
+        mLnlPayment.setOnClickListener(this);
     }
 
     private void initialData() {
@@ -54,12 +66,32 @@ public class CartFragment extends Fragment {
         mOrderDetailList.add(new OrderDetail("Nike Air Force Jester", "", "39", 560000, 1));
 
         mOrderDetailAdapter = new OrderDetailAdapter(mOrderDetailList, getContext());
-        mRecyclerViewOrderDetail.setAdapter(mOrderDetailAdapter);
+        mRcvOrderDetail.setAdapter(mOrderDetailAdapter);
         mOrderDetailAdapter.setmOnItemClickListener(new OrderDetailAdapter.OnItemClickListener() {
             @Override
             public void setOnItemClickListener(int position) {
-
+                EditOrderDetailActivity.intentToEditOrderDetailActivitiy(getActivity());
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.linear_layout_delivery_info:
+                ShippingAddressActivity.intentToShippingAddressActivitiy(getActivity());
+                break;
+            case R.id.linear_layout_note:
+                NoteActivity.intentToNoteActivitiy(getActivity());
+                break;
+            case R.id.linear_layout_payment:
+                PaymentActivity.intentToPaymentActivitiy(getActivity());
+                break;
+            case R.id.button_set_order:
+                OrderSuccessActivity.intentToOrderSuccessActivitiy(getActivity());
+                break;
+
+
+        }
     }
 }

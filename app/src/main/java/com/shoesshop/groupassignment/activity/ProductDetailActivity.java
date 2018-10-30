@@ -1,6 +1,8 @@
 package com.shoesshop.groupassignment.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -49,6 +51,11 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         Slider.init(new PicassoLoadingService());
     }
 
+    public static void intentToProductDetailActivitiy(Activity activity) {
+        Intent intent = new Intent(activity, ProductDetailActivity.class);
+        activity.startActivity(intent);
+    }
+
     private void initalView() {
         mSlider = findViewById(R.id.slider_product_images);
         mLnlBack = findViewById(R.id.linear_layout_back);
@@ -56,6 +63,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         mFlowLayoutSize = findViewById(R.id.flow_layout_list_size);
         mFlowLayoutSize.setOnClickListener(this);
         mLnlWishlist = findViewById(R.id.linear_layout_wishlist);
+        mLnlWishlist.setOnClickListener(this);
         mTxtPrice = findViewById(R.id.text_view_price);
         mTxtProductName = findViewById(R.id.text_view_product_name);
         mTxtDescription = findViewById(R.id.text_view_description);
@@ -73,11 +81,11 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         addSizeLayoutToFlowLayout();
 
         mImageList = new ArrayList<>();
-        mImageList.add("https://image.goat.com/150/attachments/product_template_pictures/images/010/140/774/original/189274_00.png.png");
-        mImageList.add("https://image.goat.com/150/attachments/product_template_pictures/images/004/896/057/original/AH9110_023.png");
-        mImageList.add("https://image.goat.com/150/attachments/product_template_pictures/images/014/770/352/original/AJ8_647380.png.png");
-        mImageList.add("https://image.goat.com/150/attachments/product_template_pictures/images/000/763/688/original/HO13_MNJDLS_090.png");
-        mImageList.add("https://image.goat.com/150/attachments/product_template_pictures/images/000/551/836/original/705317_305_.png");
+        mImageList.add("https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/008/491/941/original/73359_01.jpg.jpeg");
+        mImageList.add("https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/010/140/793/original/189274_01.jpg.jpeg");
+        mImageList.add("https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/010/140/831/original/189275_01.jpg.jpeg");
+        mImageList.add("https://image.goat.com/crop/750/attachments/product_template_pictures/images/004/896/057/original/AH9110_023.png");
+        mImageList.add("https://image.goat.com/crop/750/attachments/product_template_pictures/images/014/770/352/original/AJ8_647380.png.png");
 
         mSlider.setAdapter(new MainSliderAdapter(mImageList));
 
@@ -139,7 +147,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.linear_layout_wishlist:
-
+                mLnlWishlist.setBackground(getResources().getDrawable(R.drawable.background_button_wishlist_on));
                 break;
         }
     }
