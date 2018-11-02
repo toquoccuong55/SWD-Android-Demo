@@ -56,6 +56,7 @@
                         android:gravity="right|center_vertical">
 
                         <Button
+                            android:id="@+id/button_done"
                             android:layout_width="@dimen/dp70"
                             android:layout_height="@dimen/dp40"
                             android:layout_marginRight="@dimen/dp15"
@@ -245,6 +246,7 @@ Style Code: 378037-623"
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/text_view_delete_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

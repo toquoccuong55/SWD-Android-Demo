@@ -18,17 +18,22 @@ import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
 import com.facebook.accountkit.ui.LoginType;
 import com.shoesshop.groupassignment.R;
+import com.shoesshop.groupassignment.presenter.LoginPresenter;
+import com.shoesshop.groupassignment.room.entity.Customer;
+import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.utils.FacebookCallBackData;
 import com.shoesshop.groupassignment.utils.FacebookHelper;
+import com.shoesshop.groupassignment.view.LoginView;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
     private static final int REQUEST_CODE_ACCOUNT_KIT = 999;
     private Button mBtnLoginByPhone, mBtnLoginByFacebook;
     private String TAG = "LoginActivity";
     private CallbackManager mCallbackManager;
+    private LoginPresenter mLoginPresenter;
 
 
     @Override
@@ -66,6 +71,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mBtnLoginByPhone.setOnClickListener(this);
         mBtnLoginByFacebook = findViewById(R.id.button_login_by_facebook);
         mBtnLoginByFacebook.setOnClickListener(this);
+
+        mLoginPresenter = new LoginPresenter(LoginActivity.this, LoginActivity.this, getApplication());
     }
 
     @Override
@@ -97,9 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(boolean isLogged) {
                 if (isLogged) {
-//                    mLoginPresenter.loginByFacebook(FacebookHelper.getFbAccessToken());
-                    Log.e(TAG, "onSuccess: ");
-                    HomeActivity.intentToHomeActivitiy(LoginActivity.this);
+                    mLoginPresenter.loginByFacebook(FacebookHelper.getFbAccessToken());
                 }
             }
 
@@ -125,11 +130,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onSuccess(boolean isLogged) {
                         if (isLogged) {
-//                            mLoginPresenter.loginByPhone(result.getAccessToken().getToken() + "");
-                            Log.e(TAG, "onSuccess: ");
-                            HomeActivity.intentToHomeActivitiy(LoginActivity.this);
+                            mLoginPresenter.loginByPhone(result.getAccessToken().getToken());
                         }
-
                     }
 
                     @Override
@@ -141,5 +143,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void loginByPhoneSuccess(Customer customer) {
+        mLoginPresenter.addCustomer(customer);
+    }
+
+    @Override
+    public void loginByPhoneFailed(String message) {
+        Log.e(TAG, message);
+    }
+
+    @Override
+    public void addCustomerSuccess(Customer customer) {
+        if (customer.isFirstLogin()) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ConstantDataManager.BUNDLE_CUSTOMER, customer);
+            PersonalInfoActivity.intentToPersonalInfoActivitiy(LoginActivity.this);
+        } else {
+            HomeActivity.intentToHomeActivitiy(LoginActivity.this);
+        }
+    }
+
+    @Override
+    public void loginByFacebookSuccess(Customer customer) {
+        mLoginPresenter.addCustomer(customer);
+    }
+
+    @Override
+    public void loginByFacebookFailed(String message) {
+        Log.e(TAG, message);
     }
 }

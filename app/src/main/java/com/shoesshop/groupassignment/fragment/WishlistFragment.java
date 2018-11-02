@@ -14,14 +14,19 @@ import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.activity.ProductDetailActivity;
 import com.shoesshop.groupassignment.adapter.WishlistAdapter;
 import com.shoesshop.groupassignment.model.Wishlist;
+import com.shoesshop.groupassignment.presenter.WishListFragPresenter;
+import com.shoesshop.groupassignment.room.entity.Product;
+import com.shoesshop.groupassignment.view.WishListFragView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WishlistFragment extends Fragment {
+public class WishlistFragment extends Fragment implements WishListFragView {
     private RecyclerView mRecyclerViewWishlist;
     private WishlistAdapter mWishlistAdapter;
     private List<Wishlist> mWishlist;
+
+    private WishListFragPresenter mWishListFragPresenter;
 
 
     @Override
@@ -35,6 +40,12 @@ public class WishlistFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialView();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         initialData();
     }
 
@@ -44,19 +55,32 @@ public class WishlistFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerViewWishlist.setLayoutManager(layoutManager);
         mRecyclerViewWishlist.setNestedScrollingEnabled(false);
+
+        mWishListFragPresenter = new WishListFragPresenter(getActivity(), WishlistFragment.this, getActivity().getApplication());
     }
 
     private void initialData() {
+        mWishListFragPresenter.getWishList();
+
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+
+    }
+
+    @Override
+    public void showWishList(List<Product> productList) {
         mWishlist = new ArrayList<>();
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
+
+        for (Product product : productList) {
+            mWishlist.add(new Wishlist(product.getImage(), product.getName(), product.getUnitPrice()));
+        }
 
         mWishlistAdapter = new WishlistAdapter(mWishlist, getContext());
         mRecyclerViewWishlist.setAdapter(mWishlistAdapter);
@@ -67,5 +91,4 @@ public class WishlistFragment extends Fragment {
             }
         });
     }
-
 }

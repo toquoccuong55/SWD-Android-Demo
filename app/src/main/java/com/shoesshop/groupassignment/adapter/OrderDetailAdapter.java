@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.model.OrderDetail;
-import com.shoesshop.groupassignment.model.Product;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.squareup.picasso.Picasso;
 

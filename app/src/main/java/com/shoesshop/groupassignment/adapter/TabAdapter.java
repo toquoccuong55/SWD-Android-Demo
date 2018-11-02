@@ -23,7 +23,7 @@ public class TabAdapter extends FragmentStatePagerAdapter {
         return mFragmentList.get(i);
     }
 
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment) {
         mFragmentList.add(fragment);
     }
 

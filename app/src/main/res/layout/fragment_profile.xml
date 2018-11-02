@@ -67,6 +67,7 @@
                             android:layout_width="@dimen/dp96"
                             android:layout_height="@dimen/dp96"
                             android:src="@mipmap/ic_avatar"
+                            app:civ_fill_color="@color/white"
                             app:civ_border_color="@color/white"
                             app:civ_border_width="@dimen/dp5" />
 

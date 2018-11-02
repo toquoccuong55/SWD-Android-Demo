@@ -43,7 +43,8 @@
                             android:layout_height="@dimen/dp112"
                             android:src="@mipmap/ic_avatar"
                             app:civ_border_color="@color/white"
-                            app:civ_border_width="@dimen/dp5" />
+                            app:civ_border_width="@dimen/dp5"
+                            app:civ_fill_color="@color/white" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -63,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginTop="@dimen/dp20"
-                android:layout_marginRight="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp14"
+                android:layout_marginRight="@dimen/dp5"
                 android:background="@drawable/background_related_product"
                 android:text="Xong" />
 
@@ -135,7 +136,7 @@
                     android:textColor="@color/charcoal"
                     android:textSize="@dimen/sp12" />
 
-                <TextView
+                <EditText
                     android:id="@+id/edit_text_profile_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

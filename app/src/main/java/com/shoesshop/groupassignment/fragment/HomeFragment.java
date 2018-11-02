@@ -16,17 +16,20 @@ import android.view.ViewGroup;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.activity.ProductDetailActivity;
 import com.shoesshop.groupassignment.adapter.HomeAdapter;
-import com.shoesshop.groupassignment.model.Product;
+import com.shoesshop.groupassignment.room.entity.Product;
+import com.shoesshop.groupassignment.presenter.HomeFragPresenter;
 import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.utils.GridSpacingItemDecoration;
+import com.shoesshop.groupassignment.view.HomeFragView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeFragView {
     private RecyclerView mRecyclerViewProduct;
     private HomeAdapter mHomeAdapter;
     private List<Product> mProductList;
+    private HomeFragPresenter mHomeFragPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +42,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialView();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         initialData();
     }
 
@@ -61,20 +70,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void initialData() {
-        mProductList = new ArrayList<>();
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
-        mProductList.add(new Product("", "Nike Air Force 1 Low", 575000));
+        mHomeFragPresenter = new HomeFragPresenter(getActivity(), HomeFragment.this);
+        mHomeFragPresenter.getProductList();
+    }
 
+    @Override
+    public void showProductList(List<Product> productList) {
+        mProductList = productList;
         mHomeAdapter = new HomeAdapter(mProductList, getContext());
         mRecyclerViewProduct.setAdapter(mHomeAdapter);
         mHomeAdapter.setmOnItemClickListener(new HomeAdapter.OnItemClickListener() {

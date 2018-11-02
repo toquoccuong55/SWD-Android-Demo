@@ -64,4 +64,9 @@ public class FacebookHelper {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
     }
+
+    public static String getFbAccessToken() {
+        String accessToken = AccessToken.getCurrentAccessToken().getToken();
+        return accessToken;
+    }
 }

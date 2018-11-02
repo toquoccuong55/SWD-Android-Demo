@@ -13,6 +13,10 @@ import com.shoesshop.groupassignment.fragment.CartFragment;
 import com.shoesshop.groupassignment.fragment.HomeFragment;
 import com.shoesshop.groupassignment.fragment.WishlistFragment;
 import com.shoesshop.groupassignment.fragment.ProfileFragment;
+import com.shoesshop.groupassignment.room.entity.ProductVariant;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -30,21 +34,37 @@ public class HomeActivity extends AppCompatActivity {
             R.mipmap.ic_profile2
     };
 
+    public static List<ProductVariant> mShoppingBag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        initialView();
+        initialData();
+
+    }
+
+    private void initialView(){
         mViewPager = findViewById(R.id.view_pager);
         mTabLayout = findViewById(R.id.tab_layout);
 
+    }
+
+    private void initialData(){
+        if(mShoppingBag == null){
+            mShoppingBag = new ArrayList<>();
+        }
+
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
-        mTabAdapter.addFragment(new HomeFragment(), "Home");
-        mTabAdapter.addFragment(new WishlistFragment(), "Wishlist");
-        mTabAdapter.addFragment(new CartFragment(), "Giỏ hàng");
-        mTabAdapter.addFragment(new ProfileFragment(), "Profile");
+        mTabAdapter.addFragment(new HomeFragment());
+        mTabAdapter.addFragment(new WishlistFragment());
+        mTabAdapter.addFragment(new CartFragment());
+        mTabAdapter.addFragment(new ProfileFragment());
         mViewPager.setAdapter(mTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         setupTabIcons();
+
     }
 
     private void setupTabIcons() {
@@ -55,9 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         mTabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition())
-                {
-
+                switch (tab.getPosition()) {
                     case 0:
                         tab.setIcon(tabIcons[4]);
                         mTabLayout.getTabAt(1).setIcon(tabIcons[1]);

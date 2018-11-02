@@ -2,7 +2,6 @@ package com.shoesshop.groupassignment.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shoesshop.groupassignment.R;
-import com.shoesshop.groupassignment.model.Product;
 import com.shoesshop.groupassignment.model.Wishlist;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.squareup.picasso.Picasso;

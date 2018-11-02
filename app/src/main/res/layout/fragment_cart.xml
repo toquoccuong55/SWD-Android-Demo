@@ -32,23 +32,10 @@
                         android:layout_height="@dimen/dp56"
                         android:gravity="center_vertical">
 
-                        <LinearLayout
-                            android:id="@+id/linear_layout_back"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dp10">
-
-                            <ImageView
-                                android:layout_width="@dimen/dp25"
-                                android:layout_height="@dimen/dp25"
-                                android:src="@mipmap/ic_back" />
-
-                        </LinearLayout>
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp20"
+                            android:layout_marginLeft="@dimen/dp60"
                             android:text="Giỏ hàng"
                             android:textColor="@color/black_two"
                             android:textSize="@dimen/sp18" />
@@ -56,19 +43,21 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/linear_layout_order_infor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp10"
                     android:background="@color/white"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
                     <LinearLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/dp16"
                         android:layout_marginRight="@dimen/dp16"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/dp10">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -110,6 +99,7 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
+                            android:id="@+id/linear_layout_receiver"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp11"
@@ -121,21 +111,35 @@
                                 android:src="@mipmap/ic_user" />
 
                             <TextView
+                                android:id="@+id/text_view_receiver"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dp10"
                                 android:text="Anh Cường - 0980123123" />
                         </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/linear_layout_address"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp28"
-                            android:layout_marginTop="@dimen/dp12"
-                            android:alpha="0.65"
-                            android:text="Vui lòng nhập địa chỉ tại đây."
-                            android:textColor="@color/brownish_grey_two"
-                            android:textSize="@dimen/sp11" />
+                            android:layout_marginTop="@dimen/dp11"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp18"
+                                android:layout_height="@dimen/dp18"
+                                android:src="@mipmap/ic_address" />
+
+
+                            <TextView
+                                android:id="@+id/text_view_address"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp10"
+                                android:text="Vui lòng nhập địa chỉ tại đây." />
+
+                        </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
@@ -239,10 +243,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_layout_payment_infor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white_four"
-                android:padding="@dimen/dp16">
+                android:padding="@dimen/dp16"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -374,6 +380,21 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_empty_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp20"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Bạn chưa có sản phẩm nào trong giỏ hàng." />
             </LinearLayout>
         </LinearLayout>
 

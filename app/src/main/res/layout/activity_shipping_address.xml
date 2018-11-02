@@ -63,7 +63,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/linear_layout_show_dialog"
+                android:id="@+id/linear_layout_show_dialog_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp16"
@@ -175,10 +175,11 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/edit_text_customer_name"
+                        android:id="@+id/text_view_customer_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
+                        android:enabled="false"
                         android:paddingRight="@dimen/dp24"
                         android:textColor="@color/charcoal"
                         android:textSize="@dimen/dp16"
@@ -217,10 +218,11 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/edit_text_phone"
+                        android:id="@+id/text_view_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
+                        android:enabled="false"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:paddingRight="@dimen/dp24"

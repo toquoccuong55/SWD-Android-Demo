@@ -12,17 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.SplashActivity">
-        </activity>
+        <activity android:name=".activity.SplashActivity"></activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.HomeActivity">
+
+        </activity>
+        <activity android:name=".activity.ProductDetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ProductDetailActivity" />
 
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
@@ -54,7 +55,8 @@
         <activity android:name=".activity.OrderHistoryActivity" />
         <activity android:name=".activity.OrderHistoryDetailActivity" />
         <activity android:name=".activity.AboutUsActivity" />
-        <activity android:name=".activity.ContactActivity"></activity>
+        <activity android:name=".activity.ContactActivity" />
+        <activity android:name=".activity.FirstLoginActivity"></activity>
     </application>
 
 </manifest>

@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.shoesshop.groupassignment.R;
+import com.shoesshop.groupassignment.presenter.SplashPresenter;
+import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.view.SplashView;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements SplashView {
+    private SplashPresenter mSplashPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +26,23 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+//                mSplashPresenter.getCustomer();
                 LoginActivity.intentToLoginActivitiy(SplashActivity.this);
             }
         }, ConstantDataManager.SPLASH_TIME_OUT);
+    }
+
+    @Override
+    public void showCustomer(Customer customer) {
+        if (customer == null) {
+            LoginActivity.intentToLoginActivitiy(SplashActivity.this);
+
+//        } else if (customer.isFirstLogin()) {
+//            PersonalInfoActivity.intentToPersonalInfoActivitiy(SplashActivity.this);
+
+        } else if (customer != null && !customer.isFirstLogin()) {
+            HomeActivity.intentToHomeActivitiy(SplashActivity.this);
+            finish();
+        }
     }
 }

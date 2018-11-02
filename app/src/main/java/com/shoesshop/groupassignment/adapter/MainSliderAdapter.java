@@ -1,7 +1,6 @@
 package com.shoesshop.groupassignment.adapter;
 
 import com.shoesshop.groupassignment.R;
-import com.shoesshop.groupassignment.model.Product;
 
 import java.util.List;
 
