@@ -36,7 +36,7 @@
                         android:padding="@dimen/dp10">
 
                         <ImageView
-                            android:layout_width="@dimen/dp25"
+                            android:layout_width="wrap_content"
                             android:layout_height="@dimen/dp25"
                             android:src="@mipmap/ic_back" />
 
@@ -109,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="right"
                             android:text="500.000đ"
-                            android:textColor="@color/black_two"
+                            android:textColor="@color/strawberry"
                             android:textSize="@dimen/sp18"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -133,14 +133,14 @@
                             android:layout_marginTop="@dimen/dp15"
                             android:orientation="vertical">
 
-                            <com.nex3z.flowlayout.FlowLayout
-                                android:id="@+id/flow_layout_list_size"
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recycler_view_list_size"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:flChildSpacing="@dimen/dp11"
                                 app:flRowSpacing="@dimen/dp10">
 
-                            </com.nex3z.flowlayout.FlowLayout>
+                            </android.support.v7.widget.RecyclerView>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -160,20 +160,20 @@
                             android:textColor="@color/black_two"
                             android:textSize="@dimen/sp14" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        <FrameLayout
+                            android:layout_width="@dimen/dp110"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/dp30"
-                            android:background="@drawable/background_item_quantity"
-                            android:orientation="horizontal">
+                            android:background="@drawable/background_item_quantity">
 
                             <TextView
                                 android:id="@+id/text_view_substract"
-                                android:layout_width="@dimen/dp13"
+                                android:layout_width="wrap_content"
                                 android:layout_height="@dimen/dp30"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/dp14"
-                                android:layout_marginRight="@dimen/dp14"
+                                android:layout_gravity="left|center_vertical"
+                                android:gravity="center"
+                                android:paddingLeft="@dimen/dp14"
+                                android:paddingRight="@dimen/dp14"
                                 android:text="-"
                                 android:textColor="@color/gray"
                                 android:textSize="@dimen/sp22" />
@@ -183,25 +183,23 @@
                                 android:layout_width="@dimen/dp13"
                                 android:layout_height="@dimen/dp30"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/dp14"
-                                android:layout_marginRight="@dimen/dp14"
                                 android:gravity="center"
                                 android:text="1"
-                                android:textColor="@color/black_two"
+                                android:textColor="@color/strawberry"
                                 android:textSize="@dimen/sp22" />
 
                             <TextView
                                 android:id="@+id/text_view_plus"
-                                android:layout_width="@dimen/dp13"
+                                android:layout_width="wrap_content"
                                 android:layout_height="@dimen/dp30"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/dp14"
-                                android:layout_marginRight="@dimen/dp14"
+                                android:layout_gravity="right|center_vertical"
                                 android:gravity="center"
+                                android:paddingLeft="@dimen/dp14"
+                                android:paddingRight="@dimen/dp14"
                                 android:text="+"
                                 android:textColor="@color/gray"
                                 android:textSize="@dimen/dp22" />
-                        </LinearLayout>
+                        </FrameLayout>
 
                     </LinearLayout>
 
@@ -211,7 +209,6 @@
                         android:layout_marginTop="@dimen/dp20"
                         android:layout_marginBottom="@dimen/dp20"
                         android:orientation="vertical">
-
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -253,7 +250,7 @@ Style Code: 378037-623"
                     android:paddingTop="@dimen/dp20"
                     android:paddingBottom="@dimen/dp50"
                     android:text="Bỏ sản phẩm này"
-                    android:textColor="@color/pinkish_red"
+                    android:textColor="@color/deep_red"
                     android:textSize="@dimen/sp18" />
             </LinearLayout>
 

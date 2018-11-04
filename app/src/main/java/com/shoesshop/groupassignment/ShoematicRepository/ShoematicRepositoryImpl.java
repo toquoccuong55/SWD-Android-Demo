@@ -3,6 +3,7 @@ package com.shoesshop.groupassignment.ShoematicRepository;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.shoesshop.groupassignment.model.Order;
@@ -137,6 +138,8 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                             callBackData.onSuccess(productList);
                         } catch (IOException e) {
                             e.printStackTrace();
+                        } catch (JsonSyntaxException jsonError) {
+                            jsonError.printStackTrace();
                         }
                     } else {
                         callBackData.onFail(response.message());
@@ -192,6 +195,57 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                         }
                         OrderResult orderResult = responseResult.getData();
                         callBackData.onSuccess(orderResult);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    callBackData.onFail(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void updateCustomer(final Context context, Customer customer, final CallBackData<String> callBackData) {
+        ClientApi clientApi = new ClientApi();
+        JSONObject customerJsonObject = new JSONObject();
+        try {
+            customer.setAccessToken("4");
+            customerJsonObject.put("access_token", customer.getAccessToken());
+            customerJsonObject.put("name", customer.getFullName());
+            customerJsonObject.put("phone", customer.getPhone());
+            customerJsonObject.put("email", customer.getEmail());
+            customerJsonObject.put("address", customer.getAddress());
+            customerJsonObject.put("address_type", customer.getAddressType());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), customerJsonObject.toString());
+        Call<ResponseBody> serviceCall = clientApi.shoematicService().setOrder(body);
+        final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
+        serviceCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                KProgressHUDManager.dismiss(context, khub);
+                if (response.code() == 200 && response.body() != null) {
+                    try {
+                        String result = response.body().string();
+                        Type type = new TypeToken<ResponseResult<OrderResult>>() {
+                        }.getType();
+
+                        ResponseResult<String> responseResult = new Gson().fromJson(result, type);
+                        if (responseResult.getData() == null) {
+                            callBackData.onFail(response.message());
+                        }
+                        String accessToken = responseResult.getData();
+                        callBackData.onSuccess(accessToken);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (Exception e) {

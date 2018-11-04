@@ -48,7 +48,8 @@ public class FirstLoginActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initialData() {
-        mFirstLoginPresenter = new FirstLoginPresenter(FirstLoginActivity.this, getApplication());
+        mFirstLoginPresenter = new FirstLoginPresenter(FirstLoginActivity.this,
+                FirstLoginActivity.this, getApplication());
 
         mEdtName.setText("");
         mEdtPhone.setText("");
@@ -77,8 +78,19 @@ public class FirstLoginActivity extends AppCompatActivity implements View.OnClic
             customer.setPhone(phone);
             customer.setEmail(email);
 
-            mFirstLoginPresenter.addCustomer(customer);
+            mFirstLoginPresenter.insertCustomerToDB(customer);
+
         }
+    }
+
+    @Override
+    public void insertCustomerToDBSuccess(Customer customer) {
+        mFirstLoginPresenter.addCustomer(customer);
+    }
+
+    @Override
+    public void insertCustomerToDBFail(String message) {
+        showInvalidInfoDialog();
     }
 
     @Override

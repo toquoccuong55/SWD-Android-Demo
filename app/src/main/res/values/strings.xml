@@ -8,4 +8,5 @@
     <string name="otherLocation">Khác</string>
     <string name="company">Cơ quan</string>
     <string name="house">Nhà riêng</string>
+    <string name="title_payment_cash">Thanh toán bằng tiền mặt</string>
 </resources>

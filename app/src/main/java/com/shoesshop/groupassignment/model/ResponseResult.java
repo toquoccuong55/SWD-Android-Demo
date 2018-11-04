@@ -1,9 +1,14 @@
 package com.shoesshop.groupassignment.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ResponseResult<T> {
     private int resultCode;
+
     private String message;
+
     private boolean success;
+
     private T data;
 
     public int getResultCode() {

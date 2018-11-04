@@ -14,7 +14,7 @@ public class Customer implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int customerId;
 
-    @SerializedName("customer_id")
+    @SerializedName("id")
     @ColumnInfo(name = "customerInfoID")
     private String customerInfoID;
 
@@ -26,7 +26,11 @@ public class Customer implements Serializable {
     @ColumnInfo(name = "fullName")
     private String fullName;
 
-    @SerializedName("pic_url")
+    @SerializedName("address")
+    private String address;
+
+    private String addressType;
+
     @ColumnInfo(name = "imageUrl")
     private String imageUrl;
 
@@ -34,12 +38,28 @@ public class Customer implements Serializable {
     @ColumnInfo(name = "phone")
     private String phone;
 
-    @SerializedName("is_first_login")
+    @SerializedName("first_login")
     @ColumnInfo(name = "isFirstLogin")
-    private boolean isFirstLogin;
+    private int isFirstLogin;
 
     @ColumnInfo(name = "email")
     private String email;
+
+    public String getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(String addressType) {
+        this.addressType = addressType;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public int getCustomerId() {
         return customerId;
@@ -89,12 +109,12 @@ public class Customer implements Serializable {
         this.phone = phone;
     }
 
-    public boolean isFirstLogin() {
+    public int getIsFirstLogin() {
         return isFirstLogin;
     }
 
-    public void setFirstLogin(boolean firstLogin) {
-        isFirstLogin = firstLogin;
+    public void setIsFirstLogin(int isFirstLogin) {
+        this.isFirstLogin = isFirstLogin;
     }
 
     public String getEmail() {

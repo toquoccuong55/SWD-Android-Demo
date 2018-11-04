@@ -20,4 +20,6 @@ public interface ShoematicRepository {
 
     void setOrder(Context context, Order order, String accessToken, CallBackData<OrderResult> callBackData);
 
+    void updateCustomer(Context context, Customer customer, CallBackData<String> callBackData);
+
 }

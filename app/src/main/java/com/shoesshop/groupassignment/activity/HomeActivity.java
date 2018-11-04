@@ -13,6 +13,7 @@ import com.shoesshop.groupassignment.fragment.CartFragment;
 import com.shoesshop.groupassignment.fragment.HomeFragment;
 import com.shoesshop.groupassignment.fragment.WishlistFragment;
 import com.shoesshop.groupassignment.fragment.ProfileFragment;
+import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.entity.ProductVariant;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
             R.mipmap.ic_profile2
     };
 
-    public static List<ProductVariant> mShoppingBag;
+    public static List<Product> mShoppingBag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

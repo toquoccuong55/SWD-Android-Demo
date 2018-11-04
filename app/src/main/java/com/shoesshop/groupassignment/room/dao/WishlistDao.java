@@ -4,24 +4,21 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import com.shoesshop.groupassignment.room.entity.Product;
+import com.shoesshop.groupassignment.room.entity.Wishlist;
 
 import java.util.List;
 
 @Dao
-public interface ProductDao {
+public interface WishlistDao {
 
     @Insert
-    void insertProduct(Product... product);
+    void insertWishlist(Wishlist... wishlists);
 
     @Delete
-    void deleteProduct(Product... product);
+    void deleteWishlist(Wishlist... wishlists);
 
-    @Update
-    void updateProduct(Product... product);
-
-    @Query("SELECT * FROM product")
-    List<Product> getProductList();
+    @Query("SELECT * FROM wishlist")
+    List<Wishlist> getWishList();
 }

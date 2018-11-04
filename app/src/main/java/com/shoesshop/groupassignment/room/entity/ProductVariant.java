@@ -2,16 +2,19 @@ package com.shoesshop.groupassignment.room.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 import com.shoesshop.groupassignment.model.Size;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity(tableName = "variant")
-public class ProductVariant {
+public class ProductVariant implements Serializable {
     @SerializedName("id")
-    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @SerializedName("proname")
@@ -27,11 +30,14 @@ public class ProductVariant {
     private String color;
 
     @SerializedName("Size")
-    @ColumnInfo(name = "Size")
+    @Ignore
+    private String sizeString;
+
+    @Ignore
     private Size size;
 
     @SerializedName("img")
-    @ColumnInfo(name = "img")
+    @Ignore
     private List<String> picURLList;
 
     @ColumnInfo(name = "description")
@@ -39,6 +45,17 @@ public class ProductVariant {
 
     @ColumnInfo(name = "quantity")
     private int quantity;
+
+    @ColumnInfo(name = "isSelected")
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public int getId() {
         return id;

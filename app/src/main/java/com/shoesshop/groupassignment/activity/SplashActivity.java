@@ -22,12 +22,11 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
     }
 
     private void delaySplashScreen() {
-
+        mSplashPresenter = new SplashPresenter(SplashActivity.this, getApplication());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                mSplashPresenter.getCustomer();
-                LoginActivity.intentToLoginActivitiy(SplashActivity.this);
+                mSplashPresenter.getCustomer();
             }
         }, ConstantDataManager.SPLASH_TIME_OUT);
     }
@@ -36,11 +35,7 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
     public void showCustomer(Customer customer) {
         if (customer == null) {
             LoginActivity.intentToLoginActivitiy(SplashActivity.this);
-
-//        } else if (customer.isFirstLogin()) {
-//            PersonalInfoActivity.intentToPersonalInfoActivitiy(SplashActivity.this);
-
-        } else if (customer != null && !customer.isFirstLogin()) {
+        } else if (customer != null && customer.getIsFirstLogin() == 1) {
             HomeActivity.intentToHomeActivitiy(SplashActivity.this);
             finish();
         }

@@ -1,16 +1,22 @@
 package com.shoesshop.groupassignment.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.accountkit.AccountKitLoginResult;
@@ -40,30 +46,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        printKeyHash();
         intialView();
     }
 
     public static void intentToLoginActivitiy(Activity activity) {
         Intent intent = new Intent(activity, LoginActivity.class);
         activity.startActivity(intent);
-    }
-
-    private void printKeyHash() {
-        try {
-            PackageInfo info = getPackageManager()
-                    .getPackageInfo("com.shoesshop.groupassignment",
-                            PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KEYHASH", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
 
     private void intialView() {
@@ -116,6 +104,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    public void loginByFacebookSuccess(Customer customer) {
+        mLoginPresenter.addCustomer(customer);
+    }
+
+    @Override
+    public void loginByFacebookFailed(String message) {
+        showLoginFailedDialog();
+    }
+
+    private void showLoginFailedDialog() {
+        final Dialog dialog = new Dialog(LoginActivity.this);
+        LayoutInflater layoutInflater = LoginActivity.this.getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_information, null);
+        dialog.setContentView(view);
+
+        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
+        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
+        View viewLine = dialog.findViewById(R.id.view_line);
+        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
+        Button option1 = dialog.findViewById(R.id.button_num1);
+        Button option2 = dialog.findViewById(R.id.button_num2);
+
+        txtTitle.setText("Đăng nhập thất bại");
+        txtSubInfo.setText("Xin hãy kiểm tra lại kết nối");
+        viewLine.setVisibility(View.VISIBLE);
+        lnlOptions.setVisibility(View.VISIBLE);
+        option1.setText("Thử lại");
+        option1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+            }
+        });
+    }
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ACCOUNT_KIT) {
@@ -157,7 +181,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void addCustomerSuccess(Customer customer) {
-        if (customer.isFirstLogin()) {
+        if (customer.getIsFirstLogin() != 1) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(ConstantDataManager.BUNDLE_CUSTOMER, customer);
             PersonalInfoActivity.intentToPersonalInfoActivitiy(LoginActivity.this);
@@ -166,13 +190,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    @Override
-    public void loginByFacebookSuccess(Customer customer) {
-        mLoginPresenter.addCustomer(customer);
+    private void printKeyHash() {
+        try {
+            PackageInfo info = getPackageManager()
+                    .getPackageInfo("com.shoesshop.groupassignment",
+                            PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KEYHASH", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void loginByFacebookFailed(String message) {
-        Log.e(TAG, message);
-    }
 }

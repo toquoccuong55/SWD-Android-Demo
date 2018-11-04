@@ -117,6 +117,8 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
             mAddressPresenter.addAddress(mAddress);
         }
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
         finish();
     }
 

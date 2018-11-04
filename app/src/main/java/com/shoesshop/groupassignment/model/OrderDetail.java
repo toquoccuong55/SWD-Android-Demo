@@ -1,19 +1,28 @@
 package com.shoesshop.groupassignment.model;
 
 public class OrderDetail {
+    private int id;
     private String name;
     private String picUrl;
     private String sizeName;
     private double unitPrice;
     private int quantity;
 
-
-    public OrderDetail(String name, String picUrl, String sizeName, double unitPrice, int quantity) {
+    public OrderDetail(int id, String name, String picUrl, String sizeName, double unitPrice, int quantity) {
+        this.id = id;
         this.name = name;
         this.picUrl = picUrl;
         this.sizeName = sizeName;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

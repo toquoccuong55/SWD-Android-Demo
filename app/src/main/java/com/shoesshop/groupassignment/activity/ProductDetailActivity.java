@@ -107,7 +107,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initialData() {
-        mProductDetailPresenter = new ProductDetailPresenter(ProductDetailActivity.this, getApplication());
+        mProductDetailPresenter = new ProductDetailPresenter(getApplication());
 
 
         mSizeList = new ArrayList<>();
@@ -186,15 +186,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.linear_layout_wishlist:
-                if (mProduct.isFavorite()) {
-                    mLnlWishlist.setBackground(getResources().getDrawable(R.drawable.background_button_wishlist_off));
-                    mProduct.setFavorite(false);
-                    mProductDetailPresenter.deleteFavorite(mProduct);
-                } else {
-                    mLnlWishlist.setBackground(getResources().getDrawable(R.drawable.background_button_wishlist_on));
-                    mProduct.setFavorite(true);
-                    mProductDetailPresenter.addFavorite(mProduct);
-                }
+                clickToFavorite();
                 break;
             case R.id.text_view_substract:
                 clickToSubstract();
@@ -205,6 +197,18 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
             case R.id.button_add_to_cart:
                 clickToButtonAddToCart();
                 break;
+        }
+    }
+
+    private void clickToFavorite() {
+        if (mProduct.isFavorite()) {
+            mLnlWishlist.setBackground(getResources().getDrawable(R.drawable.background_button_wishlist_off));
+            mProduct.setFavorite(false);
+            mProductDetailPresenter.deleteFavorite(mProduct);
+        } else {
+            mLnlWishlist.setBackground(getResources().getDrawable(R.drawable.background_button_wishlist_on));
+            mProduct.setFavorite(true);
+            mProductDetailPresenter.addFavorite(mProduct);
         }
     }
 
@@ -258,22 +262,18 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 break;
             }
         }
-        ProductVariant selectedVariant = null;
         if (selectedID != 0) {
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.getId() == selectedID) {
-                    selectedVariant = variant;
+                    int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
+                    variant.setQuantity(quantity);
+                    variant.setSelected(true);
                     break;
                 }
             }
         }
-        if (selectedVariant != null) {
-            int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
-            selectedVariant.setQuantity(quantity);
-
-            HomeActivity.mShoppingBag.add(selectedVariant);
-            mProductDetailPresenter.addVariant(selectedVariant);
-        }
+        HomeActivity.mShoppingBag.add(mProduct);
+        mProductDetailPresenter.addProduct(mProduct);
     }
 
     public static void intentToProductDetailActivitiy(Activity activity) {

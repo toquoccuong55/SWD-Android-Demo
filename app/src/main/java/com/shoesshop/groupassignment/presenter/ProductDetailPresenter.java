@@ -9,14 +9,10 @@ import com.shoesshop.groupassignment.room.manager.ProductManager;
 import com.shoesshop.groupassignment.room.manager.VariantManager;
 
 public class ProductDetailPresenter {
-    private Context mContext;
     private ProductManager mProductManager;
-    private VariantManager mVariantManager;
 
-    public ProductDetailPresenter(Context mContext, Application application) {
-        this.mContext = mContext;
+    public ProductDetailPresenter(Application application) {
         mProductManager = new ProductManager(application);
-        mVariantManager = new VariantManager(application);
     }
 
     public void addFavorite(Product product) {
@@ -27,7 +23,7 @@ public class ProductDetailPresenter {
         mProductManager.deleteProduct(product);
     }
 
-    public void addVariant(ProductVariant variant){
-        mVariantManager.addVariant(variant);
+    public void addProduct(Product product) {
+        mProductManager.addProduct(product);
     }
 }

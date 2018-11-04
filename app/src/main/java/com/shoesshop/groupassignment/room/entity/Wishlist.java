@@ -11,8 +11,8 @@ import com.shoesshop.groupassignment.room.Converter.DataConverter;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity(tableName = "product")
-public class Product implements Serializable {
+@Entity(tableName = "wishlist")
+public class Wishlist implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int productId;
@@ -25,6 +25,7 @@ public class Product implements Serializable {
     @ColumnInfo(name = "product_name")
     private String name;
 
+    @SerializedName("unit_price")
     @ColumnInfo(name = "unit_price")
     private double unitPrice;
 
@@ -76,12 +77,6 @@ public class Product implements Serializable {
         this.productVariantList = productVariantList;
     }
 
-    public Product(String image, String name, double unitPrice) {
-        this.image = image;
-        this.name = name;
-        this.unitPrice = unitPrice;
-    }
-
     public boolean isFavorite() {
         return isFavorite;
     }
@@ -114,4 +109,3 @@ public class Product implements Serializable {
         this.unitPrice = unitPrice;
     }
 }
-

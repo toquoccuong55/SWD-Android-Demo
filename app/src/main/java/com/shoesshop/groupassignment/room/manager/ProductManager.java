@@ -23,18 +23,22 @@ public class ProductManager {
     }
 
     public void getProductList(OnDataCallBackProduct listener) {
-        GetProductListAsync getCustomerAsync = new GetProductListAsync(mProductDao, listener);
-        getCustomerAsync.execute();
+        GetProductListAsync getProductListAsync = new GetProductListAsync(mProductDao, listener);
+        getProductListAsync.execute();
     }
 
     public void addProduct(Product product) {
-        AddProductAsync addCustomerAsync = new AddProductAsync(mProductDao);
-        addCustomerAsync.execute(product);
+        AddProductAsync addProductAsync = new AddProductAsync(mProductDao);
+        addProductAsync.execute(product);
     }
 
     public void deleteProduct(Product product) {
-        DeleteProductAsync deleteAsync = new DeleteProductAsync(mProductDao);
-        deleteAsync.execute(product);
+        DeleteProductAsync deleteProductAsync = new DeleteProductAsync(mProductDao);
+        deleteProductAsync.execute(product);
+    }
+    public void updateProduct(Product product) {
+        UpdateProductAsync updateProductAsync = new UpdateProductAsync(mProductDao);
+        updateProductAsync.execute(product);
     }
 
     private class AddProductAsync extends AsyncTask<Product, Void, Void> {
@@ -67,6 +71,24 @@ public class ProductManager {
         protected Void doInBackground(Product... products) {
             try {
                 mDaoAsync.deleteProduct(products);
+            } catch (SQLiteConstraintException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class UpdateProductAsync extends AsyncTask<Product, Void, Void> {
+        private ProductDao mDaoAsync;
+
+        public UpdateProductAsync(ProductDao mDaoAsync) {
+            this.mDaoAsync = mDaoAsync;
+        }
+
+        @Override
+        protected Void doInBackground(Product... products) {
+            try {
+                mDaoAsync.updateProduct(products);
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }

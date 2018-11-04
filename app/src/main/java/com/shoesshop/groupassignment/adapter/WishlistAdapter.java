@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shoesshop.groupassignment.R;
-import com.shoesshop.groupassignment.model.Wishlist;
+import com.shoesshop.groupassignment.room.entity.Wishlist;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.squareup.picasso.Picasso;
 
@@ -45,24 +45,24 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        Wishlist wishlist = mWishlist.get(i);
-        if (wishlist.getProductImage() != null && !wishlist.getProductImage().isEmpty()) {
-            Picasso.get()
-                    .load(wishlist.getProductImage())
-                    .placeholder(R.mipmap.ic_default_shoe)
-                    .error(R.mipmap.ic_default_shoe)
-                    .into(viewHolder.mImgProduct);
-        } else {
-            viewHolder.mImgProduct.setImageResource(R.mipmap.ic_shoes);
-        }
-        viewHolder.mTxtProductName.setText(wishlist.getProductName());
-        viewHolder.mTxtUnitPrice.setText(CurrencyManager.getPrice(wishlist.getUnitPrice(), "đ"));
-        viewHolder.mLnlWishlistItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mOnItemClickListener.setOnItemClickListener(i);
-            }
-        });
+//        Wishlist wishlist = mWishlist.get(i);
+//        if (wishlist.getProductImage() != null && !wishlist.getProductImage().isEmpty()) {
+//            Picasso.get()
+//                    .load(wishlist.getProductImage())
+//                    .placeholder(R.mipmap.ic_default_shoe)
+//                    .error(R.mipmap.ic_default_shoe)
+//                    .into(viewHolder.mImgProduct);
+//        } else {
+//            viewHolder.mImgProduct.setImageResource(R.mipmap.ic_shoes);
+//        }
+//        viewHolder.mTxtProductName.setText(wishlist.getProductName());
+//        viewHolder.mTxtUnitPrice.setText(CurrencyManager.getPrice(wishlist.getUnitPrice(), "đ"));
+//        viewHolder.mLnlWishlistItem.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mOnItemClickListener.setOnItemClickListener(i);
+//            }
+//        });
     }
 
     @Override
