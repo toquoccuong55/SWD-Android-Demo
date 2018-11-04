@@ -14,44 +14,28 @@ import java.util.List;
 @Entity(tableName = "wishlist")
 public class Wishlist implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    private int productId;
-
-    @SerializedName("id")
+    @PrimaryKey
     @ColumnInfo(name = "product_id")
     private int id;
 
-    @SerializedName("name")
     @ColumnInfo(name = "product_name")
     private String name;
 
-    @SerializedName("unit_price")
     @ColumnInfo(name = "unit_price")
     private double unitPrice;
 
-    @SerializedName("picURL")
     @ColumnInfo(name = "picURL")
     private String image;
 
-    @SerializedName("description")
     @ColumnInfo(name = "description")
     private String description;
 
     @ColumnInfo(name = "isFavorite")
     private boolean isFavorite;
 
-    @SerializedName("variant")
     @TypeConverters(DataConverter.class)
     @ColumnInfo(name = "product_variant_list")
     private List<ProductVariant> productVariantList;
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
 
     public String getDescription() {
         return description;

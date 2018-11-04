@@ -181,10 +181,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void addCustomerSuccess(Customer customer) {
-        if (customer.getIsFirstLogin() != 1) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ConstantDataManager.BUNDLE_CUSTOMER, customer);
-            PersonalInfoActivity.intentToPersonalInfoActivitiy(LoginActivity.this);
+        if (customer.getIsFirstLogin() == 1) {
+            FirstLoginActivity.intentToFirstLoginActivitiy(LoginActivity.this);
         } else {
             HomeActivity.intentToHomeActivitiy(LoginActivity.this);
         }

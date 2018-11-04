@@ -4,27 +4,27 @@ import android.app.Application;
 import android.content.Context;
 
 import com.shoesshop.groupassignment.room.entity.Product;
+import com.shoesshop.groupassignment.room.entity.Wishlist;
 import com.shoesshop.groupassignment.room.manager.ProductManager;
+import com.shoesshop.groupassignment.room.manager.WishListManager;
 import com.shoesshop.groupassignment.view.WishListFragView;
 
 import java.util.List;
 
 public class WishListFragPresenter {
-    private Context mContext;
     private WishListFragView mWishListFragView;
-    private ProductManager mProductManager;
+    private WishListManager mWishListManager;
 
-    public WishListFragPresenter(Context mContext, WishListFragView mWishListFragView, Application application) {
-        this.mContext = mContext;
+    public WishListFragPresenter(WishListFragView mWishListFragView, Application application) {
         this.mWishListFragView = mWishListFragView;
-        mProductManager = new ProductManager(application);
+        mWishListManager = new WishListManager(application);
     }
 
     public void getWishList() {
-        mProductManager.getProductList(new ProductManager.OnDataCallBackProduct() {
+        mWishListManager.getWishList(new WishListManager.OnDataCallBackWishList() {
             @Override
-            public void onDataSuccess(List<Product> product) {
-                mWishListFragView.showWishList(product);
+            public void onDataSuccess(List<Wishlist> wishlistList) {
+                mWishListFragView.showWishList(wishlistList);
             }
 
             @Override

@@ -32,7 +32,6 @@ public class FirstLoginPresenter {
                 } else {
                     mFirstLoginView.insertCustomerToDBFail("");
                 }
-
             }
 
             @Override
@@ -42,17 +41,20 @@ public class FirstLoginPresenter {
         });
     }
 
-    public void addCustomer(Customer customer) {
-        mUserManager.addCustomer(customer, new UserManager.OnDataCallBackCustomer() {
+    public void getCustomerInfo() {
+        mUserManager.getCustomerInfo(new UserManager.OnDataCallBackCustomer() {
             @Override
             public void onDataSuccess(Customer customer) {
-                mFirstLoginView.addCustomer(true);
+                mFirstLoginView.showCustomerInfo(customer);
             }
 
             @Override
             public void onDataFail() {
-                mFirstLoginView.addCustomer(false);
             }
         });
+    }
+
+    public void updateCustomer(Customer customer){
+        mUserManager.updateCustomer(customer);
     }
 }

@@ -42,12 +42,6 @@ public class HomeFragment extends Fragment implements HomeFragView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialView();
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         initialData();
     }
 

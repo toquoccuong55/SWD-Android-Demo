@@ -21,7 +21,7 @@ public class WishListManager {
         this.mWishlistDao = libraryDatabase.mWishlistDao();
     }
 
-    public void getProductList(OnDataCallBackWishList listener) {
+    public void getWishList(OnDataCallBackWishList listener) {
         GetWishListAsync getWishListAsync = new GetWishListAsync(mWishlistDao, listener);
         getWishListAsync.execute();
     }
@@ -34,6 +34,34 @@ public class WishListManager {
     public void deleteWishlist(Wishlist wishlist) {
         DeleteWishListAsync deleteWishListAsync = new DeleteWishListAsync(mWishlistDao);
         deleteWishListAsync.execute(wishlist);
+    }
+
+    public void deleteAllWishlist() {
+        DeleteAllWishListAsync deleteAllWishListAsync = new DeleteAllWishListAsync(mWishlistDao);
+        deleteAllWishListAsync.execute();
+    }
+
+    public void updateWishlist(Wishlist wishlist) {
+        UpdateWishListAsync updateWishListAsync = new UpdateWishListAsync(mWishlistDao);
+        updateWishListAsync.execute(wishlist);
+    }
+
+    private class UpdateWishListAsync extends AsyncTask<Wishlist, Void, Void> {
+        private WishlistDao mWishlistDaoAsyn;
+
+        public UpdateWishListAsync(WishlistDao mDaoAsync) {
+            this.mWishlistDaoAsyn = mDaoAsync;
+        }
+
+        @Override
+        protected Void doInBackground(Wishlist... wishlists) {
+            try {
+                mWishlistDaoAsyn.updateWishlist(wishlists);
+            } catch (SQLiteConstraintException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     private class AddWishListAsync extends AsyncTask<Wishlist, Void, Void> {
@@ -65,6 +93,24 @@ public class WishListManager {
         protected Void doInBackground(Wishlist... wishlists) {
             try {
                 mWishlistDaoAsyn.deleteWishlist(wishlists);
+            } catch (SQLiteConstraintException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class DeleteAllWishListAsync extends AsyncTask<Void, Void, Void> {
+        private WishlistDao mWishlistDaoAsyn;
+
+        public DeleteAllWishListAsync(WishlistDao mDaoAsync) {
+            this.mWishlistDaoAsyn = mDaoAsync;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                mWishlistDaoAsyn.deleteAllWishList();
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }

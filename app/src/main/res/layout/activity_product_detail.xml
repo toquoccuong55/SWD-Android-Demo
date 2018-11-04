@@ -164,11 +164,12 @@
                             android:textColor="@color/black_two"
                             android:textSize="@dimen/sp14" />
 
-                        <FrameLayout
-                            android:layout_width="@dimen/dp110"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/dp30"
-                            android:background="@drawable/background_item_quantity">
+                            android:background="@drawable/background_item_quantity"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/text_view_substract"
@@ -184,9 +185,11 @@
 
                             <TextView
                                 android:id="@+id/text_view_quantity"
-                                android:layout_width="@dimen/dp13"
-                                android:layout_height="@dimen/dp30"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/dp16"
+                                android:layout_marginRight="@dimen/dp16"
                                 android:gravity="center"
                                 android:text="1"
                                 android:textColor="@color/strawberry"
@@ -203,7 +206,7 @@
                                 android:text="+"
                                 android:textColor="@color/gray"
                                 android:textSize="@dimen/dp22" />
-                        </FrameLayout>
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -293,7 +296,6 @@ Style Code: 378037-623"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/sp16"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        android:textStyle="bold" />
 
 </FrameLayout>

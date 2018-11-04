@@ -34,7 +34,6 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
     private ImageView mImgClose;
     private Button mBtnDone;
     private EditText mEdtName, mEdtEmail, mEdtPhone;
-    private String mFullName, mPhone, mEmail;
     private Customer mCustomer;
     private PersonalInfoPresenter mPersonalInfoPresenter;
 
@@ -52,7 +51,6 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         mImgClose.setOnClickListener(this);
         mBtnDone = findViewById(R.id.button_done);
         mBtnDone.setOnClickListener(this);
-
         mEdtName = findViewById(R.id.edit_text_profile_name);
         mEdtEmail = findViewById(R.id.edit_text_profile_email);
         mEdtPhone = findViewById(R.id.edit_text_profile_phone);
@@ -70,14 +68,13 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
     public void showCustomerInfo(Customer customer) {
         mCustomer = customer;
         if (mCustomer != null) {
-            mPhone = mCustomer.getPhone();
-            mFullName = mCustomer.getFullName();
-            mEmail = mCustomer.getEmail();
+            String fullName = mCustomer.getFullName();
+            String phone = mCustomer.getPhone();
+            String email = mCustomer.getEmail();
 
-            mEdtName.setText(mFullName);
-            mEdtPhone.setText(mPhone);
-            mEdtPhone.setEnabled(false);
-            mEdtEmail.setText(mEmail);
+            mEdtName.setText(fullName);
+            mEdtPhone.setText(phone);
+            mEdtEmail.setText(email);
         } else {
             mImgClose.setVisibility(View.GONE);
             mEdtName.setText("");
@@ -104,20 +101,23 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
     }
 
     public void savePersonal() {
-        final String name = mEdtName.getText().toString();
-        final String email = mEdtEmail.getText().toString();
-//        String phone = mEdtPhone.getText().toString();
 
         if (!isValid()) {
             showInvalidInfoDialog();
         } else {
+            String name = mEdtName.getText().toString().trim();
+            String phone = mEdtPhone.getText().toString().trim();
+            String email = mEdtEmail.getText().toString().trim();
+
+
             mCustomer.setFullName(name);
-//            mCustomer.setPhone(phone);
+            mCustomer.setPhone(phone);
             mCustomer.setEmail(email);
 
             mPersonalInfoPresenter.updateCustomer(mCustomer);
+            finish();
         }
-        finish();
+
     }
 
     private boolean isValid() {
@@ -136,6 +136,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
         TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
         View viewLine = dialog.findViewById(R.id.view_line);
+        View viewLine2 = dialog.findViewById(R.id.view_line2);
         LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
         Button option1 = dialog.findViewById(R.id.button_num1);
         Button option2 = dialog.findViewById(R.id.button_num2);
@@ -143,6 +144,7 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
         txtTitle.setText("Thông tin điền vào không hợp lệ!");
         txtSubInfo.setText("Vui lòng nhập thông tin hợp lệ.");
         viewLine.setVisibility(View.VISIBLE);
+        viewLine2.setVisibility(View.GONE);
         lnlOptions.setVisibility(View.VISIBLE);
         option1.setText("Thử lại");
         option1.setOnClickListener(new View.OnClickListener() {

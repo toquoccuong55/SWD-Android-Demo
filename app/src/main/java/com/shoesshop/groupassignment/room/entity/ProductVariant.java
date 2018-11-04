@@ -17,8 +17,8 @@ public class ProductVariant implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @SerializedName("proname")
-    @ColumnInfo(name = "proname")
+    @SerializedName("sku")
+    @ColumnInfo(name = "sku")
     private String name;
 
     @SerializedName("price")
@@ -48,6 +48,14 @@ public class ProductVariant implements Serializable {
 
     @ColumnInfo(name = "isSelected")
     private boolean isSelected;
+
+    public String getSizeString() {
+        return sizeString;
+    }
+
+    public void setSizeString(String sizeString) {
+        this.sizeString = sizeString;
+    }
 
     public boolean isSelected() {
         return isSelected;

@@ -2,6 +2,7 @@ package com.shoesshop.groupassignment.presenter;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepository;
 import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepositoryImpl;
@@ -61,7 +62,7 @@ public class LoginPresenter {
 
             @Override
             public void onDataFail() {
-
+                Log.e("", "onDataFail: ");
             }
         });
     }

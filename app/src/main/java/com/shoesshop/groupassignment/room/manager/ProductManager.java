@@ -36,6 +36,12 @@ public class ProductManager {
         DeleteProductAsync deleteProductAsync = new DeleteProductAsync(mProductDao);
         deleteProductAsync.execute(product);
     }
+
+    public void deleteAllProduct() {
+        DeleteAllProductAsync deleteAllProductAsync = new DeleteAllProductAsync(mProductDao);
+        deleteAllProductAsync.execute();
+    }
+
     public void updateProduct(Product product) {
         UpdateProductAsync updateProductAsync = new UpdateProductAsync(mProductDao);
         updateProductAsync.execute(product);
@@ -71,6 +77,24 @@ public class ProductManager {
         protected Void doInBackground(Product... products) {
             try {
                 mDaoAsync.deleteProduct(products);
+            } catch (SQLiteConstraintException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class DeleteAllProductAsync extends AsyncTask<Void, Void, Void> {
+        private ProductDao mDaoAsync;
+
+        public DeleteAllProductAsync(ProductDao mDaoAsync) {
+            this.mDaoAsync = mDaoAsync;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                mDaoAsync.deleteAllProduct();
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }

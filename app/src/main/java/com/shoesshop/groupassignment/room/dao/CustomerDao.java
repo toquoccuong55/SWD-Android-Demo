@@ -20,4 +20,5 @@ public interface CustomerDao {
 
     @Query("select * from customers")
     Customer getCustomerInfo();
+
 }

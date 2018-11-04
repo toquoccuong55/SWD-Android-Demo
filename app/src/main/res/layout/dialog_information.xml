@@ -63,6 +63,7 @@
             android:textSize="@dimen/sp14" />
 
         <View
+            android:id="@+id/view_line2"
             android:layout_width="@dimen/dp1"
             android:layout_height="match_parent"
             android:alpha="0.1"

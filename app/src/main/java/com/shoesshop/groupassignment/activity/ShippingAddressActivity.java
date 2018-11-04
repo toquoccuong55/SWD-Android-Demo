@@ -25,7 +25,7 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
     private EditText mEdtAddress;
     private String TAG = "ShippingAddressActivity";
     private AddressPresenter mAddressPresenter;
-    private Address mAddress;
+    private Customer mCustomer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,39 +43,33 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
         mLnlAddressType = findViewById(R.id.linear_layout_show_dialog_type);
         mLnlAddressType.setOnClickListener(this);
         mTxtType = findViewById(R.id.text_view_address_type);
+        mEdtAddress = findViewById(R.id.edit_text_address);
         mTxtReceiver = findViewById(R.id.text_view_customer_name);
         mTxtPhone = findViewById(R.id.text_view_phone);
-        mEdtAddress = findViewById(R.id.edit_text_address);
+
 
     }
 
     private void initialData() {
-        mAddressPresenter = new AddressPresenter(ShippingAddressActivity.this, ShippingAddressActivity.this, getApplication());
+        mAddressPresenter = new AddressPresenter(ShippingAddressActivity.this, getApplication());
         mAddressPresenter.getCustomer();
 
     }
 
     @Override
     public void showCustomer(Customer customer) {
-        if (customer != null) {
-            mTxtReceiver.setText(customer.getFullName());
-            mTxtPhone.setText(customer.getPhone());
+        mCustomer = customer;
+        if (mCustomer != null) {
+            mTxtType.setText(mCustomer.getAddressType());
+            mEdtAddress.setText(mCustomer.getAddress());
+            mTxtReceiver.setText(mCustomer.getFullName());
+            mTxtPhone.setText(mCustomer.getPhone());
         } else {
+            String addressType = getResources().getString(R.string.company);
+            mTxtType.setText(addressType);
+            mEdtAddress.setText("");
             mTxtReceiver.setText("");
             mTxtPhone.setText("");
-        }
-        mAddressPresenter.getAddress();
-    }
-
-    @Override
-    public void showAddress(Address address) {
-        mAddress = address;
-        if (mAddress == null) {
-            mTxtType.setText("Cơ quan");
-            mEdtAddress.setText("");
-        } else {
-            mTxtType.setText(address.getType());
-            mEdtAddress.setText(address.getAddress());
         }
     }
 
@@ -101,22 +95,20 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
     private void clickToButtonSave() {
 
-        String type = mTxtType.getText().toString();
+        String typeString = mTxtType.getText().toString();
         String address = mEdtAddress.getText().toString();
 
-
-        if (mAddress != null) {
-            mAddress.setType(type);
-            mAddress.setAddress(address);
-
-            mAddressPresenter.updateAddress(mAddress);
+        if (mCustomer != null) {
+            mCustomer.setAddressType(typeString);
+            mCustomer.setAddress(address);
         } else {
-            mAddress = new Address();
-            mAddress.setType(type);
-            mAddress.setAddress(address);
-
-            mAddressPresenter.addAddress(mAddress);
+            mCustomer = new Customer();
+            mCustomer.setAddressType(typeString);
+            mCustomer.setAddress(address);
+            mCustomer.setFullName(mTxtReceiver.getText().toString());
+            mCustomer.setPhone(mTxtPhone.getText().toString());
         }
+        mAddressPresenter.updateCustomer(mCustomer);
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);
         finish();

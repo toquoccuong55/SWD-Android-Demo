@@ -14,10 +14,6 @@ public class Customer implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int customerId;
 
-    @SerializedName("id")
-    @ColumnInfo(name = "customerInfoID")
-    private String customerInfoID;
-
     @SerializedName("access_token")
     @ColumnInfo(name = "accessToken")
     private String accessToken;
@@ -27,8 +23,10 @@ public class Customer implements Serializable {
     private String fullName;
 
     @SerializedName("address")
+    @ColumnInfo(name = "address")
     private String address;
 
+    @ColumnInfo(name = "address_type")
     private String addressType;
 
     @ColumnInfo(name = "imageUrl")
@@ -42,8 +40,20 @@ public class Customer implements Serializable {
     @ColumnInfo(name = "isFirstLogin")
     private int isFirstLogin;
 
+    @SerializedName("phone_login")
+    @ColumnInfo(name = "phone_login")
+    private boolean isPhoneLogin;
+
     @ColumnInfo(name = "email")
     private String email;
+
+    public boolean isPhoneLogin() {
+        return isPhoneLogin;
+    }
+
+    public void setPhoneLogin(boolean phoneLogin) {
+        isPhoneLogin = phoneLogin;
+    }
 
     public String getAddressType() {
         return addressType;
@@ -67,14 +77,6 @@ public class Customer implements Serializable {
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
-    }
-
-    public String getCustomerInfoID() {
-        return customerInfoID;
-    }
-
-    public void setCustomerInfoID(String customerInfoID) {
-        this.customerInfoID = customerInfoID;
     }
 
     public String getAccessToken() {

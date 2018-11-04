@@ -1,11 +1,13 @@
 package com.shoesshop.groupassignment.ShoematicRepository;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.model.Order;
 import com.shoesshop.groupassignment.model.OrderItem;
 import com.shoesshop.groupassignment.model.OrderResult;
@@ -77,6 +79,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
         ClientApi clientApi = new ClientApi();//call clienApi
         Call<ResponseBody> serviceCall = clientApi.shoematicService().loginByFacebook(fbAccessToken);
         final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
+        Log.e("URL=", clientApi.shoematicService().loginByFacebook(fbAccessToken).request().url().toString());
         serviceCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -96,6 +99,33 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                             callBackData.onFail(response.message());
                         }
                         Customer customer = responseResult.getData();
+                        customer.setPhone(customer.getPhone().trim());
+
+                        if (!customer.getAddress().trim().isEmpty()) {
+                            String[] addressAndType = customer.getAddress().split(";");
+                            int addresTypeInt = Integer.parseInt(String.valueOf(addressAndType[0]));
+                            String address = addressAndType[1];
+
+                            String addressTypeString = "";
+                            switch (addresTypeInt) {
+                                case 1:
+                                    addressTypeString = "Cơ quan";
+                                    break;
+                                case 2:
+                                    addressTypeString = "Nhà riêng";
+                                    break;
+                                case 3:
+                                    addressTypeString = "Khác";
+                                    break;
+                            }
+
+                            customer.setAddressType(addressTypeString);
+                            customer.setAddress(address);
+                        } else {
+                            customer.setAddressType("");
+                            customer.setAddress("");
+                        }
+
                         callBackData.onSuccess(customer);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -117,6 +147,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
     public void getProductList(final Context context, final CallBackData<List<Product>> callBackData) {
         ClientApi clientApi = new ClientApi();
         Call<ResponseBody> serviceCall = clientApi.shoematicService().getProduct();
+        Log.e("URL=", clientApi.shoematicService().getProduct().request().url().toString());
         final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
         serviceCall.enqueue(new Callback<ResponseBody>() {
             @Override

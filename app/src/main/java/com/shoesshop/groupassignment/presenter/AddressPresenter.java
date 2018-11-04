@@ -11,38 +11,12 @@ import com.shoesshop.groupassignment.room.manager.UserManager;
 import com.shoesshop.groupassignment.view.AddressView;
 
 public class AddressPresenter {
-    private Context mContext;
     private AddressView mAddressView;
-    private AddressManager mAddressManager;
     private UserManager mUserManager;
 
-    public AddressPresenter(Context mContext, AddressView mAddressView, Application application) {
-        this.mContext = mContext;
+    public AddressPresenter( AddressView mAddressView, Application application) {
         this.mAddressView = mAddressView;
-        mAddressManager = new AddressManager(application);
         mUserManager = new UserManager(application);
-    }
-
-    public void addAddress(Address address) {
-        mAddressManager.addAddress(address);
-    }
-
-    public void updateAddress(Address address) {
-        mAddressManager.updateAddress(address);
-    }
-
-    public void getAddress() {
-        mAddressManager.getAddress(new AddressManager.OnDataCallBackAddress() {
-            @Override
-            public void onDataSuccess(Address address) {
-                mAddressView.showAddress(address);
-            }
-
-            @Override
-            public void onDataFail() {
-
-            }
-        });
     }
 
     public void getCustomer() {
@@ -57,5 +31,9 @@ public class AddressPresenter {
 
             }
         });
+    }
+
+    public void updateCustomer(Customer customer){
+        mUserManager.updateCustomer(customer);
     }
 }

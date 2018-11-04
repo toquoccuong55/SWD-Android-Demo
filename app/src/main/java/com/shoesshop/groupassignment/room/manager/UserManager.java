@@ -26,8 +26,8 @@ public class UserManager {
         updateCustomerAsyn.execute(customer);
     }
 
-    public void deleteAllCustomer(OnDataCallBackCustomer listener) {
-        DeleteAllCustomerAsync deleteAsync = new DeleteAllCustomerAsync(mCustomerDao, listener);
+    public void deleteAllCustomer() {
+        DeleteAllCustomerAsync deleteAsync = new DeleteAllCustomerAsync(mCustomerDao);
         deleteAsync.execute();
     }
 
@@ -64,11 +64,9 @@ public class UserManager {
 
     private class DeleteAllCustomerAsync extends AsyncTask<Customer, Void, Void> {
         private CustomerDao mDaoAsync;
-        private OnDataCallBackCustomer mListener;
 
-        public DeleteAllCustomerAsync(CustomerDao mDaoAsync, OnDataCallBackCustomer mListener) {
+        public DeleteAllCustomerAsync(CustomerDao mDaoAsync) {
             this.mDaoAsync = mDaoAsync;
-            this.mListener = mListener;
         }
 
         @Override
@@ -76,16 +74,14 @@ public class UserManager {
             try {
                 mDaoAsync.deleleAllCustomer();
             } catch (SQLiteConstraintException e) {
-
+                e.printStackTrace();
             }
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            mListener.onDataSuccess(null);
         }
     }
 

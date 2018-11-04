@@ -1,8 +1,9 @@
 package com.shoesshop.groupassignment.utils;
 
 public class ConfigApi {
-    public static final String BASE_URL = "https://35.240.250.249/api/";
-//    public static final String BASE_URL = "http://172.16.2.146/android/public/api/";
+    //    public static final String BASE_URL = "https://35.240.250.249/api/";
+    public static final String BASE_URL = "http://172.16.4.205/api/";
+
 
 
     public interface Api {

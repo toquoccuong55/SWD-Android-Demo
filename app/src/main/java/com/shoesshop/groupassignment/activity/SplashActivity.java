@@ -33,11 +33,11 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
 
     @Override
     public void showCustomer(Customer customer) {
-        if (customer == null) {
-            LoginActivity.intentToLoginActivitiy(SplashActivity.this);
-        } else if (customer != null && customer.getIsFirstLogin() == 1) {
+        if (customer != null) {
             HomeActivity.intentToHomeActivitiy(SplashActivity.this);
             finish();
+        } else {
+            LoginActivity.intentToLoginActivitiy(SplashActivity.this);
         }
     }
 }

@@ -8,4 +8,6 @@ public interface FirstLoginView {
     void insertCustomerToDBSuccess(Customer customer);
 
     void insertCustomerToDBFail(String message);
+
+    void showCustomerInfo(Customer customer);
 }

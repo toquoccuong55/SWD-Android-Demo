@@ -22,10 +22,19 @@ import com.shoesshop.groupassignment.activity.LoginActivity;
 import com.shoesshop.groupassignment.activity.OrderHistoryActivity;
 import com.shoesshop.groupassignment.activity.PersonalInfoActivity;
 import com.shoesshop.groupassignment.activity.ShippingAddressActivity;
+import com.shoesshop.groupassignment.activity.SplashActivity;
+import com.shoesshop.groupassignment.presenter.ProfileFragPresenter;
+import com.shoesshop.groupassignment.room.entity.Customer;
+import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.PreferenceUtils;
+import com.shoesshop.groupassignment.view.ProfileFragView;
 
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment implements View.OnClickListener, ProfileFragView {
     private LinearLayout mLnlCustomerInfo, mLnlShippingAddress, mLnlOrderHistory, mLnlAboutUs,
             mLnlContact, mLnlLogout;
+    private TextView mTxtFullName, mTxtPhone;
+
+    private ProfileFragPresenter mPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +62,31 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mLnlContact.setOnClickListener(this);
         mLnlLogout = getView().findViewById(R.id.linear_layout_logout);
         mLnlLogout.setOnClickListener(this);
+        mTxtFullName = getView().findViewById(R.id.linear_layout_fullname);
+        mTxtPhone = getView().findViewById(R.id.linear_layout_phone);
+        mPresenter = new ProfileFragPresenter(ProfileFragment.this, getActivity().getApplication());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initialData();
+    }
+
+    private void initialData() {
+        mPresenter.getCustomer();
+
+    }
+
+    @Override
+    public void showCustomer(Customer customer) {
+        if (customer != null) {
+            mTxtFullName.setText(customer.getFullName());
+            mTxtPhone.setText(customer.getPhone());
+        } else {
+            mTxtFullName.setText("");
+            mTxtPhone.setText("");
+        }
     }
 
     @Override
@@ -100,9 +134,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                handleLogout();
             }
         });
         option2.setText("Hủy");
@@ -117,4 +149,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
+    private void handleLogout(){
+        mPresenter.deleteCustomerInfo();
+        mPresenter.deleteAllProduct();
+        mPresenter.deleteAllWishList();
+        PreferenceUtils.removeStringSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
+        PreferenceUtils.removeIntSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
+
+        Intent intent = new Intent(getActivity(), SplashActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
 }

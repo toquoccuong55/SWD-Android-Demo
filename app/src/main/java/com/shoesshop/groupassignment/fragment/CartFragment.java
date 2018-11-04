@@ -66,7 +66,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialView();
-
     }
 
     @Override
@@ -110,11 +109,13 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         mPresenter.getOrderItemList();
         mPresenter.getCustomer();
         mPresenter.getAddress();
+        getNote();
+        getPayment();
     }
 
     @Override
-    public void showOrderItemList(List<Product> variantList) {
-        mShoppingBag = variantList;
+    public void showOrderItemList(List<Product> productList) {
+        mShoppingBag = productList;
         if (mShoppingBag == null || mShoppingBag.isEmpty()) {
             mOrderInfo.setVisibility(View.GONE);
             mPaymentInfo.setVisibility(View.GONE);
@@ -132,7 +133,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                                 variant.getId(),
                                 variant.getName(),
                                 variant.getPicURLList().get(0),
-                                variant.getSize().getName(),
+                                variant.getSizeString(),
                                 variant.getUnitPrice(),
                                 variant.getQuantity());
                         mOrderDetailList.add(orderDetail);
@@ -160,6 +161,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             for (ProductVariant variant : product.getProductVariantList()) {
                 if (variant.isSelected()) {
                     totalOrder += variant.getQuantity() * variant.getUnitPrice();
+                    break;
                 }
             }
         }
@@ -201,24 +203,26 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             case R.id.linear_layout_delivery_info:
                 intent = new Intent(getActivity(), ShippingAddressActivity.class);
                 startActivityForResult(intent, ConstantDataManager.REQUEST_CODE_ADDRESS);
+
                 break;
             case R.id.linear_layout_note:
                 intent = new Intent(getActivity(), NoteActivity.class);
                 startActivityForResult(intent, ConstantDataManager.REQUEST_CODE_NOTE);
+
                 break;
             case R.id.linear_layout_payment:
                 intent = new Intent(getActivity(), PaymentActivity.class);
                 startActivityForResult(intent, ConstantDataManager.REQUEST_CODE_SELECT_PAYMENT);
+
                 break;
             case R.id.button_set_order:
                 clickToSetOrder();
-
                 break;
 
         }
     }
 
-    private void clickToSetOrder(){
+    private void clickToSetOrder() {
         OrderSuccessActivity.intentToOrderSuccessActivitiy(getActivity());
     }
 
@@ -227,44 +231,44 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case ConstantDataManager.REQUEST_CODE_ADDRESS:
-                getSelectedShippingAddress(requestCode, data);
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    mPresenter.getAddress();
+                }
                 break;
+
             case ConstantDataManager.REQUEST_CODE_NOTE:
-                getNote(resultCode, data);
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    getNote();
+                }
                 break;
+
             case ConstantDataManager.REQUEST_CODE_SELECT_PAYMENT:
-                getPayment(resultCode, data);
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    getPayment();
+                }
                 break;
+
         }
     }
 
-    private void getSelectedShippingAddress(int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            mPresenter.getAddress();
-        }
+    private void getNote() {
+        String note = PreferenceUtils.getStringSharedPreference(getActivity(),
+                ConstantDataManager.PREFENCED_NOTE);
+        mTxtNote.setText(note);
     }
 
-    private void getNote(int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            String note = PreferenceUtils.getStringSharedPreference(getActivity(),
-                    ConstantDataManager.PREFENCED_NOTE);
-            mTxtNote.setText(note);
+    private void getPayment() {
+
+        mPaymentType = PreferenceUtils.getIntSharedPreference(getActivity(),
+                ConstantDataManager.PREFENCED_PAYMENT);
+        if (mPaymentType == 0) {
+            mPaymentType = 1;
         }
-    }
+        switch (mPaymentType) {
+            case 1:
+                mTxtPaymentName.setText(R.string.title_payment_cash);
+                break;
 
-    private void getPayment(int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            mPaymentType = PreferenceUtils.getIntSharedPreference(getActivity(),
-                    ConstantDataManager.PREFENCED_PAYMENT);
-            if (mPaymentType == 0) {
-                mPaymentType = 1;
-            }
-            switch (mPaymentType) {
-                case 1:
-                    mTxtPaymentName.setText(R.string.title_payment_cash);
-                    break;
-
-            }
         }
     }
 }

@@ -12,11 +12,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity(tableName = "product")
-public class Product implements Serializable {
+public class Product implements Serializable, Cloneable {
 
-    @PrimaryKey(autoGenerate = true)
-    private int productId;
-
+    @PrimaryKey
     @SerializedName("id")
     @ColumnInfo(name = "product_id")
     private int id;
@@ -28,7 +26,7 @@ public class Product implements Serializable {
     @ColumnInfo(name = "unit_price")
     private double unitPrice;
 
-    @SerializedName("picURL")
+    @SerializedName("picurl")
     @ColumnInfo(name = "picURL")
     private String image;
 
@@ -43,14 +41,6 @@ public class Product implements Serializable {
     @TypeConverters(DataConverter.class)
     @ColumnInfo(name = "product_variant_list")
     private List<ProductVariant> productVariantList;
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
 
     public String getDescription() {
         return description;
@@ -74,6 +64,9 @@ public class Product implements Serializable {
 
     public void setProductVariantList(List<ProductVariant> productVariantList) {
         this.productVariantList = productVariantList;
+    }
+
+    public Product() {
     }
 
     public Product(String image, String name, double unitPrice) {
@@ -112,6 +105,21 @@ public class Product implements Serializable {
 
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Product product = new Product();
+
+        product.setId(id);
+        product.setName(name);
+        product.setUnitPrice(unitPrice);
+        product.setImage(image);
+        product.setDescription(description);
+        product.setFavorite(isFavorite);
+        product.setProductVariantList(productVariantList);
+
+        return product;
     }
 }
 

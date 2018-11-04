@@ -21,6 +21,9 @@ public class MainSliderAdapter extends SliderAdapter {
 
     @Override
     public void onBindImageSlide(int position, ImageSlideViewHolder imageSlideViewHolder) {
-        imageSlideViewHolder.bindImageSlide(productImagesList.get(position), R.mipmap.ic_shoes, R.mipmap.ic_shoes);
+        imageSlideViewHolder.bindImageSlide(
+                productImagesList.get(position),
+                R.mipmap.ic_shoes,
+                R.mipmap.ic_shoes);
     }
 }

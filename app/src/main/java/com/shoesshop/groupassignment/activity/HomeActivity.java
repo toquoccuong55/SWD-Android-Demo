@@ -35,8 +35,6 @@ public class HomeActivity extends AppCompatActivity {
             R.mipmap.ic_profile2
     };
 
-    public static List<Product> mShoppingBag;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +51,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initialData(){
-        if(mShoppingBag == null){
-            mShoppingBag = new ArrayList<>();
-        }
 
         mTabAdapter = new TabAdapter(getSupportFragmentManager());
         mTabAdapter.addFragment(new HomeFragment());

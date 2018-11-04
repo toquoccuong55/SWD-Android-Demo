@@ -1,5 +1,6 @@
 package com.shoesshop.groupassignment.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.shoesshop.groupassignment.adapter.WishlistAdapter;
 import com.shoesshop.groupassignment.room.entity.Wishlist;
 import com.shoesshop.groupassignment.presenter.WishListFragPresenter;
 import com.shoesshop.groupassignment.room.entity.Product;
+import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.view.WishListFragView;
 
 import java.util.ArrayList;
@@ -56,39 +58,44 @@ public class WishlistFragment extends Fragment implements WishListFragView {
         mRecyclerViewWishlist.setLayoutManager(layoutManager);
         mRecyclerViewWishlist.setNestedScrollingEnabled(false);
 
-        mWishListFragPresenter = new WishListFragPresenter(getActivity(), WishlistFragment.this, getActivity().getApplication());
+        mWishListFragPresenter = new WishListFragPresenter(WishlistFragment.this, getActivity().getApplication());
     }
 
     private void initialData() {
         mWishListFragPresenter.getWishList();
-
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-//        mWishlist.add(new Wishlist("", "Nike Air Force Jester", 560000));
-
     }
 
     @Override
-    public void showWishList(List<Product> productList) {
-//        mWishlist = new ArrayList<>();
-//
-//        for (Product product : productList) {
-//            mWishlist.add(new Wishlist(product.getImage(), product.getName(), product.getUnitPrice()));
-//        }
-//
-//        mWishlistAdapter = new WishlistAdapter(mWishlist, getContext());
-//        mRecyclerViewWishlist.setAdapter(mWishlistAdapter);
-//        mWishlistAdapter.setmOnItemClickListener(new WishlistAdapter.OnItemClickListener() {
-//            @Override
-//            public void setOnItemClickListener(int position) {
-//                ProductDetailActivity.intentToProductDetailActivitiy(getActivity());
-//            }
-//        });
+    public void showWishList(List<Wishlist> wishlists) {
+        mWishlist = wishlists;
+        mWishlistAdapter = new WishlistAdapter(mWishlist, getContext());
+        mRecyclerViewWishlist.setAdapter(mWishlistAdapter);
+        mWishlistAdapter.setmOnItemClickListener(new WishlistAdapter.OnItemClickListener() {
+            @Override
+            public void setOnItemClickListener(int position) {
+                Wishlist wishlist = mWishlist.get(position);
+                Product product = convertWishListToProduct(wishlist);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+                startActivity(intent);
+            }
+        });
     }
+
+    private Product convertWishListToProduct(Wishlist wishlist) {
+        Product product = new Product();
+
+        product.setId(wishlist.getId());
+        product.setName(wishlist.getName());
+        product.setUnitPrice(wishlist.getUnitPrice());
+        product.setImage(wishlist.getImage());
+        product.setDescription(wishlist.getDescription());
+        product.setFavorite(wishlist.isFavorite());
+        product.setProductVariantList(wishlist.getProductVariantList());
+
+        return product;
+    }
+
 }
