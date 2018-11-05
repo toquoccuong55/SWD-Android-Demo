@@ -114,10 +114,15 @@ public class PersonalInfoActivity extends AppCompatActivity implements View.OnCl
             mCustomer.setPhone(phone);
             mCustomer.setEmail(email);
 
-            mPersonalInfoPresenter.updateCustomer(mCustomer);
-            finish();
+            mPersonalInfoPresenter.updateServerCustomer(mCustomer);
         }
 
+    }
+
+    @Override
+    public void updateServerCustomer(Customer customer) {
+        mPersonalInfoPresenter.updateCustomer(mCustomer);
+        finish();
     }
 
     private boolean isValid() {

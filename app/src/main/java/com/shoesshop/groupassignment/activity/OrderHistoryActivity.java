@@ -12,16 +12,23 @@ import android.widget.LinearLayout;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.adapter.OrderHistoryAdapter;
 import com.shoesshop.groupassignment.model.OrderHistory;
+import com.shoesshop.groupassignment.model.OrderHistoryDetail;
+import com.shoesshop.groupassignment.presenter.OrderHistoryPresenter;
+import com.shoesshop.groupassignment.room.entity.Customer;
+import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.CurrencyManager;
+import com.shoesshop.groupassignment.view.OrderHistoryView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderHistoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class OrderHistoryActivity extends AppCompatActivity implements View.OnClickListener, OrderHistoryView {
     private RecyclerView mRecyclerViewOrderHistory;
     private List<OrderHistory> mOrderHistoryList;
     private OrderHistoryAdapter mOrderHistoryAdapter;
 
     private LinearLayout mLnlBack;
+    private OrderHistoryPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,24 +55,42 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void intialData() {
-        mOrderHistoryList = new ArrayList<>();
-        mOrderHistoryList.add(new OrderHistory("12321412", "12h11 ngày 12/11/2018",
-                350000, "123", "Bath bomb Glo AROMA",
-                "35.000đ x 10", "Đã giao hàng"));
-        mOrderHistoryList.add(new OrderHistory("12321412", "12h11 ngày 12/11/2018",
-                350000, "123", "Bath bomb Glo AROMA",
-                "35.000đ x 10", "Đã giao hàng"));
-        mOrderHistoryList.add(new OrderHistory("12321412", "12h11 ngày 12/11/2018",
-                350000, "123", "Bath bomb Glo AROMA",
-                "35.000đ x 10", "Đã giao hàng"));
+        mPresenter = new OrderHistoryPresenter(OrderHistoryActivity.this, OrderHistoryActivity.this, getApplication());
+        mPresenter.getCustomer();
 
+    }
 
+    @Override
+    public void showCustomer(Customer customer) {
+        mPresenter.getOrderHistory(customer.getAccessToken());
+    }
+
+    @Override
+    public void showOrderHistory(final List<OrderHistory> orderHistories) {
+
+        mOrderHistoryList = orderHistories;
+        for(OrderHistory orderHistory : mOrderHistoryList){
+            double total = 0;
+            for (OrderHistoryDetail detail : orderHistory.getDetailHistoryList()){
+                total+= detail.getQuantity() * detail.getUnitPrice();
+            }
+            orderHistory.setOrderTotal(total);
+            orderHistory.setOrderDetailImage(orderHistory.getDetailHistoryList().get(0).getOrderDetailImage());
+            orderHistory.setOrderDetailName(orderHistory.getDetailHistoryList().get(0).getOrderDetailTitle());
+            orderHistory.setUnitPriceQuantity(CurrencyManager.getPrice(
+                    orderHistory.getDetailHistoryList().get(0).getUnitPrice(),
+                    ConstantDataManager.CURRENCY) + " x " +
+                    String.valueOf(orderHistory.getDetailHistoryList().get(0).getQuantity()));
+        }
         mOrderHistoryAdapter = new OrderHistoryAdapter(mOrderHistoryList, OrderHistoryActivity.this);
         mRecyclerViewOrderHistory.setAdapter(mOrderHistoryAdapter);
         mOrderHistoryAdapter.setmOnItemClickListener(new OrderHistoryAdapter.OnItemClickListener() {
             @Override
             public void setOnItemClickListener(int position) {
-                OrderHistoryDetailActivity.intentToOrderHistoryDetailActivitiy(OrderHistoryActivity.this);
+                OrderHistory orderHistory = mOrderHistoryList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ConstantDataManager.BUNDLE_ORDER_HISTORY, orderHistory);
+                OrderHistoryDetailActivity.intentToOrderHistoryDetailActivitiy(OrderHistoryActivity.this, bundle);
             }
         });
     }
@@ -78,4 +103,5 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
 }

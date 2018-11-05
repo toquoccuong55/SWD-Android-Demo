@@ -10,4 +10,6 @@ import com.shoesshop.groupassignment.room.manager.UserManager;
 public interface PersonalInfoView {
     void showCustomerInfo(Customer customer);
 
+    void updateServerCustomer(Customer customer);
+
 }

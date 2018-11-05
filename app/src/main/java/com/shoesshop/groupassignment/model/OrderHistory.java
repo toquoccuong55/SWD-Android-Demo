@@ -1,22 +1,68 @@
 package com.shoesshop.groupassignment.model;
 
-public class OrderHistory {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class OrderHistory implements Serializable {
+    @SerializedName("id")
     private String orderID;
+
+    @SerializedName("date")
     private String OrderTime;
+
+    @SerializedName("shippingaddress")
+    private String shippingaddress;
+
+
     private double orderTotal;
     private String orderDetailImage;
     private String orderDetailName;
     private String unitPriceQuantity;
-    private String orderStatus;
 
-    public OrderHistory(String orderID, String orderTime, double orderTotal, String orderDetailImage, String orderDetailName, String unitPriceQuantity, String orderStatus) {
-        this.orderID = orderID;
-        OrderTime = orderTime;
-        this.orderTotal = orderTotal;
-        this.orderDetailImage = orderDetailImage;
-        this.orderDetailName = orderDetailName;
-        this.unitPriceQuantity = unitPriceQuantity;
-        this.orderStatus = orderStatus;
+    @SerializedName("paymenttype")
+    private int paymentType;
+
+    @SerializedName("paymentamount")
+    private double paymentAmount;
+
+    @SerializedName("status")
+    private int orderStatus;
+
+    @SerializedName("order_detail")
+    private List<OrderHistoryDetail> detailHistoryList;
+
+    public String getShippingaddress() {
+        return shippingaddress;
+    }
+
+    public void setShippingaddress(String shippingaddress) {
+        this.shippingaddress = shippingaddress;
+    }
+
+    public int getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(int paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public double getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(double paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
+    public List<OrderHistoryDetail> getDetailHistoryList() {
+        return detailHistoryList;
+    }
+
+    public void setDetailHistoryList(List<OrderHistoryDetail> detailHistoryList) {
+        this.detailHistoryList = detailHistoryList;
     }
 
     public String getUnitPriceQuantity() {
@@ -68,12 +114,11 @@ public class OrderHistory {
         this.orderDetailName = orderDetailName;
     }
 
-
-    public String getOrderStatus() {
+    public int getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
     }
 }

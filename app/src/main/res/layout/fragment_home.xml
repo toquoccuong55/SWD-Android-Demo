@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/frame_layout_logo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp56"
                 android:background="@color/white">
@@ -27,13 +28,59 @@
                     android:layout_gravity="center"
                     android:src="@mipmap/ic_logo3" />
 
-                <ImageView
-                    android:layout_width="@dimen/dp30"
-                    android:layout_height="@dimen/dp30"
+                <LinearLayout
+                    android:id="@+id/linear_layout_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="@dimen/dp16"
-                    android:src="@mipmap/ic_search" />
+                    android:layout_marginRight="@dimen/dp6">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp30"
+                        android:layout_height="@dimen/dp30"
+                        android:layout_margin="@dimen/dp10"
+                        android:src="@mipmap/ic_search" />
+                </LinearLayout>
+
             </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_open_search_tab"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp56"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="100">
+
+                <EditText
+                    android:id="@+id/edit_text_search"
+                    android:layout_width="@dimen/dp0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_weight="98"
+                    android:background="@drawable/background_edit_text_search"
+                    android:drawableLeft="@mipmap/ic_small_search"
+                    android:drawablePadding="@dimen/dp5"
+                    android:gravity="center_vertical"
+                    android:hint="Tìm sản phẩm"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/dp8"
+                    android:paddingTop="@dimen/dp5"
+                    android:paddingBottom="@dimen/dp5" />
+
+                <TextView
+                    android:id="@+id/text_view_cancel_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_weight="2"
+                    android:padding="@dimen/dp14"
+                    android:text="Hủy"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/sp16" />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_products"

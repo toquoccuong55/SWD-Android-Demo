@@ -3,7 +3,8 @@ package com.shoesshop.groupassignment.ShoematicRepository;
 import android.content.Context;
 
 import com.shoesshop.groupassignment.model.Order;
-import com.shoesshop.groupassignment.model.OrderResult;
+import com.shoesshop.groupassignment.model.OrderHistory;
+import com.shoesshop.groupassignment.model.SuccessedOrder;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.utils.CallBackData;
@@ -18,7 +19,9 @@ public interface ShoematicRepository {
 
     void getProductList(Context context, CallBackData<List<Product>> callBackData);
 
-    void setOrder(Context context, Order order, String accessToken, CallBackData<OrderResult> callBackData);
+    void getOrderHistory(Context context, String accessToken, CallBackData<List<OrderHistory>> callBackData);
+
+    void setOrder(Context context, Order order, CallBackData<SuccessedOrder> callBackData);
 
     void updateCustomer(Context context, Customer customer, CallBackData<String> callBackData);
 

@@ -7,6 +7,8 @@ public class ConstantDataManager {
     public static final String INTENT_BUNDLE = "INTENT_BUNDLE";
     public static final String BUNDLE_PRODUCT = "BUNDLE_PRODUCT";
     public static final String BUNDLE_CUSTOMER = "BUNDLE_CUSTOMER";
+    public static final String BUNDLE_ORDER_HISTORY = "BUNDLE_ORDER_HISTORY";
+
 
     public static final int REQUEST_CODE_SELECT_PAYMENT = 9;
     public static final int REQUEST_CODE_NOTE = 10;

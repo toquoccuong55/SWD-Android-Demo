@@ -92,13 +92,13 @@
                 android:id="@+id/image_view_order_detail"
                 android:layout_width="@dimen/dp73"
                 android:layout_height="@dimen/dp73"
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/ic_shoes"
                 app:riv_corner_radius="@dimen/dp20" />
 
         </FrameLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp200"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/dp13"
@@ -111,6 +111,7 @@
                 android:text="Bath bomb Glo AROMA"
                 android:textColor="@color/brownish_grey"
                 android:textSize="@dimen/sp13"
+                android:maxLines="1"
                 android:textStyle="bold" />
 
             <TextView
@@ -119,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp3"
                 android:layout_marginBottom="@dimen/dp3"
-                android:text="35.000đ x 10"
+                android:text="350.000đ x 1"
                 android:textColor="@color/brownish_grey"
                 android:textSize="@dimen/sp13" />
 
@@ -127,7 +128,7 @@
                 android:id="@+id/text_view_order_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đã giao hàng"
+                android:text="Đã thanh toán"
                 android:textColor="@color/brownish_grey"
                 android:textSize="@dimen/sp12" />
         </LinearLayout>

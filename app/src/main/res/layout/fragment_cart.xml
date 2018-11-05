@@ -116,7 +116,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dp10"
                                 android:text="Anh Cường - 0980123123"
-                                android:textSize="@dimen/sp14"/>
+                                android:textSize="@dimen/sp14" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -139,7 +140,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dp10"
                                 android:text="Vui lòng nhập địa chỉ tại đây."
-                                android:textSize="@dimen/sp14"/>
+                                android:textSize="@dimen/sp14" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -444,6 +445,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:background="@color/white"
                 android:id="@+id/linear_layout_empty_cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -451,11 +453,20 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_empty_bag" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp20"
                     android:gravity="center"
-                    android:text="Bạn chưa có sản phẩm nào trong giỏ hàng." />
+                    android:text="Bạn chưa có sản phẩm nào trong giỏ hàng."
+                    android:textColor="@color/brownish_grey"
+                    android:textSize="@dimen/sp14" />
             </LinearLayout>
         </LinearLayout>
 

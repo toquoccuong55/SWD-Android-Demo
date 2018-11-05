@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nex3z.flowlayout.FlowLayout;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.adapter.MainSliderAdapter;
 import com.shoesshop.groupassignment.adapter.SizeListAdapter;
@@ -28,6 +27,7 @@ import com.shoesshop.groupassignment.room.entity.ProductVariant;
 import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.shoesshop.groupassignment.utils.GridSpacingItemDecoration;
+import com.shoesshop.groupassignment.utils.PicassoLoadingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,6 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
     private Button mBtnDone;
     private Slider mSlider;
     private List<String> mImageList;
-    private FlowLayout mFlowLayoutSize;
     private TextView mTxtProductName, mTxtPrice, mTxtDescription, mTxtDeleteProduct, mTxtQuantity,
             mTxtDescrease, mTxtPlus;
 
@@ -48,9 +47,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
     private SizeListAdapter mSizeListAdapter;
 
     private Product mProduct;
-    private ProductVariant mVariant;
-    private double mUnitPrice, mTotal;
-    private int mQuantity;
+    private double mTotal;
     private EditOrderDetailPresenter mPresenter;
 
     @Override
@@ -60,6 +57,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         getInitialIntent();
         initalView();
         initialData();
+        Slider.init(new PicassoLoadingService());
     }
 
     private void getInitialIntent() {
@@ -102,33 +100,27 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         mPresenter = new EditOrderDetailPresenter(getApplication());
         if (mProduct != null) {
 
-            mImageList = new ArrayList<>();
-            mImageList.add("https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/008/491/941/original/73359_01.jpg.jpeg");
-            mImageList.add("https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/010/140/793/original/189274_01.jpg.jpeg");
-            mImageList.add("https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/010/140/831/original/189275_01.jpg.jpeg");
-            mImageList.add("https://image.goat.com/crop/750/attachments/product_template_pictures/images/004/896/057/original/AH9110_023.png");
-            mImageList.add("https://image.goat.com/crop/750/attachments/product_template_pictures/images/014/770/352/original/AJ8_647380.png.png");
+            mImageList = mProduct.getProductVariantList().get(0).getPicURLList();
             mSlider.setAdapter(new MainSliderAdapter(mImageList));
-
             mTxtProductName.setText(mProduct.getName());
+            ProductVariant selectedVariant = null;
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.isSelected()) {
-                    mVariant = variant;
+                    selectedVariant = variant;
                 }
             }
-            if (mVariant != null) {
-                double total = mVariant.getUnitPrice();
-                int quantity = mVariant.getQuantity();
-                int id = mVariant.getId();
+            if (selectedVariant != null) {
+                mTxtPrice.setText(CurrencyManager.getPrice(selectedVariant.getUnitPrice(),
+                        ConstantDataManager.CURRENCY));
 
-                mTxtPrice.setText(CurrencyManager.getPrice(total * quantity, ConstantDataManager.CURRENCY));
                 mSizeList = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
+                for (ProductVariant productVariant : mProduct.getProductVariantList()) {
                     Size size = new Size();
-                    size.setId(i);
-                    size.setName(String.valueOf(i));
-                    size.setChecked(false);
-                    if (size.getId() == id) {
+                    size.setId(productVariant.getId());
+                    size.setName(productVariant.getSizeString());
+                    if (productVariant.getId() != selectedVariant.getId()) {
+                        size.setChecked(false);
+                    } else {
                         size.setChecked(true);
                     }
                     mSizeList.add(size);
@@ -147,11 +139,40 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
                         mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
                     }
                 });
-                mTxtQuantity.setText(String.valueOf(quantity));
+
+                mTxtQuantity.setText(String.valueOf(selectedVariant.getQuantity()));
+                mTxtDescription.setText(mProduct.getDescription());
+            } else {
+                mTxtPrice.setText(CurrencyManager.getPrice(mProduct.getProductVariantList().get(0).getUnitPrice(),
+                        ConstantDataManager.CURRENCY));
+
+                mSizeList = new ArrayList<>();
+                for (ProductVariant productVariant : mProduct.getProductVariantList()) {
+                    Size size = new Size();
+                    size.setId(productVariant.getId());
+                    size.setName(productVariant.getSizeString());
+                    size.setChecked(false);
+                    mSizeList.add(size);
+                }
+                mSizeList.get(0).setChecked(true);
+                mSizeListAdapter = new SizeListAdapter(mSizeList, EditOrderDetailActivity.this);
+                mRcvSizeList.setAdapter(mSizeListAdapter);
+                mSizeListAdapter.setmOnItemClickListener(new SizeListAdapter.OnItemClickListener() {
+                    @Override
+                    public void setOnItemClickListener(int position) {
+                        for (Size size : mSizeList) {
+                            size.setChecked(false);
+                        }
+                        mSizeList.get(position).setChecked(true);
+                        mSizeListAdapter.notifyDataSetChanged();
+                        mTotal = calculateToTal();
+                        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
+                    }
+                });
+
+                mTxtQuantity.setText(String.valueOf(1));
                 mTxtDescription.setText(mProduct.getDescription());
             }
-
-
         } else {
 
         }
@@ -244,6 +265,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
             quantity -= 1;
         }
         mTxtQuantity.setText(String.valueOf(quantity));
+        mTotal = calculateToTal();
         mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
     }
 
@@ -291,4 +313,5 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+
 }

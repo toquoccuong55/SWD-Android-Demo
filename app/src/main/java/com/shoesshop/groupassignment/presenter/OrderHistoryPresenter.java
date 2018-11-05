@@ -6,52 +6,51 @@ import android.util.Log;
 
 import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepository;
 import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepositoryImpl;
+import com.shoesshop.groupassignment.model.OrderHistory;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.manager.UserManager;
 import com.shoesshop.groupassignment.utils.CallBackData;
-import com.shoesshop.groupassignment.view.PersonalInfoView;
+import com.shoesshop.groupassignment.view.OrderHistoryView;
 
-public class PersonalInfoPresenter {
-    private UserManager mUserManager;
+import java.util.List;
+
+public class OrderHistoryPresenter {
     private Context mContext;
     private ShoematicRepository mShoematicRepository;
-    private PersonalInfoView mPersonalInfoView;
+    private OrderHistoryView mOrderHistoryView;
+    private UserManager mUserManager;
 
-    public PersonalInfoPresenter(Context mContext,
-                                 PersonalInfoView mPersonalInfoView, Application application) {
+    public OrderHistoryPresenter(Context mContext, OrderHistoryView mOrderHistoryView, Application application) {
         this.mContext = mContext;
-        this.mPersonalInfoView = mPersonalInfoView;
-        mUserManager = new UserManager(application);
+        this.mOrderHistoryView = mOrderHistoryView;
         mShoematicRepository = new ShoematicRepositoryImpl();
+        mUserManager = new UserManager(application);
     }
 
-    public void getCustomerInfo() {
+    public void getCustomer() {
         mUserManager.getCustomerInfo(new UserManager.OnDataCallBackCustomer() {
             @Override
             public void onDataSuccess(Customer customer) {
-                mPersonalInfoView.showCustomerInfo(customer);
+                mOrderHistoryView.showCustomer(customer);
             }
 
             @Override
             public void onDataFail() {
+
             }
         });
     }
 
-    public void updateCustomer(Customer customer) {
-        mUserManager.updateCustomer(customer);
-    }
-
-    public void updateServerCustomer(final Customer customer) {
-        mShoematicRepository.updateCustomer(mContext, customer, new CallBackData<String>() {
+    public void getOrderHistory(String accessToken) {
+        mShoematicRepository.getOrderHistory(mContext, accessToken, new CallBackData<List<OrderHistory>>() {
             @Override
-            public void onSuccess(String s) {
-                mPersonalInfoView.updateServerCustomer(customer);
+            public void onSuccess(List<OrderHistory> orderHistories) {
+                mOrderHistoryView.showOrderHistory(orderHistories);
             }
 
             @Override
             public void onFail(String message) {
-                Log.d("PersonalPresenter: ", message);
+                Log.e("OrderHistoryPresenter", message);
             }
         });
     }

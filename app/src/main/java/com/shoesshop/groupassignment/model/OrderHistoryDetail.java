@@ -1,10 +1,24 @@
 package com.shoesshop.groupassignment.model;
 
-public class OrderHistoryDetail {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class OrderHistoryDetail implements Serializable {
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("productid")
+    private int productId;
+
     private String orderDetailImage;
     private String orderDetailTitle;
     private String sizeName;
+
+    @SerializedName("UnitPrice")
     private double unitPrice;
+
+    @SerializedName("Quantity")
     private int quantity;
 
     public OrderHistoryDetail(String orderDetailImage, String orderDetailTitle, String sizeName, double unitPrice, int quantity) {
@@ -13,6 +27,22 @@ public class OrderHistoryDetail {
         this.sizeName = sizeName;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getOrderDetailImage() {

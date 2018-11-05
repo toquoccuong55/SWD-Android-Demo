@@ -17,11 +17,15 @@ public interface ShoematicService {
 
     @FormUrlEncoded
     @POST(ConfigApi.Api.LOGIN_BY_PHONE)
-    Call<ResponseBody> loginByPhone(@Field("fbAccessToken") String fbAccessToken);
+    Call<ResponseBody> loginByPhone(@Field("access_token") String fbAccessToken);
 
     @FormUrlEncoded
     @POST(ConfigApi.Api.LOGIN_FACEBOOK)
     Call<ResponseBody> loginByFacebook(@Field("access_token") String fbAccessToken);
+
+    @FormUrlEncoded
+    @POST(ConfigApi.Api.GET_ORDER_HISTORY)
+    Call<ResponseBody> getOrderHistory(@Field("access_token") String AccessToken);
 
     @GET(ConfigApi.Api.GET_PRODUCT)
     Call<ResponseBody> getProduct();

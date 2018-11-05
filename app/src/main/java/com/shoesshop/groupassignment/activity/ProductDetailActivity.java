@@ -148,7 +148,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                     mSizeList.get(position).setChecked(true);
                     mSizeListAdapter.notifyDataSetChanged();
                     mTotal = calculateToTal();
-                    mTxtPrice.setText(CurrencyManager.getPrice(mTotal, CURRENCY));
+                    mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
                 }
             });
 

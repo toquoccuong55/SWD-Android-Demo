@@ -26,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dp10"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_wishlist"
@@ -37,4 +38,30 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+
+    <LinearLayout
+        android:id="@+id/linear_layout_empty_cart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp20"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp80"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="@dimen/dp150"
+            android:layout_height="@dimen/dp150"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_empty_wishlist" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:gravity="center"
+            android:text="Bạn chưa có sản phẩm nào trong WishList."
+            android:textColor="@color/brownish_grey"
+            android:textSize="@dimen/sp14" />
+    </LinearLayout>
 </LinearLayout>

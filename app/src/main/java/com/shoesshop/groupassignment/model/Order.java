@@ -1,29 +1,36 @@
 package com.shoesshop.groupassignment.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.shoesshop.groupassignment.room.entity.ProductVariant;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Order implements Serializable {
-    @SerializedName("OrderDetails")
-    private ArrayList<OrderItem> orderDetailList;
+    private ArrayList<ProductVariant> orderDetailList;
 
-    @SerializedName("PaymentType")
     private int paymentType;
 
-    @SerializedName("Notes")
     private String note;
 
-    @SerializedName("access_token")
     private String accessToken;
 
-    public ArrayList<OrderItem> getOrderDetailList() {
+    private String shippingAddress;
+
+    public ArrayList<ProductVariant> getOrderDetailList() {
         return orderDetailList;
     }
 
-    public void setOrderDetailList(ArrayList<OrderItem> orderDetailList) {
+    public void setOrderDetailList(ArrayList<ProductVariant> orderDetailList) {
         this.orderDetailList = orderDetailList;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     public int getPaymentType() {

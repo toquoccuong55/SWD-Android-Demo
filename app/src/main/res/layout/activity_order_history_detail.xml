@@ -47,12 +47,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_layout_order_history_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp16"
                 android:layout_marginTop="@dimen/dp22"
                 android:layout_marginRight="@dimen/dp16"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
 
 
                 <LinearLayout
@@ -112,10 +114,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/text_view_receiver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp1"
-                        android:text="Anh Cường"
+                        android:text="Anh Hưng"
                         android:textColor="@color/warm_grey_two"
                         android:textSize="@dimen/sp12" />
 
@@ -129,6 +132,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/text_view_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp1"
@@ -147,6 +151,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/text_view_shipping_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp1"
@@ -165,6 +170,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/text_view_notes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp1"
@@ -177,10 +183,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_layout_payment_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grey"
-                android:padding="@dimen/dp16">
+                android:padding="@dimen/dp16"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -214,6 +222,7 @@
                                 android:gravity="right">
 
                                 <TextView
+                                    android:id="@+id/text_view_total_order"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="35000đ"
@@ -241,6 +250,7 @@
                                 android:gravity="right">
 
                                 <TextView
+                                    android:id="@+id/text_view_shipping_fee"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0đ"
@@ -268,6 +278,7 @@
                                 android:gravity="right">
 
                                 <TextView
+                                    android:id="@+id/text_view_promotion"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="- 0đ"
@@ -303,6 +314,7 @@
                                 android:gravity="right">
 
                                 <TextView
+                                    android:id="@+id/text_view_total_amount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="35000đ"
@@ -316,6 +328,38 @@
 
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_empty_order_history_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingTop="@dimen/dp50">
+
+                <ImageView
+                    android:layout_width="@dimen/dp150"
+                    android:layout_height="@dimen/dp150"
+                    android:src="@mipmap/ic_empty_order_history_detail" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp30"
+                    android:text="Đã có lỗi xảy ra"
+                    android:textColor="@color/brownish_grey"
+                    android:textSize="@dimen/sp16"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:text="Xin kiểm tra lại đường truyền"
+                    android:textColor="@color/brownish_grey"
+                    android:textSize="@dimen/sp14" />
             </LinearLayout>
 
         </LinearLayout>

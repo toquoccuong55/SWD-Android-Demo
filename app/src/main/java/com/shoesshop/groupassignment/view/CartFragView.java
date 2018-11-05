@@ -1,5 +1,6 @@
 package com.shoesshop.groupassignment.view;
 
+import com.shoesshop.groupassignment.model.SuccessedOrder;
 import com.shoesshop.groupassignment.room.entity.Address;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.entity.Product;
@@ -12,5 +13,6 @@ public interface CartFragView {
 
     void showCustomer(Customer customer);
 
-    void showAddress(Address address);
+    void setOrderSuccess(SuccessedOrder successedOrder);
+
 }

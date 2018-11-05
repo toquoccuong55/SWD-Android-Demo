@@ -47,7 +47,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         OrderHistory orderHistory = mOrderHistoryList.get(position);
         holder.mTxtOrderId.setText("Order ID #" + orderHistory.getOrderID());
         holder.mTxtOrderTime.setText("Order Time : " + orderHistory.getOrderTime());
-        holder.mTxtOrderTotal.setText(orderHistory.getOrderTotal() + "");
+        holder.mTxtOrderTotal.setText(String.valueOf(orderHistory.getOrderTotal()));
         if (orderHistory.getOrderDetailImage() != null && !orderHistory.getOrderDetailImage().isEmpty()) {
             Picasso.get()
                     .load(orderHistory.getOrderDetailImage())
@@ -59,6 +59,17 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         }
         holder.mtxtOrderDetailName.setText(orderHistory.getOrderDetailName());
         holder.mTxtOrderDetailPrice.setText(orderHistory.getUnitPriceQuantity());
+        switch (orderHistory.getOrderStatus()) {
+            case 0:
+                holder.mTxtOrderStatus.setText("Đang chờ comfirm");
+                break;
+            case 1:
+                holder.mTxtOrderStatus.setText("Đã thanh toán");
+                break;
+            case 2:
+                holder.mTxtOrderStatus.setText("Đơn hàng bị hủy");
+                break;
+        }
         holder.mTxtOrderStatus.setText(orderHistory.getOrderStatus());
         holder.mLnlViewDetail.setOnClickListener(new View.OnClickListener() {
             @Override

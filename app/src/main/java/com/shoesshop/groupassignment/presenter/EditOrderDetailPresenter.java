@@ -16,7 +16,8 @@ public class EditOrderDetailPresenter {
         mProductManager.deleteProduct(product);
     }
 
-    public void updateProduct(Product product){
+    public void updateProduct(Product product) {
         mProductManager.updateProduct(product);
     }
+
 }
