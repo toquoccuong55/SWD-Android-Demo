@@ -9,7 +9,7 @@ public class SuccessedOrder implements Serializable {
     private int orderId;
 
     @SerializedName("date")
-    private String createdDate;
+    private CreatedDate createdDate;
 
     public int getOrderId() {
         return orderId;
@@ -19,11 +19,11 @@ public class SuccessedOrder implements Serializable {
         this.orderId = orderId;
     }
 
-    public String getCreatedDate() {
+    public CreatedDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(CreatedDate createdDate) {
         this.createdDate = createdDate;
     }
 }

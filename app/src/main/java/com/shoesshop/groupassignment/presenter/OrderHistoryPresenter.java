@@ -8,6 +8,7 @@ import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepository;
 import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepositoryImpl;
 import com.shoesshop.groupassignment.model.OrderHistory;
 import com.shoesshop.groupassignment.room.entity.Customer;
+import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.manager.UserManager;
 import com.shoesshop.groupassignment.utils.CallBackData;
 import com.shoesshop.groupassignment.view.OrderHistoryView;
@@ -51,6 +52,20 @@ public class OrderHistoryPresenter {
             @Override
             public void onFail(String message) {
                 Log.e("OrderHistoryPresenter", message);
+            }
+        });
+    }
+
+    public void getProductList(){
+        mShoematicRepository.getProductList(mContext, new CallBackData<List<Product>>() {
+            @Override
+            public void onSuccess(List<Product> productList) {
+                mOrderHistoryView.showProductList(productList);
+            }
+
+            @Override
+            public void onFail(String message) {
+                Log.e("OrderHistoryPresenter: ", message );
             }
         });
     }

@@ -16,6 +16,7 @@ import com.shoesshop.groupassignment.room.manager.AddressManager;
 import com.shoesshop.groupassignment.room.manager.ProductManager;
 import com.shoesshop.groupassignment.room.manager.UserManager;
 import com.shoesshop.groupassignment.room.manager.VariantManager;
+import com.shoesshop.groupassignment.room.manager.WishListManager;
 import com.shoesshop.groupassignment.utils.CallBackData;
 import com.shoesshop.groupassignment.view.CartFragView;
 
@@ -27,12 +28,14 @@ public class CartFragPresenter {
     private UserManager mUserManager;
     private ShoematicRepository mShoematicRepository;
     private CartFragView mCartFragView;
+    private WishListManager mWishListManager;
 
     public CartFragPresenter(Context mContext, CartFragView mCartFragView, Application application) {
         this.mContext = mContext;
         this.mCartFragView = mCartFragView;
         mProductManager = new ProductManager(application);
         mUserManager = new UserManager(application);
+        mWishListManager = new WishListManager(application);
         mShoematicRepository = new ShoematicRepositoryImpl();
     }
 
@@ -76,5 +79,18 @@ public class CartFragPresenter {
                 Log.e("", message );
             }
         });
+    }
+
+
+    public void deleteCustomerInfo() {
+        mUserManager.deleteAllCustomer();
+    }
+
+    public void deleteAllProduct() {
+        mProductManager.deleteAllProduct();
+    }
+
+    public void deleteAllWishList() {
+        mWishListManager.deleteAllWishlist();
     }
 }

@@ -19,6 +19,7 @@ public class ProfileFragPresenter {
         this.mProfileFragView = mProfileFragView;
         mUserManager = new UserManager(application);
         mProductManager = new ProductManager(application);
+        mWishListManager = new WishListManager(application);
     }
 
     public void getCustomer() {
@@ -35,15 +36,15 @@ public class ProfileFragPresenter {
         });
     }
 
-    public void deleteCustomerInfo(){
+    public void deleteCustomerInfo() {
         mUserManager.deleteAllCustomer();
     }
 
-    public void deleteAllProduct(){
+    public void deleteAllProduct() {
         mProductManager.deleteAllProduct();
     }
 
-    public void deleteAllWishList(){
+    public void deleteAllWishList() {
         mWishListManager.deleteAllWishlist();
     }
 }

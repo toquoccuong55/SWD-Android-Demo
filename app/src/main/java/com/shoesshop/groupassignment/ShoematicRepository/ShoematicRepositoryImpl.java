@@ -10,6 +10,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.shoesshop.groupassignment.model.Order;
 import com.shoesshop.groupassignment.model.OrderHistory;
 import com.shoesshop.groupassignment.model.SuccessedOrder;
+import com.shoesshop.groupassignment.model.UpdateCustomerResult;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.model.ResponseResult;
 import com.shoesshop.groupassignment.room.entity.Customer;
@@ -217,7 +218,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
     @Override
     public void getOrderHistory(final Context context, String accessToken, final CallBackData<List<OrderHistory>> callBackData) {
         ClientApi clientApi = new ClientApi();
-        Call<ResponseBody> serviceCall = clientApi.shoematicService().getOrderHistory("accessToken");
+        Call<ResponseBody> serviceCall = clientApi.shoematicService().getOrderHistory(accessToken);
         Log.e("URL=", clientApi.shoematicService().getOrderHistory(accessToken).request().url().toString());
         final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
         serviceCall.enqueue(new Callback<ResponseBody>() {
@@ -317,17 +318,16 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
     }
 
     @Override
-    public void updateCustomer(final Context context, Customer customer, final CallBackData<String> callBackData) {
+    public void updateCustomer(final Context context, Customer customer, final CallBackData<UpdateCustomerResult> callBackData) {
         ClientApi clientApi = new ClientApi();
         JSONObject customerJsonObject = new JSONObject();
         try {
-            customer.setAccessToken("4");
             customerJsonObject.put("access_token", customer.getAccessToken());
             customerJsonObject.put("name", customer.getFullName());
             customerJsonObject.put("phone", customer.getPhone());
             customerJsonObject.put("email", customer.getEmail());
             customerJsonObject.put("address", customer.getAddress());
-            int addressType = 1;
+            int addressType = 0;
             switch (customer.getAddressType()) {
                 case "Cơ quan":
                     addressType = 1;
@@ -339,7 +339,11 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                     addressType = 3;
                     break;
             }
-            customerJsonObject.put("address_type", addressType);
+            if (addressType != 0) {
+                customerJsonObject.put("address_type", addressType);
+            } else {
+                customerJsonObject.put("address_type", "");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -353,15 +357,15 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                 if (response.code() == 200 && response.body() != null) {
                     try {
                         String result = response.body().string();
-                        Type type = new TypeToken<ResponseResult<String>>() {
+                        Type type = new TypeToken<ResponseResult<UpdateCustomerResult>>() {
                         }.getType();
 
-                        ResponseResult<String> responseResult = new Gson().fromJson(result, type);
+                        ResponseResult<UpdateCustomerResult> responseResult = new Gson().fromJson(result, type);
                         if (responseResult.getData() == null) {
                             callBackData.onFail(response.message());
                         }
-                        String accessToken = responseResult.getData();
-                        callBackData.onSuccess(accessToken);
+                        UpdateCustomerResult updateCustomerResult = responseResult.getData();
+                        callBackData.onSuccess(updateCustomerResult);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (Exception e) {

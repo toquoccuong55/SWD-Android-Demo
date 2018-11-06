@@ -1,10 +1,14 @@
 package com.shoesshop.groupassignment.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.UserManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -97,21 +101,55 @@ public class ShippingAddressActivity extends AppCompatActivity implements View.O
 
         String typeString = mTxtType.getText().toString();
         String address = mEdtAddress.getText().toString();
-
-        if (mCustomer != null) {
-            mCustomer.setAddressType(typeString);
-            mCustomer.setAddress(address);
-        } else {
-            mCustomer = new Customer();
-            mCustomer.setAddressType(typeString);
-            mCustomer.setAddress(address);
-            mCustomer.setFullName(mTxtReceiver.getText().toString());
-            mCustomer.setPhone(mTxtPhone.getText().toString());
+        if(typeString.isEmpty() || address.isEmpty()){
+            showInvalidInputDialog();
+        }else{
+            if (mCustomer != null) {
+                mCustomer.setAddressType(typeString);
+                mCustomer.setAddress(address);
+            } else {
+                mCustomer = new Customer();
+                mCustomer.setAddressType(typeString);
+                mCustomer.setAddress(address);
+                mCustomer.setFullName(mTxtReceiver.getText().toString());
+                mCustomer.setPhone(mTxtPhone.getText().toString());
+            }
+            mAddressPresenter.updateCustomer(mCustomer);
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
         }
-        mAddressPresenter.updateCustomer(mCustomer);
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        finish();
+    }
+
+    private void showInvalidInputDialog() {
+        final Dialog dialog = new Dialog(ShippingAddressActivity.this);
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_information, null);
+        dialog.setContentView(view);
+
+        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
+        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
+        View viewLine = dialog.findViewById(R.id.view_line);
+        View viewLine2 = dialog.findViewById(R.id.view_line2);
+        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
+        Button option1 = dialog.findViewById(R.id.button_num1);
+        Button option2 = dialog.findViewById(R.id.button_num2);
+
+        txtTitle.setText("Thông tin hợp lệ!");
+        txtSubInfo.setText("Xin kiểm tra lại thông tin cá nhân");
+        viewLine.setVisibility(View.VISIBLE);
+        viewLine2.setVisibility(View.GONE);
+        lnlOptions.setVisibility(View.VISIBLE);
+        option1.setText("Thử lại");
+        option1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        option2.setVisibility(View.GONE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
     public void showFragment() {

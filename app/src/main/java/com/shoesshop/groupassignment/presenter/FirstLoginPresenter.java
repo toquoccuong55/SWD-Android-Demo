@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepository;
 import com.shoesshop.groupassignment.ShoematicRepository.ShoematicRepositoryImpl;
+import com.shoesshop.groupassignment.model.UpdateCustomerResult;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.manager.UserManager;
 import com.shoesshop.groupassignment.utils.CallBackData;
@@ -24,10 +25,10 @@ public class FirstLoginPresenter {
     }
 
     public void insertCustomerToDB(final Customer customer) {
-        mShoematicRepository.updateCustomer(mContext, customer, new CallBackData<String>() {
+        mShoematicRepository.updateCustomer(mContext, customer, new CallBackData<UpdateCustomerResult>() {
             @Override
-            public void onSuccess(String accessToken) {
-                if (accessToken != null) {
+            public void onSuccess(UpdateCustomerResult updateCustomerResult) {
+                if (updateCustomerResult != null) {
                     mFirstLoginView.insertCustomerToDBSuccess(customer);
                 } else {
                     mFirstLoginView.insertCustomerToDBFail("");

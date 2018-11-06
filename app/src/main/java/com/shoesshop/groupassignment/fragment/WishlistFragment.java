@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.activity.ProductDetailActivity;
@@ -27,6 +29,9 @@ public class WishlistFragment extends Fragment implements WishListFragView {
     private RecyclerView mRecyclerViewWishlist;
     private WishlistAdapter mWishlistAdapter;
     private List<Wishlist> mWishlist;
+
+    private LinearLayout mLnlWishlist;
+    private NestedScrollView mNsvWishlist;
 
     private WishListFragPresenter mWishListFragPresenter;
 
@@ -58,6 +63,9 @@ public class WishlistFragment extends Fragment implements WishListFragView {
         mRecyclerViewWishlist.setLayoutManager(layoutManager);
         mRecyclerViewWishlist.setNestedScrollingEnabled(false);
 
+        mLnlWishlist = getView().findViewById(R.id.linear_layout_empty_cart);
+        mNsvWishlist = getView().findViewById(R.id.nested_scroll_view_wishlist);
+
         mWishListFragPresenter = new WishListFragPresenter(WishlistFragment.this, getActivity().getApplication());
     }
 
@@ -68,20 +76,27 @@ public class WishlistFragment extends Fragment implements WishListFragView {
     @Override
     public void showWishList(List<Wishlist> wishlists) {
         mWishlist = wishlists;
-        mWishlistAdapter = new WishlistAdapter(mWishlist, getContext());
-        mRecyclerViewWishlist.setAdapter(mWishlistAdapter);
-        mWishlistAdapter.setmOnItemClickListener(new WishlistAdapter.OnItemClickListener() {
-            @Override
-            public void setOnItemClickListener(int position) {
-                Wishlist wishlist = mWishlist.get(position);
-                Product product = convertWishListToProduct(wishlist);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
-                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-                intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
-                startActivity(intent);
-            }
-        });
+        if(mWishlist == null || mWishlist.isEmpty()){
+            mLnlWishlist.setVisibility(View.VISIBLE);
+            mNsvWishlist.setVisibility(View.GONE);
+        }else{
+            mLnlWishlist.setVisibility(View.GONE);
+            mNsvWishlist.setVisibility(View.VISIBLE);
+            mWishlistAdapter = new WishlistAdapter(mWishlist, getContext());
+            mRecyclerViewWishlist.setAdapter(mWishlistAdapter);
+            mWishlistAdapter.setmOnItemClickListener(new WishlistAdapter.OnItemClickListener() {
+                @Override
+                public void setOnItemClickListener(int position) {
+                    Wishlist wishlist = mWishlist.get(position);
+                    Product product = convertWishListToProduct(wishlist);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
+                    Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                    intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private Product convertWishListToProduct(Wishlist wishlist) {

@@ -238,20 +238,23 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
     }
 
     private void clickToButtonDone() {
-        int selectedID = 0;
+        Size selectedSize = null;
         for (Size size : mSizeList) {
             if (size.isChecked()) {
-                selectedID = size.getId();
+                selectedSize = size;
                 break;
             }
         }
-        if (selectedID != 0) {
+        if (selectedSize != null) {
             for (ProductVariant variant : mProduct.getProductVariantList()) {
-                if (variant.getId() == selectedID) {
+                if (variant.getId() == selectedSize.getId()) {
                     int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
                     variant.setQuantity(quantity);
+                    variant.setSizeString(selectedSize.getName());
                     variant.setSelected(true);
-                    break;
+                }else{
+                    variant.setQuantity(1);
+                    variant.setSelected(false);
                 }
             }
         }

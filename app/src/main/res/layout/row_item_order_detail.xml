@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:text="560.000 x 1"
-                android:textColor="@color/black"
+                android:textColor="@color/pinkish_red"
                 android:textSize="@dimen/sp16"
                 android:textStyle="bold" />
 

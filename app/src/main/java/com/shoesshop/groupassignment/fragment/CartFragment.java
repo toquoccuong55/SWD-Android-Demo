@@ -53,12 +53,14 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             mLnlEmptyCart, mLnlReceiver, mLnlAddress;
     private TextView mTxtReceiver, mTxtAddress, mTxtTotalOrder, mTxtShippingFee, mTxtPromotion,
             mTxtTotalAmount, mTxtPaymentName, mTxtNote;
+    private Button mBtnOrder;
 
     private List<Product> mShoppingBag;
     private Customer mCustomer;
     private CartFragPresenter mPresenter;
 
     private int mPaymentType = 1;
+    private String mNoteString = "", mAddressString = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,7 +102,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         mTxtTotalAmount = getView().findViewById(R.id.text_view_total_amount);
         mTxtPaymentName = getView().findViewById(R.id.text_view_payment_name);
         mTxtNote = getView().findViewById(R.id.text_view_note);
-
+        mBtnOrder = getView().findViewById(R.id.button_set_order);
+        mBtnOrder.setOnClickListener(this);
 
         mOrderInfo = getView().findViewById(R.id.linear_layout_order_infor);
         mPaymentInfo = getView().findViewById(R.id.linear_layout_payment_infor);
@@ -174,7 +177,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         mTxtTotalOrder.setText(CurrencyManager.getPrice(totalOrder, ConstantDataManager.CURRENCY));
         mTxtShippingFee.setText(CurrencyManager.getPrice(0, ConstantDataManager.CURRENCY));
         mTxtPromotion.setText("- " + CurrencyManager.getPrice(0, ConstantDataManager.CURRENCY));
-        mTxtTotalAmount.setText("- " + CurrencyManager.getPrice(totalOrder, ConstantDataManager.CURRENCY));
+        mTxtTotalAmount.setText(CurrencyManager.getPrice(totalOrder, ConstantDataManager.CURRENCY));
 
     }
 
@@ -194,7 +197,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             if (mCustomer.getAddress().trim().isEmpty()) {
                 mTxtAddress.setText("Vui lòng nhập địa chỉ tại đây!");
             } else {
-                mTxtAddress.setText(mCustomer.getAddressType() + ": " + mCustomer.getAddress());
+                mAddressString = mCustomer.getAddressType() + ": " + mCustomer.getAddress();
+                mTxtAddress.setText(mAddressString);
             }
         }
     }
@@ -220,7 +224,6 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 break;
             case R.id.button_set_order:
                 showConfirmDialog();
-
                 break;
 
         }
@@ -257,6 +260,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             @Override
             public void onClick(View view) {
                 clickToSetOrder();
+                dialog.cancel();
             }
         });
 
@@ -268,31 +272,75 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
         Order order = new Order();
 
-        if (!mCustomer.getAccessToken().isEmpty()) {
-            mPresenter.getCustomer();
-        }
-        order.setAccessToken(mCustomer.getAccessToken());
-        order.setNote(mTxtNote.getText().toString().trim());
-        order.setShippingAddress(mTxtAddress.getText().toString());
-        order.setPaymentType(mPaymentType);
-        ArrayList<ProductVariant> variantArrayList = new ArrayList<>();
-        for (Product product : mShoppingBag) {
-            for (ProductVariant variant : product.getProductVariantList()) {
-                if (variant.isSelected()) {
-                    variantArrayList.add(variant);
-                    break;
+        if (mCustomer.getAccessToken().isEmpty()) {
+            showInvalidInputDialog();
+        }else{
+            order.setAccessToken(mCustomer.getAccessToken());
+            order.setNote(mNoteString);
+            if (mAddressString.isEmpty()) {
+                showInvalidInputDialog();
+            } else {
+                order.setShippingAddress(mAddressString);
+                order.setPaymentType(mPaymentType);
+
+                ArrayList<ProductVariant> variantArrayList = new ArrayList<>();
+                for (Product product : mShoppingBag) {
+                    for (ProductVariant variant : product.getProductVariantList()) {
+                        if (variant.isSelected()) {
+                            variantArrayList.add(variant);
+                            break;
+                        }
+                    }
                 }
+                order.setOrderDetailList(variantArrayList);
+
+                mPresenter.setOrder(order);
             }
         }
-        order.setOrderDetailList(variantArrayList);
+    }
 
-        mPresenter.setOrder(order);
+    private void showInvalidInputDialog() {
+        final Dialog dialog = new Dialog(getContext());
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_information, null);
+        dialog.setContentView(view);
+
+        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
+        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
+        View viewLine = dialog.findViewById(R.id.view_line);
+        View viewLine2 = dialog.findViewById(R.id.view_line2);
+        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
+        Button option1 = dialog.findViewById(R.id.button_num1);
+        Button option2 = dialog.findViewById(R.id.button_num2);
+
+        txtTitle.setText("Thông tin đơn hàng chưa hợp lệ!");
+        txtSubInfo.setText("Xin kiểm tra lại thông tin của đơn hàng");
+        viewLine.setVisibility(View.VISIBLE);
+        viewLine2.setVisibility(View.GONE);
+        lnlOptions.setVisibility(View.VISIBLE);
+        option1.setText("Thử lại");
+        option1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        option2.setVisibility(View.GONE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
     @Override
     public void setOrderSuccess(SuccessedOrder successedOrder) {
         if (successedOrder != null) {
             if (successedOrder.getOrderId() > 0) {
+
+                mPresenter.deleteCustomerInfo();
+                mPresenter.deleteAllProduct();
+                mPresenter.deleteAllWishList();
+                PreferenceUtils.removeStringSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
+                PreferenceUtils.removeIntSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
+
                 OrderSuccessActivity.intentToOrderSuccessActivitiy(getActivity());
                 getActivity().finish();
             } else {
@@ -359,9 +407,13 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     }
 
     private void getNote() {
-        String note = PreferenceUtils.getStringSharedPreference(getActivity(),
+        mNoteString = PreferenceUtils.getStringSharedPreference(getActivity(),
                 ConstantDataManager.PREFENCED_NOTE);
-        mTxtNote.setText(note);
+        if (mNoteString.isEmpty()) {
+            mTxtNote.setText("Bạn có ghi chú gì không?");
+        } else {
+            mTxtNote.setText(mNoteString);
+        }
     }
 
     private void getPayment() {

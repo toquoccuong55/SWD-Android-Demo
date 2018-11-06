@@ -23,11 +23,12 @@
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view_wishlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dp10"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_wishlist"
@@ -47,7 +48,7 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingTop="@dimen/dp80"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="@dimen/dp150"

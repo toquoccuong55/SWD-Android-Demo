@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface ShoematicService {
 
@@ -34,7 +35,7 @@ public interface ShoematicService {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Call<ResponseBody> setOrder(@Body RequestBody orderJsonObject);
 
-    @POST(ConfigApi.Api.UPDATE_CUSTOMER)
+    @PUT(ConfigApi.Api.UPDATE_CUSTOMER)
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Call<ResponseBody> updateCustomer(@Body RequestBody customerJsonObject);
 }

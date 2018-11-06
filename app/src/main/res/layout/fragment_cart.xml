@@ -445,12 +445,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:background="@color/white"
                 android:id="@+id/linear_layout_empty_cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp20"
+                android:background="@color/white"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/dp100"
                 android:visibility="gone">
 
                 <ImageView

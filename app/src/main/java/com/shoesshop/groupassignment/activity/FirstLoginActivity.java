@@ -104,20 +104,12 @@ public class FirstLoginActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void insertCustomerToDBSuccess(Customer customer) {
         mFirstLoginPresenter.updateCustomer(mCustomer);
+        HomeActivity.intentToHomeActivitiy(FirstLoginActivity.this);
     }
 
     @Override
     public void insertCustomerToDBFail(String message) {
         showInvalidInfoDialog();
-    }
-
-    @Override
-    public void addCustomer(boolean isSuccess) {
-        if (isSuccess) {
-            HomeActivity.intentToHomeActivitiy(FirstLoginActivity.this);
-        } else {
-            showInvalidInfoDialog();
-        }
     }
 
     private boolean isValid() {

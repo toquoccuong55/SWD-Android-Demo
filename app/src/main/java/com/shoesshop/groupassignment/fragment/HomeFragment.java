@@ -85,7 +85,11 @@ public class HomeFragment extends Fragment implements HomeFragView, View.OnClick
 
     private void initialData() {
         mHomeFragPresenter = new HomeFragPresenter(getActivity(), HomeFragment.this);
-        mHomeFragPresenter.getProductList();
+        if (mProductList == null) {
+            mHomeFragPresenter.getProductList();
+        } else {
+            showProductList(mProductList);
+        }
     }
 
     @Override
@@ -116,11 +120,12 @@ public class HomeFragment extends Fragment implements HomeFragView, View.OnClick
             case R.id.text_view_cancel_search:
                 mlmlSearchTab.setVisibility(View.GONE);
                 mFmlLogo.setVisibility(View.VISIBLE);
+                mHomeFragPresenter.getProductList();
                 break;
         }
     }
 
-    private void addTextWatcher(){
+    private void addTextWatcher() {
         mEdtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -133,17 +138,35 @@ public class HomeFragment extends Fragment implements HomeFragView, View.OnClick
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String searchText = mEdtSearch.getText().toString().trim();
-                Toast.makeText(getActivity(), searchText, Toast.LENGTH_SHORT).show();
+                String searchText = mEdtSearch.getText().toString().trim().toLowerCase();
 
-                List<Product> productList = new ArrayList<>();
-                for (Product product : mProductList){
-                    if(product.getName().contains(searchText)){
-                        productList.add(product);
+                if (!searchText.isEmpty()) {
+                    List<Product> productList = new ArrayList<>();
+                    for (Product product : mProductList) {
+                        if (product.getName().toLowerCase().contains(searchText)) {
+                            productList.add(product);
+                        }
                     }
+                    searchProduct(productList);
+                } else {
+                    mHomeFragPresenter.getProductList();
                 }
+            }
+        });
+    }
 
-                showProductList(productList);
+    private void searchProduct(List<Product> productList) {
+        mHomeAdapter = new HomeAdapter(productList, getContext());
+        mRecyclerViewProduct.setAdapter(mHomeAdapter);
+        mHomeAdapter.setmOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+            @Override
+            public void setOnItemClickListener(int position) {
+                Product product = mProductList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+                startActivity(intent);
             }
         });
     }

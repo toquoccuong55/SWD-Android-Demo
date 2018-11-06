@@ -27,6 +27,7 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         initialView();
+        initialData();
     }
 
     private void initialView() {
@@ -38,6 +39,12 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
         mImgDeleteNote = findViewById(R.id.image_delete_note);
         mImgDeleteNote.setOnClickListener(this);
         addTextChangedWatcher();
+    }
+
+    private void initialData() {
+        String note = PreferenceUtils.getStringSharedPreference(NoteActivity.this,
+                ConstantDataManager.PREFENCED_NOTE);
+        mEdtNote.setText(note);
     }
 
     @Override
