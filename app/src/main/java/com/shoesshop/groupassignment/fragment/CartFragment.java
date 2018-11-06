@@ -335,11 +335,8 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         if (successedOrder != null) {
             if (successedOrder.getOrderId() > 0) {
 
-                mPresenter.deleteCustomerInfo();
                 mPresenter.deleteAllProduct();
-                mPresenter.deleteAllWishList();
                 PreferenceUtils.removeStringSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
-                PreferenceUtils.removeIntSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
 
                 OrderSuccessActivity.intentToOrderSuccessActivitiy(getActivity());
                 getActivity().finish();

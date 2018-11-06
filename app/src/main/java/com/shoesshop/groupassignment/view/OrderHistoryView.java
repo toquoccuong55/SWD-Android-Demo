@@ -11,5 +11,4 @@ public interface OrderHistoryView {
 
     void showOrderHistory(List<OrderHistory> orderHistories);
 
-    void showProductList(List<Product> productList);
 }

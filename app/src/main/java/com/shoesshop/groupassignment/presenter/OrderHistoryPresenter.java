@@ -56,17 +56,4 @@ public class OrderHistoryPresenter {
         });
     }
 
-    public void getProductList(){
-        mShoematicRepository.getProductList(mContext, new CallBackData<List<Product>>() {
-            @Override
-            public void onSuccess(List<Product> productList) {
-                mOrderHistoryView.showProductList(productList);
-            }
-
-            @Override
-            public void onFail(String message) {
-                Log.e("OrderHistoryPresenter: ", message );
-            }
-        });
-    }
 }

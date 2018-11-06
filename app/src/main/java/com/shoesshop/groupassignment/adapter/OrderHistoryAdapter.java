@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.model.OrderHistory;
+import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -47,18 +49,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         OrderHistory orderHistory = mOrderHistoryList.get(position);
         holder.mTxtOrderId.setText("Order ID #" + orderHistory.getOrderID());
         holder.mTxtOrderTime.setText("Order Time : " + orderHistory.getOrderTime());
-        holder.mTxtOrderTotal.setText(String.valueOf(orderHistory.getOrderTotal()));
-        if (orderHistory.getOrderDetailImage() != null && !orderHistory.getOrderDetailImage().isEmpty()) {
-            Picasso.get()
-                    .load(orderHistory.getOrderDetailImage())
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
-                    .into(holder.mImgOrderDetail);
-        } else {
-            holder.mImgOrderDetail.setImageResource(R.mipmap.ic_launcher);
-        }
-        holder.mtxtOrderDetailName.setText(orderHistory.getOrderDetailName());
-        holder.mTxtOrderDetailPrice.setText(orderHistory.getUnitPriceQuantity());
+        holder.mTxtOrderTotal.setText(CurrencyManager.getPrice(orderHistory.getPaymentAmount(), "đ"));
+//        if (orderHistory.getOrderDetailImage() != null && !orderHistory.getOrderDetailImage().isEmpty()) {
+//            Picasso.get()
+//                    .load(orderHistory.getOrderDetailImage())
+//                    .placeholder(R.mipmap.ic_launcher)
+//                    .error(R.mipmap.ic_launcher)
+//                    .into(holder.mImgOrderDetail);
+//        } else {
+//            holder.mImgOrderDetail.setImageResource(R.mipmap.ic_launcher);
+//        }
+//        holder.mtxtOrderDetailName.setText(orderHistory.getOrderDetailName());
+//        holder.mTxtOrderDetailPrice.setText(orderHistory.getUnitPriceQuantity());
         switch (orderHistory.getOrderStatus()) {
             case 0:
                 holder.mTxtOrderStatus.setText("Đang chờ comfirm");
@@ -70,7 +72,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 holder.mTxtOrderStatus.setText("Đơn hàng bị hủy");
                 break;
         }
-        holder.mTxtOrderStatus.setText(orderHistory.getOrderStatus());
+//        holder.mTxtOrderStatus.setText(orderHistory.getOrderStatus());
         holder.mLnlViewDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,9 +97,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             mTxtOrderId = itemView.findViewById(R.id.text_view_order_id);
             mTxtOrderTime = itemView.findViewById(R.id.text_view_order_time);
             mTxtOrderTotal = itemView.findViewById(R.id.text_view_order_total);
-            mImgOrderDetail = itemView.findViewById(R.id.image_view_order_detail);
-            mtxtOrderDetailName = itemView.findViewById(R.id.text_view_order_detail_name);
-            mTxtOrderDetailPrice = itemView.findViewById(R.id.text_view_order_detail_price);
+//            mImgOrderDetail = itemView.findViewById(R.id.image_view_order_detail);
+//            mtxtOrderDetailName = itemView.findViewById(R.id.text_view_order_detail_name);
+//            mTxtOrderDetailPrice = itemView.findViewById(R.id.text_view_order_detail_price);
             mTxtOrderStatus = itemView.findViewById(R.id.text_view_order_status);
             mLnlViewDetail = itemView.findViewById(R.id.linear_layout_view_detail);
 

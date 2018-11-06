@@ -16,6 +16,7 @@ import com.shoesshop.groupassignment.model.OrderHistoryDetail;
 import com.shoesshop.groupassignment.presenter.OrderHistoryPresenter;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.entity.Product;
+import com.shoesshop.groupassignment.room.entity.ProductVariant;
 import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.shoesshop.groupassignment.view.OrderHistoryView;
@@ -66,7 +67,12 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void showCustomer(Customer customer) {
-        mPresenter.getOrderHistory(customer.getAccessToken());
+        if(customer != null){
+            mPresenter.getOrderHistory(customer.getAccessToken());
+        }else{
+            mRecyclerViewOrderHistory.setVisibility(View.GONE);
+            mLnlEmptyOrderHistory.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -79,42 +85,32 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
         } else {
             mRecyclerViewOrderHistory.setVisibility(View.VISIBLE);
             mLnlEmptyOrderHistory.setVisibility(View.GONE);
-            mPresenter.getProductList();
-        }
 
-    }
-
-    @Override
-    public void showProductList(List<Product> productList) {
-        mProductList = productList;
-        if (mProductList == null || mProductList.isEmpty()) {
-            mRecyclerViewOrderHistory.setVisibility(View.GONE);
-            mLnlEmptyOrderHistory.setVisibility(View.VISIBLE);
-        } else {
-            mRecyclerViewOrderHistory.setVisibility(View.VISIBLE);
-            mLnlEmptyOrderHistory.setVisibility(View.GONE);
-
-            for (OrderHistory orderHistory : mOrderHistoryList) {
-                orderHistory.setOrderDetailImage(orderHistory.getDetailHistoryList().get(0).getOrderDetailImage());
-                orderHistory.setOrderDetailName(orderHistory.getDetailHistoryList().get(0).getOrderDetailTitle());
-                orderHistory.setUnitPriceQuantity(CurrencyManager.getPrice(
-                        orderHistory.getDetailHistoryList().get(0).getUnitPrice(),
-                        ConstantDataManager.CURRENCY) + " x " +
-                        String.valueOf(orderHistory.getDetailHistoryList().get(0).getQuantity()));
-            }
             mOrderHistoryAdapter = new OrderHistoryAdapter(mOrderHistoryList, OrderHistoryActivity.this);
             mRecyclerViewOrderHistory.setAdapter(mOrderHistoryAdapter);
             mOrderHistoryAdapter.setmOnItemClickListener(new OrderHistoryAdapter.OnItemClickListener() {
                 @Override
                 public void setOnItemClickListener(int position) {
-                    OrderHistory orderHistory = mOrderHistoryList.get(position);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(ConstantDataManager.BUNDLE_ORDER_HISTORY, orderHistory);
-                    OrderHistoryDetailActivity.intentToOrderHistoryDetailActivitiy(OrderHistoryActivity.this, bundle);
+//                    OrderHistory orderHistory = mOrderHistoryList.get(position);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(ConstantDataManager.BUNDLE_ORDER_HISTORY, orderHistory);
+//                    OrderHistoryDetailActivity.intentToOrderHistoryDetailActivitiy(OrderHistoryActivity.this, bundle);
                 }
             });
         }
+    }
 
+    private ProductVariant getProductVariant(int orderDetailID) {
+        ProductVariant productVariant = null;
+        for (Product product : mProductList) {
+            for (ProductVariant variant : product.getProductVariantList()) {
+                if (variant.getId() == orderDetailID) {
+                    productVariant = variant;
+                    return productVariant;
+                }
+            }
+        }
+        return productVariant;
     }
 
     @Override

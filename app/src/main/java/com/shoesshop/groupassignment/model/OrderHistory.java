@@ -7,7 +7,7 @@ import java.util.List;
 
 public class OrderHistory implements Serializable {
     @SerializedName("id")
-    private String orderID;
+    private int orderID;
 
     @SerializedName("date")
     private String OrderTime;
@@ -32,6 +32,14 @@ public class OrderHistory implements Serializable {
 
     @SerializedName("order_detail")
     private List<OrderHistoryDetail> detailHistoryList;
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
+    }
 
     public String getShippingaddress() {
         return shippingaddress;
@@ -79,14 +87,6 @@ public class OrderHistory implements Serializable {
 
     public void setOrderTotal(double orderTotal) {
         this.orderTotal = orderTotal;
-    }
-
-    public String getOrderID() {
-        return orderID;
-    }
-
-    public void setOrderID(String orderID) {
-        this.orderID = orderID;
     }
 
     public String getOrderTime() {
