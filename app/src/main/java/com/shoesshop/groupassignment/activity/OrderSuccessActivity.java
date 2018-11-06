@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.shoesshop.groupassignment.R;
 
 public class OrderSuccessActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button mBtnOrderMore;
+    private Button mBtnOrderMore, mBtnViewOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +19,11 @@ public class OrderSuccessActivity extends AppCompatActivity implements View.OnCl
         initialView();
     }
 
-    private void initialView(){
+    private void initialView() {
         mBtnOrderMore = findViewById(R.id.button_order_more);
         mBtnOrderMore.setOnClickListener(this);
+        mBtnViewOrder = findViewById(R.id.button_view_order);
+        mBtnViewOrder.setOnClickListener(this);
     }
 
     public static void intentToOrderSuccessActivitiy(Activity activity) {
@@ -35,6 +37,9 @@ public class OrderSuccessActivity extends AppCompatActivity implements View.OnCl
             case R.id.button_order_more:
                 HomeActivity.intentToHomeActivitiy(OrderSuccessActivity.this);
                 finish();
+                break;
+            case R.id.button_view_order:
+                OrderHistoryActivity.intentToOrderHistoryActivitiy(OrderSuccessActivity.this);
                 break;
         }
     }
