@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.UserManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.fragment.AddLocationBottomDialogFragment;
 import com.shoesshop.groupassignment.presenter.AddressPresenter;
-import com.shoesshop.groupassignment.room.entity.Address;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.view.AddressView;
 

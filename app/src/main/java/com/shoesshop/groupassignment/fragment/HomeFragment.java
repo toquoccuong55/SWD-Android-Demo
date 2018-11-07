@@ -25,11 +25,13 @@ import com.shoesshop.groupassignment.activity.ProductDetailActivity;
 import com.shoesshop.groupassignment.adapter.HomeAdapter;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.presenter.HomeFragPresenter;
+import com.shoesshop.groupassignment.room.entity.ProductVariant;
 import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.utils.GridSpacingItemDecoration;
 import com.shoesshop.groupassignment.view.HomeFragView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements HomeFragView, View.OnClickListener {
@@ -95,6 +97,19 @@ public class HomeFragment extends Fragment implements HomeFragView, View.OnClick
     @Override
     public void showProductList(List<Product> productList) {
         mProductList = productList;
+
+        for (Product product : mProductList) {
+            Iterator<ProductVariant> iterator = product.getProductVariantList().iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().getQuantity() <= 0) {
+                    iterator.remove();
+                }
+            }
+            if (product.getProductVariantList().isEmpty()) {
+                mProductList.remove(product);
+            }
+        }
+
         mHomeAdapter = new HomeAdapter(mProductList, getContext());
         mRecyclerViewProduct.setAdapter(mHomeAdapter);
         mHomeAdapter.setmOnItemClickListener(new HomeAdapter.OnItemClickListener() {
@@ -109,6 +124,16 @@ public class HomeFragment extends Fragment implements HomeFragView, View.OnClick
             }
         });
     }
+
+//    private void filterProductList() {
+//        for (Product product : mProductList) {
+//            for (ProductVariant variant : product.getProductVariantList()) {
+//                if (variant.getQuantity() <= 0) {
+//                    product.getProductVariantList().remove(variant);
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public void onClick(View view) {

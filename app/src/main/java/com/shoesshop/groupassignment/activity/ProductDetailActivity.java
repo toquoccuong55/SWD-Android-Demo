@@ -1,13 +1,17 @@
 package com.shoesshop.groupassignment.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -55,6 +59,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private Product mProduct;
     private ProductDetailPresenter mProductDetailPresenter;
     private List<Wishlist> mWishList;
+    private List<Product> mShoppingBag;
 
     private double mTotal = 0;
 
@@ -118,11 +123,22 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
 
     private void initialData() {
         mProductDetailPresenter = new ProductDetailPresenter(getApplication(), ProductDetailActivity.this);
+        mProductDetailPresenter.getShoppingBag();
+    }
+
+    @Override
+    public void showShoppingBag(List<Product> productList) {
+        mShoppingBag = productList;
 
         if (mProduct != null) {
             mProductDetailPresenter.getWishList();
 
             mImageList = mProduct.getProductVariantList().get(0).getPicURLList();
+            if (mImageList.isEmpty()) {
+                mImageList.add("https://img.icons8.com/android/1600/trainers.png");
+                mImageList.add("https://img.icons8.com/android/1600/trainers.png");
+                mImageList.add("https://img.icons8.com/android/1600/trainers.png");
+            }
             mSlider.setAdapter(new MainSliderAdapter(mImageList));
             mTxtProductName.setText(mProduct.getName());
             mTxtPrice.setText(CurrencyManager.getPrice(mProduct.getProductVariantList().get(0).getUnitPrice(),
@@ -269,6 +285,47 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         return total;
     }
 
+
+//    private void clickToButtonAddToCart() {
+//        int selectedID = 0;
+//        for (Size size : mSizeList) {
+//            if (size.isChecked()) {
+//                selectedID = size.getId();
+//                break;
+//            }
+//        }
+//        boolean isInStock = true;
+//        if (selectedID != 0) {
+//            for (ProductVariant variant : mProduct.getProductVariantList()) {
+//                if (variant.getId() == selectedID) {
+//                    int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
+//                    int quantityInOrder = getQuantityInOrder(variant.getId());
+//                    int totalQuantity = quantity + quantityInOrder;
+//                    if(totalQuantity > variant.getQuantity()){
+//                        showOutOfStockDialog();
+//                        isInStock = false;
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (isInStock) {
+//            Product product = null;
+//            try {
+//                product = (Product) mProduct.clone();
+//            } catch (CloneNotSupportedException e) {
+//                e.printStackTrace();
+//            }
+//            if (product != null) {
+//                mProductDetailPresenter.addProduct(product);
+//            } else {
+//                mProductDetailPresenter.addProduct(mProduct);
+//            }
+//            finish();
+//        }
+//    }
+
+
     private void clickToButtonAddToCart() {
         int selectedID = 0;
         for (Size size : mSizeList) {
@@ -277,28 +334,148 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 break;
             }
         }
+        boolean isInStock = true;
         if (selectedID != 0) {
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.getId() == selectedID) {
                     int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
-                    variant.setQuantity(quantity);
-                    variant.setSelected(true);
-                    break;
+                    if (mShoppingBag == null || mShoppingBag.isEmpty()) {
+                        if (quantity > variant.getQuantity()) {
+                            showOutOfDetailStockDialog(variant.getQuantity());
+                            isInStock = false;
+                        }
+                    } else {
+                        isInStock = checkQuantityInOrder(variant.getId(), quantity);
+                        if (isInStock == false) {
+                            showOutOfStockDialog();
+                        }
+                    }
+                    if (isInStock) {
+                        variant.setBuyQuantity(quantity);
+                        variant.setSelected(true);
+                    }
                 }
             }
         }
-        Product product = null;
-        try {
-            product = (Product) mProduct.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+
+        if (isInStock) {
+            Product product = null;
+            try {
+                product = (Product) mProduct.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            if (product != null) {
+                mProductDetailPresenter.addProduct(product);
+            } else {
+                mProductDetailPresenter.addProduct(mProduct);
+            }
+            finish();
         }
-        if (product != null) {
-            mProductDetailPresenter.addProduct(product);
+    }
+
+    private int getQuantityInOrder(int variantId) {
+        int totalBuyQuantity = 0;
+        for (Product product : mShoppingBag) {
+            for (ProductVariant variant : product.getProductVariantList()) {
+                if (variant.getId() == variantId) {
+                    totalBuyQuantity += variant.getBuyQuantity();
+                }
+            }
+        }
+        return totalBuyQuantity;
+    }
+
+    private boolean checkQuantityInOrder(int variantId, int quantity) {
+        boolean isInStock = true;
+        int totalBuyQuantity = 0;
+        int inStockQuantity = 0;
+        boolean isExisted = false;
+        for (Product product : mShoppingBag) {
+            for (ProductVariant variant : product.getProductVariantList()) {
+                if (variant.getId() == variantId) {
+                    inStockQuantity = variant.getQuantity();
+                    totalBuyQuantity += variant.getBuyQuantity();
+                    isExisted = true;
+                }
+            }
+        }
+        totalBuyQuantity += quantity;
+        if(isExisted){
+            if (totalBuyQuantity > inStockQuantity) {
+                isInStock = false;
+            }
+        }
+        return isInStock;
+    }
+
+    private void showOutOfDetailStockDialog(int quantity) {
+        final Dialog dialog = new Dialog(ProductDetailActivity.this);
+        LayoutInflater layoutInflater = ProductDetailActivity.this.getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_information, null);
+        dialog.setContentView(view);
+
+        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
+        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
+        View viewLine = dialog.findViewById(R.id.view_line);
+        View viewLine2 = dialog.findViewById(R.id.view_line2);
+        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
+        Button option1 = dialog.findViewById(R.id.button_num1);
+        Button option2 = dialog.findViewById(R.id.button_num2);
+
+        txtTitle.setVisibility(View.GONE);
+        if (quantity <= 0) {
+            txtSubInfo.setText("Chúng tôi rất tiếc, sản phẩm này đã hết hàng.");
         } else {
-            mProductDetailPresenter.addProduct(mProduct);
+            txtSubInfo.setText("Chúng tôi rất tiếc, sản phẩm này chỉ còn lại số lượng là " + quantity);
         }
-        finish();
+        viewLine.setVisibility(View.VISIBLE);
+        viewLine2.setVisibility(View.GONE);
+        lnlOptions.setVisibility(View.VISIBLE);
+        option1.setText("Thử lại");
+        option1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        option2.setVisibility(View.GONE);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+
+    private void showOutOfStockDialog() {
+        final Dialog dialog = new Dialog(ProductDetailActivity.this);
+        LayoutInflater layoutInflater = ProductDetailActivity.this.getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_information, null);
+        dialog.setContentView(view);
+
+        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
+        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
+        View viewLine = dialog.findViewById(R.id.view_line);
+        View viewLine2 = dialog.findViewById(R.id.view_line2);
+        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
+        Button option1 = dialog.findViewById(R.id.button_num1);
+        Button option2 = dialog.findViewById(R.id.button_num2);
+
+        txtTitle.setVisibility(View.GONE);
+        txtSubInfo.setText("Chúng tôi rất tiếc, sản phẩm này không còn đủ số lượng như yêu cầu");
+        viewLine.setVisibility(View.VISIBLE);
+        viewLine2.setVisibility(View.GONE);
+        lnlOptions.setVisibility(View.VISIBLE);
+        option1.setText("Thử lại");
+        option1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        option2.setVisibility(View.GONE);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
 }

@@ -1,13 +1,10 @@
 package com.shoesshop.groupassignment.presenter;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.shoesshop.groupassignment.room.entity.Product;
-import com.shoesshop.groupassignment.room.entity.ProductVariant;
 import com.shoesshop.groupassignment.room.entity.Wishlist;
 import com.shoesshop.groupassignment.room.manager.ProductManager;
-import com.shoesshop.groupassignment.room.manager.VariantManager;
 import com.shoesshop.groupassignment.room.manager.WishListManager;
 import com.shoesshop.groupassignment.view.ProductDetailView;
 
@@ -48,5 +45,19 @@ public class ProductDetailPresenter {
 
     public void addProduct(Product product) {
         mProductManager.addProduct(product);
+    }
+
+    public void getShoppingBag(){
+        mProductManager.getProductList(new ProductManager.OnDataCallBackProduct() {
+            @Override
+            public void onDataSuccess(List<Product> product) {
+                mProductDetailView.showShoppingBag(product);
+            }
+
+            @Override
+            public void onDataFail() {
+
+            }
+        });
     }
 }

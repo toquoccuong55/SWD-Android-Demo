@@ -1,10 +1,8 @@
 package com.shoesshop.groupassignment.view;
 
 import com.shoesshop.groupassignment.model.SuccessedOrder;
-import com.shoesshop.groupassignment.room.entity.Address;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.entity.Product;
-import com.shoesshop.groupassignment.room.entity.ProductVariant;
 
 import java.util.List;
 

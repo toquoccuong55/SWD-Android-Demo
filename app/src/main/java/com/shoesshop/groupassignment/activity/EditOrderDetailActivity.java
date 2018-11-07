@@ -28,13 +28,14 @@ import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.shoesshop.groupassignment.utils.GridSpacingItemDecoration;
 import com.shoesshop.groupassignment.utils.PicassoLoadingService;
+import com.shoesshop.groupassignment.view.EditOrderView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ss.com.bannerslider.Slider;
 
-public class EditOrderDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditOrderDetailActivity extends AppCompatActivity implements View.OnClickListener, EditOrderView {
     private LinearLayout mLnlBack;
     private Button mBtnDone;
     private Slider mSlider;
@@ -49,6 +50,8 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
     private Product mProduct;
     private double mTotal;
     private EditOrderDetailPresenter mPresenter;
+
+    private List<Product> mShoppingBag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +100,9 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
     }
 
     private void initialData() {
-        mPresenter = new EditOrderDetailPresenter(getApplication());
+        mPresenter = new EditOrderDetailPresenter(EditOrderDetailActivity.this, getApplication());
+        mPresenter.getShoppingBag();
+
         if (mProduct != null) {
 
             mImageList = mProduct.getProductVariantList().get(0).getPicURLList();
@@ -140,7 +145,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
                     }
                 });
 
-                mTxtQuantity.setText(String.valueOf(selectedVariant.getQuantity()));
+                mTxtQuantity.setText(String.valueOf(selectedVariant.getBuyQuantity()));
                 mTxtDescription.setText(mProduct.getDescription());
             } else {
                 mTxtPrice.setText(CurrencyManager.getPrice(mProduct.getProductVariantList().get(0).getUnitPrice(),
@@ -176,6 +181,11 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         } else {
 
         }
+    }
+
+    @Override
+    public void showShoppingBag(List<Product> productList) {
+        mShoppingBag = productList;
     }
 
     private double calculateToTal() {
@@ -245,21 +255,82 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
                 break;
             }
         }
+        boolean isInStock = false;
         if (selectedSize != null) {
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.getId() == selectedSize.getId()) {
                     int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
-                    variant.setQuantity(quantity);
-                    variant.setSizeString(selectedSize.getName());
-                    variant.setSelected(true);
-                }else{
-                    variant.setQuantity(1);
+                    int buyQuantity = variant.getBuyQuantity();
+                    int extraQuantity = quantity - buyQuantity;
+                    isInStock = checkQuantityInOrder(variant.getId(), extraQuantity);
+                    if (isInStock) {
+                        variant.setBuyQuantity(quantity);
+                        variant.setSizeString(selectedSize.getName());
+                        variant.setSelected(true);
+                    }
+                } else {
+                    variant.setBuyQuantity(1);
                     variant.setSelected(false);
                 }
             }
         }
-        mPresenter.updateProduct(mProduct);
-        finish();
+        if (isInStock) {
+            mPresenter.updateProduct(mProduct);
+            finish();
+        }
+
+    }
+
+    private void showOutOfStockDialog() {
+        final Dialog dialog = new Dialog(EditOrderDetailActivity.this);
+        LayoutInflater layoutInflater = EditOrderDetailActivity.this.getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_information, null);
+        dialog.setContentView(view);
+
+        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
+        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
+        View viewLine = dialog.findViewById(R.id.view_line);
+        View viewLine2 = dialog.findViewById(R.id.view_line2);
+        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
+        Button option1 = dialog.findViewById(R.id.button_num1);
+        Button option2 = dialog.findViewById(R.id.button_num2);
+
+        txtTitle.setVisibility(View.GONE);
+        txtSubInfo.setText("Chúng tôi rất tiếc là sản phẩm này không còn đủ số lượng yêu cầu");
+        viewLine.setVisibility(View.VISIBLE);
+        viewLine2.setVisibility(View.GONE);
+        lnlOptions.setVisibility(View.VISIBLE);
+        option1.setText("Thử lại");
+        option1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        option2.setVisibility(View.GONE);
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    private boolean checkQuantityInOrder(int variantId, int extraQuantity) {
+        boolean isInStock = true;
+        int totalBuyQuantity = 0;
+        int inStockQuantity = 0;
+        for (Product product : mShoppingBag) {
+            for (ProductVariant variant : product.getProductVariantList()) {
+                if (variant.getId() == variantId) {
+                    inStockQuantity = variant.getQuantity();
+                    totalBuyQuantity += variant.getBuyQuantity();
+                }
+            }
+        }
+        totalBuyQuantity += extraQuantity;
+        if (totalBuyQuantity > inStockQuantity) {
+            isInStock = false;
+            showOutOfStockDialog();
+        }
+        return isInStock;
     }
 
     private void clickToSubstract() {

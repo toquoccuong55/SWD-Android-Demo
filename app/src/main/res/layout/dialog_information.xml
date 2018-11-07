@@ -19,6 +19,7 @@
             android:id="@+id/text_view_dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Bạn có chắc chắn muốn đăng xuất?"
             android:textColor="@color/brownish_grey"
             android:textSize="@dimen/sp14"
@@ -29,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp8"
+            android:gravity="center"
             android:text="Tất cả thông tin sẽ bị xóa sau khi đăng xuất"
             android:textColor="@color/brownish_grey"
             android:textSize="@dimen/sp12" />

@@ -272,7 +272,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
             for (ProductVariant variant : order.getOrderDetailList()) {
                 JSONObject orderItemJsonObject = new JSONObject();
                 orderItemJsonObject.put("product_id", variant.getId());
-                orderItemJsonObject.put("quantity", variant.getQuantity());
+                orderItemJsonObject.put("quantity", variant.getBuyQuantity());
                 orderItemJsonObject.put("unit_price", variant.getUnitPrice());
                 orderDetailJsonArray.put(orderItemJsonObject);
             }

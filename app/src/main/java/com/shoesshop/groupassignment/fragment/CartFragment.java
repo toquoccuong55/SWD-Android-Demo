@@ -2,11 +2,9 @@ package com.shoesshop.groupassignment.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,7 +29,6 @@ import com.shoesshop.groupassignment.model.Order;
 import com.shoesshop.groupassignment.model.OrderDetail;
 import com.shoesshop.groupassignment.model.SuccessedOrder;
 import com.shoesshop.groupassignment.presenter.CartFragPresenter;
-import com.shoesshop.groupassignment.room.entity.Address;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.entity.ProductVariant;
@@ -39,7 +36,6 @@ import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.shoesshop.groupassignment.utils.PreferenceUtils;
 import com.shoesshop.groupassignment.view.CartFragView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +138,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                                 variant.getPicURLList().get(0),
                                 variant.getSizeString(),
                                 variant.getUnitPrice(),
-                                variant.getQuantity());
+                                variant.getBuyQuantity());
                         mOrderDetailList.add(orderDetail);
                         break;
                     }
@@ -168,7 +164,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         for (Product product : mShoppingBag) {
             for (ProductVariant variant : product.getProductVariantList()) {
                 if (variant.isSelected()) {
-                    totalOrder += variant.getQuantity() * variant.getUnitPrice();
+                    totalOrder += variant.getBuyQuantity() * variant.getUnitPrice();
                     break;
                 }
             }

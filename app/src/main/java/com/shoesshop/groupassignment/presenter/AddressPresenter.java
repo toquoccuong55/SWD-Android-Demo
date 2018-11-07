@@ -2,11 +2,8 @@
 package com.shoesshop.groupassignment.presenter;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.shoesshop.groupassignment.room.entity.Address;
 import com.shoesshop.groupassignment.room.entity.Customer;
-import com.shoesshop.groupassignment.room.manager.AddressManager;
 import com.shoesshop.groupassignment.room.manager.UserManager;
 import com.shoesshop.groupassignment.view.AddressView;
 

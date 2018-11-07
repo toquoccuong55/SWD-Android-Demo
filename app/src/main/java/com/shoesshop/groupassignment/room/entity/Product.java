@@ -14,7 +14,9 @@ import java.util.List;
 @Entity(tableName = "product")
 public class Product implements Serializable, Cloneable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int productIDInfo;
+
     @SerializedName("id")
     @ColumnInfo(name = "product_id")
     private int id;
@@ -67,6 +69,14 @@ public class Product implements Serializable, Cloneable {
     }
 
     public Product() {
+    }
+
+    public int getProductIDInfo() {
+        return productIDInfo;
+    }
+
+    public void setProductIDInfo(int productIDInfo) {
+        this.productIDInfo = productIDInfo;
     }
 
     public Product(String image, String name, double unitPrice) {

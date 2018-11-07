@@ -4,11 +4,16 @@ import android.app.Application;
 
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.manager.ProductManager;
+import com.shoesshop.groupassignment.view.EditOrderView;
+
+import java.util.List;
 
 public class EditOrderDetailPresenter {
     private ProductManager mProductManager;
+    private EditOrderView mEditOrderView;
 
-    public EditOrderDetailPresenter( Application application) {
+    public EditOrderDetailPresenter(EditOrderView mEditOrderView, Application application) {
+        this.mEditOrderView = mEditOrderView;
         mProductManager = new ProductManager(application);
     }
 
@@ -20,4 +25,17 @@ public class EditOrderDetailPresenter {
         mProductManager.updateProduct(product);
     }
 
+    public void getShoppingBag(){
+        mProductManager.getProductList(new ProductManager.OnDataCallBackProduct() {
+            @Override
+            public void onDataSuccess(List<Product> product) {
+                mEditOrderView.showShoppingBag(product);
+            }
+
+            @Override
+            public void onDataFail() {
+
+            }
+        });
+    }
 }

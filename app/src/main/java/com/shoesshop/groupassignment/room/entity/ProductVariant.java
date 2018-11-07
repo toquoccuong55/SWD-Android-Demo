@@ -25,6 +25,10 @@ public class ProductVariant implements Serializable {
     @ColumnInfo(name = "price")
     private double unitPrice;
 
+    @SerializedName("quantity")
+    @ColumnInfo(name = "quantity")
+    private int quantity;
+
     @SerializedName("Color")
     @ColumnInfo(name = "Color")
     private String color;
@@ -43,11 +47,19 @@ public class ProductVariant implements Serializable {
     @ColumnInfo(name = "description")
     private String description;
 
-    @ColumnInfo(name = "quantity")
-    private int quantity;
+    @ColumnInfo(name = "buyQuantity")
+    private int buyQuantity;
 
     @ColumnInfo(name = "isSelected")
     private boolean isSelected;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public String getSizeString() {
         return sizeString;
@@ -121,11 +133,11 @@ public class ProductVariant implements Serializable {
         this.description = description;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getBuyQuantity() {
+        return buyQuantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setBuyQuantity(int buyQuantity) {
+        this.buyQuantity = buyQuantity;
     }
 }
