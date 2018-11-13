@@ -285,47 +285,6 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         return total;
     }
 
-
-//    private void clickToButtonAddToCart() {
-//        int selectedID = 0;
-//        for (Size size : mSizeList) {
-//            if (size.isChecked()) {
-//                selectedID = size.getId();
-//                break;
-//            }
-//        }
-//        boolean isInStock = true;
-//        if (selectedID != 0) {
-//            for (ProductVariant variant : mProduct.getProductVariantList()) {
-//                if (variant.getId() == selectedID) {
-//                    int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
-//                    int quantityInOrder = getQuantityInOrder(variant.getId());
-//                    int totalQuantity = quantity + quantityInOrder;
-//                    if(totalQuantity > variant.getQuantity()){
-//                        showOutOfStockDialog();
-//                        isInStock = false;
-//                    }
-//                }
-//            }
-//        }
-//
-//        if (isInStock) {
-//            Product product = null;
-//            try {
-//                product = (Product) mProduct.clone();
-//            } catch (CloneNotSupportedException e) {
-//                e.printStackTrace();
-//            }
-//            if (product != null) {
-//                mProductDetailPresenter.addProduct(product);
-//            } else {
-//                mProductDetailPresenter.addProduct(mProduct);
-//            }
-//            finish();
-//        }
-//    }
-
-
     private void clickToButtonAddToCart() {
         int selectedID = 0;
         for (Size size : mSizeList) {
@@ -345,7 +304,14 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                             isInStock = false;
                         }
                     } else {
-                        isInStock = checkQuantityInOrder(variant.getId(), quantity);
+                        boolean isExisted = isExistedInShoppingBag(variant.getId());
+                        if (isExisted) {
+                            isInStock = checkQuantityInOrder(variant.getId(), quantity);
+                        } else {
+                            if (quantity > variant.getQuantity()) {
+                                isInStock = false;
+                            }
+                        }
                         if (isInStock == false) {
                             showOutOfStockDialog();
                         }
@@ -374,16 +340,16 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private int getQuantityInOrder(int variantId) {
-        int totalBuyQuantity = 0;
+    private boolean isExistedInShoppingBag(int variantId) {
+        boolean isExisted = false;
         for (Product product : mShoppingBag) {
             for (ProductVariant variant : product.getProductVariantList()) {
-                if (variant.getId() == variantId) {
-                    totalBuyQuantity += variant.getBuyQuantity();
+                if (variant.getId() == variantId && variant.isSelected() == true) {
+                    isExisted = true;
                 }
             }
         }
-        return totalBuyQuantity;
+        return isExisted;
     }
 
     private boolean checkQuantityInOrder(int variantId, int quantity) {
@@ -393,7 +359,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         boolean isExisted = false;
         for (Product product : mShoppingBag) {
             for (ProductVariant variant : product.getProductVariantList()) {
-                if (variant.getId() == variantId) {
+                if (variant.getId() == variantId && variant.isSelected() == true) {
                     inStockQuantity = variant.getQuantity();
                     totalBuyQuantity += variant.getBuyQuantity();
                     isExisted = true;
@@ -401,7 +367,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
             }
         }
         totalBuyQuantity += quantity;
-        if(isExisted){
+        if (isExisted) {
             if (totalBuyQuantity > inStockQuantity) {
                 isInStock = false;
             }

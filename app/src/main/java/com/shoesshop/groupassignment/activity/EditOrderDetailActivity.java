@@ -255,14 +255,22 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
                 break;
             }
         }
-        boolean isInStock = false;
+        boolean isInStock = true;
         if (selectedSize != null) {
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.getId() == selectedSize.getId()) {
                     int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
                     int buyQuantity = variant.getBuyQuantity();
                     int extraQuantity = quantity - buyQuantity;
-                    isInStock = checkQuantityInOrder(variant.getId(), extraQuantity);
+                    boolean isExisted = isExistedInShoppingBag(variant.getId());
+                    if(isExisted){
+                        isInStock = checkQuantityInOrder(variant.getId(), extraQuantity);
+                    }else{
+                        if(quantity > variant.getQuantity()){
+                            isInStock = false;
+                            showOutOfStockDialog();
+                        }
+                    }
                     if (isInStock) {
                         variant.setBuyQuantity(quantity);
                         variant.setSizeString(selectedSize.getName());
@@ -313,13 +321,25 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         dialog.show();
     }
 
+    private boolean isExistedInShoppingBag(int variantId) {
+        boolean isExisted = false;
+        for (Product product : mShoppingBag) {
+            for (ProductVariant variant : product.getProductVariantList()) {
+                if (variant.getId() == variantId && variant.isSelected() == true) {
+                    isExisted = true;
+                }
+            }
+        }
+        return isExisted;
+    }
+
     private boolean checkQuantityInOrder(int variantId, int extraQuantity) {
         boolean isInStock = true;
         int totalBuyQuantity = 0;
         int inStockQuantity = 0;
         for (Product product : mShoppingBag) {
             for (ProductVariant variant : product.getProductVariantList()) {
-                if (variant.getId() == variantId) {
+                if (variant.getId() == variantId && variant.isSelected() == true) {
                     inStockQuantity = variant.getQuantity();
                     totalBuyQuantity += variant.getBuyQuantity();
                 }
