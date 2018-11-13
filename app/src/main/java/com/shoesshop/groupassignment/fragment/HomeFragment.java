@@ -97,32 +97,49 @@ public class HomeFragment extends Fragment implements HomeFragView, View.OnClick
     @Override
     public void showProductList(List<Product> productList) {
         mProductList = productList;
-
-        for (Product product : mProductList) {
-            Iterator<ProductVariant> iterator = product.getProductVariantList().iterator();
-            while (iterator.hasNext()) {
-                if (iterator.next().getQuantity() <= 0) {
-                    iterator.remove();
+        if (mProductList == null) {
+            mProductList = new ArrayList<>();
+            mHomeAdapter = new HomeAdapter(mProductList, getContext());
+            mRecyclerViewProduct.setAdapter(mHomeAdapter);
+            mHomeAdapter.setmOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+                @Override
+                public void setOnItemClickListener(int position) {
+                    Product product = mProductList.get(position);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
+                    Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                    intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            for (Product product : mProductList) {
+                Iterator<ProductVariant> iterator = product.getProductVariantList().iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next().getQuantity() <= 0) {
+                        iterator.remove();
+                    }
+                }
+                if (product.getProductVariantList().isEmpty()) {
+                    mProductList.remove(product);
                 }
             }
-            if (product.getProductVariantList().isEmpty()) {
-                mProductList.remove(product);
-            }
+
+            mHomeAdapter = new HomeAdapter(mProductList, getContext());
+            mRecyclerViewProduct.setAdapter(mHomeAdapter);
+            mHomeAdapter.setmOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+                @Override
+                public void setOnItemClickListener(int position) {
+                    Product product = mProductList.get(position);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
+                    Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                    intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+                    startActivity(intent);
+                }
+            });
         }
 
-        mHomeAdapter = new HomeAdapter(mProductList, getContext());
-        mRecyclerViewProduct.setAdapter(mHomeAdapter);
-        mHomeAdapter.setmOnItemClickListener(new HomeAdapter.OnItemClickListener() {
-            @Override
-            public void setOnItemClickListener(int position) {
-                Product product = mProductList.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
-                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-                intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
-                startActivity(intent);
-            }
-        });
     }
 
 //    private void filterProductList() {
