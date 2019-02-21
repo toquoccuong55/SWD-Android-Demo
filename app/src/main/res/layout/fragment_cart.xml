@@ -113,7 +113,7 @@
                             <TextView
                                 android:id="@+id/text_view_receiver"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_marginLeft="@dimen/dp10"
                                 android:text="Anh Cường - 0980123123"
                                 android:textSize="@dimen/sp14" />
