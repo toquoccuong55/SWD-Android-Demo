@@ -16,9 +16,9 @@ import retrofit2.http.PUT;
 
 public interface ShoematicService {
 
-    @FormUrlEncoded
     @POST(ConfigApi.Api.LOGIN_BY_PHONE)
-    Call<ResponseBody> loginByPhone(@Field("access_token") String fbAccessToken);
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    Call<ResponseBody> loginByPhone(@Body RequestBody loginModel);
 
     @FormUrlEncoded
     @POST(ConfigApi.Api.LOGIN_FACEBOOK)

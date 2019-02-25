@@ -39,7 +39,15 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
     public void loginByPhone(final Context context, String fbAccessToken, final CallBackData<Customer> callBackData) {
         ClientApi clientApi = new ClientApi();
         final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
-        Call<ResponseBody> serviceCall = clientApi.shoematicService().loginByPhone(fbAccessToken);
+
+        JSONObject loginModel = new JSONObject();
+        try {
+            loginModel.put("accessToken", fbAccessToken);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), loginModel.toString());
+        Call<ResponseBody> serviceCall = clientApi.shoematicService().loginByPhone(body);
         serviceCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
