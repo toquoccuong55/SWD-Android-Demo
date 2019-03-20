@@ -102,8 +102,8 @@
                         <TextView
                             android:id="@+id/text_view_product_name"
                             android:layout_width="@dimen/dp172"
-                            android:maxLines="1"
                             android:layout_height="wrap_content"
+                            android:maxLines="1"
                             android:text="Air Jordan 11 Win Like 96"
                             android:textColor="@color/black_two"
                             android:textSize="@dimen/sp14" />
@@ -232,7 +232,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp5"
                             android:alpha="0.9"
-                            android:text="Air Jordan 11 Win Like 96 Retro XI Gym Red 378037-623 authentic
+                            tools:text="Air Jordan 11 Win Like 96 Retro XI Gym Red 378037-623 authentic
 9.5, 13 men us fullbox authentic 100% never worn. Ill ship double box to protect your shoes , HAVE RECEIPT
 - time shipping take 7-15 days in us, ship with usps/ems services
 Moneyback 100% if receive knocoff or bad shoes
@@ -241,13 +241,6 @@ Style Code: 378037-623"
                             android:textColor="@color/gray" />
 
                     </LinearLayout>
-
-                    <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="@dimen/dp1"-->
-                    <!--android:layout_marginTop="@dimen/dp20"-->
-                    <!--android:alpha="0.6"-->
-                    <!--android:background="@color/gray" />-->
 
                 </LinearLayout>
 
@@ -292,7 +285,7 @@ Style Code: 378037-623"
         android:layout_marginLeft="@dimen/dp30"
         android:layout_marginRight="@dimen/dp30"
         android:layout_marginBottom="@dimen/dp15"
-        android:background="@drawable/button_add_to_cart"
+        android:background="@drawable/background_button_add_to_cart"
         android:text="Thêm vào giỏ hàng"
         android:textAllCaps="false"
         android:textColor="@color/white"

@@ -9,7 +9,4 @@ public interface LoginView {
 
     void loginByPhoneFailed(String message);
 
-    void loginByFacebookSuccess(Customer customer);
-
-    void loginByFacebookFailed(String message);
 }

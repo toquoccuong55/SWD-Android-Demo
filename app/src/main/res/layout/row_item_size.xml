@@ -5,8 +5,8 @@
     android:layout_width="@dimen/dp70"
     android:layout_height="wrap_content"
     android:background="@drawable/background_item_size_off"
-    android:orientation="horizontal"
     android:gravity="center"
+    android:orientation="horizontal"
     android:paddingTop="@dimen/dp10"
     android:paddingBottom="@dimen/dp10">
 

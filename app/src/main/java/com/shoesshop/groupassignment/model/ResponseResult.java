@@ -3,36 +3,16 @@ package com.shoesshop.groupassignment.model;
 import com.google.gson.annotations.SerializedName;
 
 public class ResponseResult<T> {
-    private int resultCode;
-
-    private String message;
-
-    private boolean success;
+    private Status status;
 
     private T data;
 
-    public int getResultCode() {
-        return resultCode;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setResultCode(int resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public T getData() {

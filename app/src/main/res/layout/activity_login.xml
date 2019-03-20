@@ -16,16 +16,6 @@
         android:src="@mipmap/ic_logo" />
 
     <Button
-        android:id="@+id/button_login_by_facebook"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp20"
-        android:background="@drawable/button_login"
-        android:text="Đăng nhập bằng Facebook"
-        android:textColor="@color/black_two"
-        android:textSize="@dimen/sp14" />
-
-    <Button
         android:visibility="visible"
         android:id="@+id/button_login_by_phone"
         android:layout_width="match_parent"

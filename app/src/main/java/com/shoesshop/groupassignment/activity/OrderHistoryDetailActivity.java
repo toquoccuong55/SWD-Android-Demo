@@ -14,9 +14,8 @@ import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.adapter.OrderHistoryDetailAdapter;
 import com.shoesshop.groupassignment.model.OrderHistory;
 import com.shoesshop.groupassignment.model.OrderHistoryDetail;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderHistoryDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,9 +39,9 @@ public class OrderHistoryDetailActivity extends AppCompatActivity implements Vie
     }
 
     private void getInitialIntent() {
-        Bundle bundle = getIntent().getBundleExtra(ConstantDataManager.INTENT_BUNDLE);
+        Bundle bundle = getIntent().getBundleExtra(ConstantManager.INTENT_BUNDLE);
         if (bundle != null) {
-            mOrderHistory = (OrderHistory) bundle.getSerializable(ConstantDataManager.BUNDLE_ORDER_HISTORY);
+            mOrderHistory = (OrderHistory) bundle.getSerializable(ConstantManager.BUNDLE_ORDER_HISTORY);
         }
     }
 
@@ -93,7 +92,7 @@ public class OrderHistoryDetailActivity extends AppCompatActivity implements Vie
 
     public static void intentToOrderHistoryDetailActivitiy(Activity activity, Bundle bundle) {
         Intent intent = new Intent(activity, OrderHistoryDetailActivity.class);
-        intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+        intent.putExtra(ConstantManager.INTENT_BUNDLE, bundle);
         activity.startActivity(intent);
     }
 

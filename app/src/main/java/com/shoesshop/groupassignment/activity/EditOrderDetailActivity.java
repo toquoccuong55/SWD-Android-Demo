@@ -24,7 +24,7 @@ import com.shoesshop.groupassignment.model.Size;
 import com.shoesshop.groupassignment.presenter.EditOrderDetailPresenter;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.entity.ProductVariant;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.shoesshop.groupassignment.utils.GridSpacingItemDecoration;
 import com.shoesshop.groupassignment.utils.PicassoLoadingService;
@@ -64,9 +64,9 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
     }
 
     private void getInitialIntent() {
-        Bundle bundle = getIntent().getBundleExtra(ConstantDataManager.INTENT_BUNDLE);
+        Bundle bundle = getIntent().getBundleExtra(ConstantManager.INTENT_BUNDLE);
         if (bundle != null) {
-            mProduct = (Product) bundle.getSerializable(ConstantDataManager.BUNDLE_PRODUCT);
+            mProduct = (Product) bundle.getSerializable(ConstantManager.BUNDLE_PRODUCT);
         }
     }
 
@@ -104,11 +104,13 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         mPresenter.getShoppingBag();
 
         if (mProduct != null) {
-
-            mImageList = mProduct.getProductVariantList().get(0).getPicURLList();
+            //set date for image slider
+            mImageList = mProduct.getImageList();
             mSlider.setAdapter(new MainSliderAdapter(mImageList));
+            //set product name
             mTxtProductName.setText(mProduct.getName());
             ProductVariant selectedVariant = null;
+            //get product variant selected
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.isSelected()) {
                     selectedVariant = variant;
@@ -116,18 +118,19 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
             }
             if (selectedVariant != null) {
                 mTxtPrice.setText(CurrencyManager.getPrice(selectedVariant.getUnitPrice(),
-                        ConstantDataManager.CURRENCY));
+                        ConstantManager.CURRENCY));
 
                 mSizeList = new ArrayList<>();
                 for (ProductVariant productVariant : mProduct.getProductVariantList()) {
                     Size size = new Size();
                     size.setId(productVariant.getId());
-                    size.setName(productVariant.getSizeString());
+                    size.setName(String.valueOf(productVariant.getSize()));
                     if (productVariant.getId() != selectedVariant.getId()) {
                         size.setChecked(false);
                     } else {
                         size.setChecked(true);
                     }
+
                     mSizeList.add(size);
                 }
                 mSizeListAdapter = new SizeListAdapter(mSizeList, EditOrderDetailActivity.this);
@@ -141,21 +144,21 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
                         mSizeList.get(position).setChecked(true);
                         mSizeListAdapter.notifyDataSetChanged();
                         mTotal = calculateToTal();
-                        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
+                        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantManager.CURRENCY));
                     }
                 });
 
-                mTxtQuantity.setText(String.valueOf(selectedVariant.getBuyQuantity()));
+                mTxtQuantity.setText(String.valueOf(selectedVariant.getQuantity()));
                 mTxtDescription.setText(mProduct.getDescription());
             } else {
                 mTxtPrice.setText(CurrencyManager.getPrice(mProduct.getProductVariantList().get(0).getUnitPrice(),
-                        ConstantDataManager.CURRENCY));
+                        ConstantManager.CURRENCY));
 
                 mSizeList = new ArrayList<>();
                 for (ProductVariant productVariant : mProduct.getProductVariantList()) {
                     Size size = new Size();
                     size.setId(productVariant.getId());
-                    size.setName(productVariant.getSizeString());
+                    size.setName(String.valueOf(productVariant.getSize()));
                     size.setChecked(false);
                     mSizeList.add(size);
                 }
@@ -171,7 +174,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
                         mSizeList.get(position).setChecked(true);
                         mSizeListAdapter.notifyDataSetChanged();
                         mTotal = calculateToTal();
-                        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
+                        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantManager.CURRENCY));
                     }
                 });
 
@@ -222,7 +225,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
 
     public static void intentToEditOrderDetailActivitiy(Activity activity, Bundle bundle) {
         Intent intent = new Intent(activity, EditOrderDetailActivity.class);
-        intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+        intent.putExtra(ConstantManager.INTENT_BUNDLE, bundle);
         activity.startActivity(intent);
     }
 
@@ -255,38 +258,19 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
                 break;
             }
         }
-        boolean isInStock = true;
         if (selectedSize != null) {
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.getId() == selectedSize.getId()) {
                     int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
-                    int buyQuantity = variant.getBuyQuantity();
-                    int extraQuantity = quantity - buyQuantity;
-                    boolean isExisted = isExistedInShoppingBag(variant.getId());
-                    if(isExisted){
-                        isInStock = checkQuantityInOrder(variant.getId(), extraQuantity);
-                    }else{
-                        if(quantity > variant.getQuantity()){
-                            isInStock = false;
-                            showOutOfStockDialog();
-                        }
-                    }
-                    if (isInStock) {
-                        variant.setBuyQuantity(quantity);
-                        variant.setSizeString(selectedSize.getName());
-                        variant.setSelected(true);
-                    }
-                } else {
-                    variant.setBuyQuantity(1);
+                    variant.setQuantity(quantity);
+                    variant.setSelected(true);
+                }else{
                     variant.setSelected(false);
                 }
             }
         }
-        if (isInStock) {
-            mPresenter.updateProduct(mProduct);
-            finish();
-        }
-
+        mPresenter.updateProduct(mProduct);
+        finish();
     }
 
     private void showOutOfStockDialog() {
@@ -341,7 +325,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
             for (ProductVariant variant : product.getProductVariantList()) {
                 if (variant.getId() == variantId && variant.isSelected() == true) {
                     inStockQuantity = variant.getQuantity();
-                    totalBuyQuantity += variant.getBuyQuantity();
+                    totalBuyQuantity += variant.getQuantity();
                 }
             }
         }
@@ -360,7 +344,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         }
         mTxtQuantity.setText(String.valueOf(quantity));
         mTotal = calculateToTal();
-        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
+        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantManager.CURRENCY));
     }
 
     private void clickToPlus() {
@@ -368,7 +352,7 @@ public class EditOrderDetailActivity extends AppCompatActivity implements View.O
         quantity += 1;
         mTxtQuantity.setText(String.valueOf(quantity));
         mTotal = calculateToTal();
-        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
+        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantManager.CURRENCY));
     }
 
     private void showDeleteDialog() {

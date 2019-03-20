@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.room.entity.Wishlist;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.squareup.picasso.Picasso;
 
@@ -47,9 +47,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Wishlist wishlist = mWishlist.get(i);
-        if (wishlist.getImage() != null && !wishlist.getImage().isEmpty()) {
+        if (wishlist.getImageList() != null && !wishlist.getImageList().isEmpty()) {
             Picasso.get()
-                    .load(wishlist.getImage())
+                    .load(wishlist.getImageList().get(0))
                     .placeholder(R.mipmap.ic_default_shoe)
                     .error(R.mipmap.ic_default_shoe)
                     .into(viewHolder.mImgProduct);
@@ -58,7 +58,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         }
         viewHolder.mTxtProductName.setText(wishlist.getName());
         viewHolder.mTxtUnitPrice.setText(CurrencyManager.getPrice(wishlist.getProductVariantList().get(0).getUnitPrice(),
-                ConstantDataManager.CURRENCY));
+                ConstantManager.CURRENCY));
         viewHolder.mLnlWishlistItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

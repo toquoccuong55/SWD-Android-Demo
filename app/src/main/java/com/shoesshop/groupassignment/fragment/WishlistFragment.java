@@ -19,7 +19,7 @@ import com.shoesshop.groupassignment.adapter.WishlistAdapter;
 import com.shoesshop.groupassignment.room.entity.Wishlist;
 import com.shoesshop.groupassignment.presenter.WishListFragPresenter;
 import com.shoesshop.groupassignment.room.entity.Product;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.view.WishListFragView;
 
 import java.util.ArrayList;
@@ -90,9 +90,9 @@ public class WishlistFragment extends Fragment implements WishListFragView {
                     Wishlist wishlist = mWishlist.get(position);
                     Product product = convertWishListToProduct(wishlist);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
+                    bundle.putSerializable(ConstantManager.BUNDLE_PRODUCT, product);
                     Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-                    intent.putExtra(ConstantDataManager.INTENT_BUNDLE, bundle);
+                    intent.putExtra(ConstantManager.INTENT_BUNDLE, bundle);
                     startActivity(intent);
                 }
             });
@@ -105,7 +105,7 @@ public class WishlistFragment extends Fragment implements WishListFragView {
         product.setId(wishlist.getId());
         product.setName(wishlist.getName());
         product.setUnitPrice(wishlist.getUnitPrice());
-        product.setImage(wishlist.getImage());
+        product.setImageList(wishlist.getImageList());
         product.setDescription(wishlist.getDescription());
         product.setFavorite(wishlist.isFavorite());
         product.setProductVariantList(wishlist.getProductVariantList());

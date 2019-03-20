@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.presenter.PersonalInfoPresenter;
 import com.shoesshop.groupassignment.room.entity.Customer;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
 import com.shoesshop.groupassignment.view.PersonalInfoView;
 
 import java.util.regex.Pattern;

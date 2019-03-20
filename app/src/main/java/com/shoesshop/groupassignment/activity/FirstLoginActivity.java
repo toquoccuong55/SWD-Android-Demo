@@ -103,6 +103,7 @@ public class FirstLoginActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void insertCustomerToDBSuccess(Customer customer) {
+        mCustomer.setFirstLogin(false);
         mFirstLoginPresenter.updateCustomer(mCustomer);
         HomeActivity.intentToHomeActivitiy(FirstLoginActivity.this);
     }

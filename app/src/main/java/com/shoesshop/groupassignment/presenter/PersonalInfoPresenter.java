@@ -44,9 +44,9 @@ public class PersonalInfoPresenter {
     }
 
     public void updateServerCustomer(final Customer customer) {
-        mShoematicRepository.updateCustomer(mContext, customer, new CallBackData<UpdateCustomerResult>() {
+        mShoematicRepository.updateCustomer(mContext, customer, new CallBackData<Customer>() {
             @Override
-            public void onSuccess(UpdateCustomerResult updateCustomerResult) {
+            public void onSuccess(Customer customerResult) {
                 mPersonalInfoView.updateServerCustomer(customer);
             }
 

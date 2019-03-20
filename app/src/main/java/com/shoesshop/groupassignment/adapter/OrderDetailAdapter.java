@@ -11,18 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shoesshop.groupassignment.R;
-import com.shoesshop.groupassignment.model.OrderDetail;
+import com.shoesshop.groupassignment.room.entity.Product;
+import com.shoesshop.groupassignment.room.entity.ProductVariant;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder> {
-    private List<OrderDetail> mOrderDetailList;
+    private List<Product> mOrderDetailList;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
 
-    public OrderDetailAdapter(List<OrderDetail> mOrderDetailList, Context mContext) {
+    public OrderDetailAdapter(List<Product> mOrderDetailList, Context mContext) {
         this.mOrderDetailList = mOrderDetailList;
         this.mContext = mContext;
     }
@@ -45,19 +46,24 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        OrderDetail orderDetail = mOrderDetailList.get(i);
-        if (orderDetail.getPicUrl() != null && !orderDetail.getPicUrl().isEmpty()) {
+        Product orderDetail = mOrderDetailList.get(i);
+        if (orderDetail.getImageList() != null && !orderDetail.getImageList().isEmpty()) {
             Picasso.get()
-                    .load(orderDetail.getPicUrl())
+                    .load(orderDetail.getImageList().get(0))
                     .placeholder(R.mipmap.ic_default_shoe)
                     .error(R.mipmap.ic_default_shoe)
                     .into(viewHolder.mImgProduct);
         } else {
-            viewHolder.mImgProduct.setImageResource(R.mipmap.ic_shoes);
+            viewHolder.mImgProduct.setImageResource(R.mipmap.ic_default_shoe);
         }
-        viewHolder.mTxtProductName.setText(orderDetail.getName());
-        viewHolder.mTxtPriceQuantity.setText(CurrencyManager.getPrice(orderDetail.getUnitPrice(), "") + " x " + orderDetail.getQuantity());
-        viewHolder.mTxtSizeName.setText("Size " + orderDetail.getSizeName());
+        viewHolder.mTxtProductName.setText(String.valueOf(orderDetail.getName()));
+        for (ProductVariant variant : orderDetail.getProductVariantList()) {
+            if (variant.isSelected()) {
+                viewHolder.mTxtPriceQuantity.setText(CurrencyManager.getPrice(variant.getUnitPrice(),
+                        "") + " x " + variant.getQuantity());
+                viewHolder.mTxtSizeName.setText("Size " + variant.getSize());
+            }
+        }
         viewHolder.mLnlOrderDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

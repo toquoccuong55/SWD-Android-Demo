@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.util.List;
 
 public class OrderHistory implements Serializable {
-    @SerializedName("id")
+    @SerializedName("OrderId")
     private int orderID;
 
-    @SerializedName("date")
+    @SerializedName("OrderTime")
     private String OrderTime;
 
-    @SerializedName("shippingaddress")
+    @SerializedName("ShippingAddress")
     private String shippingaddress;
 
 
@@ -21,16 +21,16 @@ public class OrderHistory implements Serializable {
     private String orderDetailName;
     private String unitPriceQuantity;
 
-    @SerializedName("paymenttype")
-    private int paymentType;
+    @SerializedName("PaymentType")
+    private String paymentType;
 
-    @SerializedName("paymentamount")
+    @SerializedName("TotalAmount")
     private double paymentAmount;
 
-    @SerializedName("status")
+    @SerializedName("Status")
     private int orderStatus;
 
-    @SerializedName("order_detail")
+    @SerializedName("OrderDetailList")
     private List<OrderHistoryDetail> detailHistoryList;
 
     public int getOrderID() {
@@ -49,11 +49,11 @@ public class OrderHistory implements Serializable {
         this.shippingaddress = shippingaddress;
     }
 
-    public int getPaymentType() {
+    public String getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(int paymentType) {
+    public void setPaymentType(String paymentType) {
         this.paymentType = paymentType;
     }
 

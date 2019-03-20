@@ -39,20 +39,6 @@ public class LoginPresenter {
         });
     }
 
-    public void loginByFacebook(String fbAccessToken) {
-        mShoematicRepository.loginByFacebook(mContext, fbAccessToken, new CallBackData<Customer>() {
-            @Override
-            public void onSuccess(Customer customer) {
-                mLoginView.loginByFacebookSuccess(customer);
-            }
-
-            @Override
-            public void onFail(String message) {
-                mLoginView.loginByFacebookFailed(message);
-            }
-        });
-    }
-
     public void addCustomer(final Customer newCustomer) {
         mUserManager.addCustomer(newCustomer, new UserManager.OnDataCallBackCustomer() {
             @Override

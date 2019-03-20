@@ -1,6 +1,6 @@
 package com.shoesshop.groupassignment.utils;
 
-public class ConstantDataManager {
+public class ConstantManager {
     public static final String CURRENCY = "đ";
     public static final int SPLASH_TIME_OUT = 2000;
 
@@ -9,7 +9,7 @@ public class ConstantDataManager {
     public static final String BUNDLE_CUSTOMER = "BUNDLE_CUSTOMER";
     public static final String BUNDLE_ORDER_HISTORY = "BUNDLE_ORDER_HISTORY";
 
-
+    public static final int REQUEST_CODE_ACCOUNT_KIT = 999;
     public static final int REQUEST_CODE_SELECT_PAYMENT = 9;
     public static final int REQUEST_CODE_NOTE = 10;
     public static final int REQUEST_CODE_ADDRESS = 11;

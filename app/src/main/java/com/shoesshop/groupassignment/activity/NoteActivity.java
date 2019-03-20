@@ -1,6 +1,5 @@
 package com.shoesshop.groupassignment.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.shoesshop.groupassignment.R;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.PreferenceUtils;
 
 public class NoteActivity extends AppCompatActivity implements View.OnClickListener {
@@ -43,7 +42,7 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initialData() {
         String note = PreferenceUtils.getStringSharedPreference(NoteActivity.this,
-                ConstantDataManager.PREFENCED_NOTE);
+                ConstantManager.PREFENCED_NOTE);
         mEdtNote.setText(note);
     }
 
@@ -55,7 +54,7 @@ public class NoteActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_save_note:
                 String note = mEdtNote.getText().toString().trim();
-                PreferenceUtils.saveStringSharedPreference(NoteActivity.this, ConstantDataManager.PREFENCED_NOTE, note);
+                PreferenceUtils.saveStringSharedPreference(NoteActivity.this, ConstantManager.PREFENCED_NOTE, note);
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();

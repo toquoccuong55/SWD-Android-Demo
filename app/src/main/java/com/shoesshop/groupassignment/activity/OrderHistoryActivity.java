@@ -12,16 +12,13 @@ import android.widget.LinearLayout;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.adapter.OrderHistoryAdapter;
 import com.shoesshop.groupassignment.model.OrderHistory;
-import com.shoesshop.groupassignment.model.OrderHistoryDetail;
 import com.shoesshop.groupassignment.presenter.OrderHistoryPresenter;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.entity.ProductVariant;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
-import com.shoesshop.groupassignment.utils.CurrencyManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.view.OrderHistoryView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderHistoryActivity extends AppCompatActivity implements View.OnClickListener, OrderHistoryView {
@@ -67,9 +64,9 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void showCustomer(Customer customer) {
-        if(customer != null){
+        if (customer != null) {
             mPresenter.getOrderHistory(customer.getAccessToken());
-        }else{
+        } else {
             mRecyclerViewOrderHistory.setVisibility(View.GONE);
             mLnlEmptyOrderHistory.setVisibility(View.VISIBLE);
         }
@@ -93,7 +90,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements View.OnCl
                 public void setOnItemClickListener(int position) {
 //                    OrderHistory orderHistory = mOrderHistoryList.get(position);
 //                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(ConstantDataManager.BUNDLE_ORDER_HISTORY, orderHistory);
+//                    bundle.putSerializable(ConstantManager.BUNDLE_ORDER_HISTORY, orderHistory);
 //                    OrderHistoryDetailActivity.intentToOrderHistoryDetailActivitiy(OrderHistoryActivity.this, bundle);
                 }
             });

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/dp20"
-    android:background="@color/white"
+
     android:orientation="vertical"
     tools:context=".activity.PaymentActivity">
 
@@ -56,69 +56,80 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp22"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp16"
+        android:layout_marginBottom="@dimen/dp20"
+        android:background="@color/white">
 
-        <RadioGroup
-            android:id="@+id/radio_group_payment"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp12"
-            android:layout_marginRight="@dimen/dp16">
+            android:layout_marginTop="@dimen/dp16"
+            android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/radio_button_cash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="@color/pinkish_red"
-                android:checked="true"
-                android:paddingLeft="@dimen/dp16"
-                android:text="Ship COD - Thanh toán khi nhận hàng. "
-                android:textColor="@color/greyish_brown_two"
-                android:textSize="@dimen/sp15" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp48"
-                android:text="Miễn phí COD"
-                android:textColor="@color/warm_grey_four"
-                android:textSize="@dimen/sp12" />
-
-            <View
+            <RadioGroup
+                android:id="@+id/radio_group_payment"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp1"
-                android:layout_marginTop="@dimen/dp20"
-                android:alpha="0.09"
-                android:background="@color/brownish_grey"
-                android:visibility="gone" />
-
-
-            <RadioButton
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/pinkish_red"
-                android:paddingLeft="@dimen/dp16"
-                android:text="Chuyển khoảng ngân hàng."
-                android:textColor="@color/greyish_brown_two"
-                android:textSize="@dimen/sp15"
-                android:visibility="gone" />
+                android:layout_marginLeft="@dimen/dp12"
+                android:layout_marginRight="@dimen/dp16">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp48"
-                android:text="Xin vui lòng không chuyển khoản trước khi nhân
+                <RadioButton
+                    android:id="@+id/radio_button_cash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/pinkish_red"
+                    android:checked="true"
+                    android:paddingLeft="@dimen/dp16"
+                    android:text="Ship COD - Thanh toán khi nhận hàng. "
+                    android:textColor="@color/greyish_brown_two"
+                    android:textSize="@dimen/sp15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp48"
+                    android:text="Miễn phí COD"
+                    android:textColor="@color/warm_grey_four"
+                    android:textSize="@dimen/sp12" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp1"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:alpha="0.09"
+                    android:background="@color/brownish_grey"
+                    android:visibility="gone" />
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/pinkish_red"
+                    android:paddingLeft="@dimen/dp16"
+                    android:text="Chuyển khoảng ngân hàng."
+                    android:textColor="@color/greyish_brown_two"
+                    android:textSize="@dimen/sp15"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp48"
+                    android:text="Xin vui lòng không chuyển khoản trước khi nhân
 viên của shop gọi xác nhận.
  Tô Quốc Cường
  Ngân hàng Vietcombank – 00110022312312 – CHI NHÁNH GIÔ GIA TỰ
 (PHÒNG GIAO DỊCH SỐ 9 – QUẬN 10)"
-                android:textColor="@color/warm_grey_four"
-                android:textSize="@dimen/sp12"
-                android:visibility="gone" />
-        </RadioGroup>
+                    android:textColor="@color/warm_grey_four"
+                    android:textSize="@dimen/sp12"
+                    android:visibility="gone" />
+            </RadioGroup>
 
+
+        </LinearLayout>
 
     </LinearLayout>
 

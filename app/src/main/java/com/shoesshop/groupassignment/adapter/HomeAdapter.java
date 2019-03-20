@@ -47,9 +47,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Product product = mProductList.get(i);
-        if (product.getImage() != null && !product.getImage().isEmpty()) {
+        if (product.getImageList() != null && !product.getImageList().isEmpty()) {
             Picasso.get()
-                    .load(product.getImage())
+                    .load(product.getImageList().get(0))
                     .placeholder(R.mipmap.ic_default_shoe)
                     .error(R.mipmap.ic_default_shoe)
                     .into(viewHolder.mImgProduct);

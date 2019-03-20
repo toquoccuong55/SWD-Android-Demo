@@ -26,13 +26,12 @@ import com.shoesshop.groupassignment.activity.PaymentActivity;
 import com.shoesshop.groupassignment.activity.ShippingAddressActivity;
 import com.shoesshop.groupassignment.adapter.OrderDetailAdapter;
 import com.shoesshop.groupassignment.model.Order;
-import com.shoesshop.groupassignment.model.OrderDetail;
 import com.shoesshop.groupassignment.model.SuccessedOrder;
 import com.shoesshop.groupassignment.presenter.CartFragPresenter;
 import com.shoesshop.groupassignment.room.entity.Customer;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.room.entity.ProductVariant;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.shoesshop.groupassignment.utils.PreferenceUtils;
 import com.shoesshop.groupassignment.view.CartFragView;
@@ -43,7 +42,6 @@ import java.util.List;
 public class CartFragment extends Fragment implements View.OnClickListener, CartFragView {
     private RecyclerView mRcvOrderDetail;
     private OrderDetailAdapter mOrderDetailAdapter;
-    private List<OrderDetail> mOrderDetailList;
 
     private LinearLayout mLnlDeliveryInfo, mLnlNote, mLnlPayment, mOrderInfo, mPaymentInfo,
             mLnlEmptyCart, mLnlReceiver, mLnlAddress;
@@ -128,30 +126,14 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
             mPaymentInfo.setVisibility(View.VISIBLE);
             mLnlEmptyCart.setVisibility(View.GONE);
 
-            mOrderDetailList = new ArrayList<>();
-            for (Product product : mShoppingBag) {
-                for (ProductVariant variant : product.getProductVariantList()) {
-                    if (variant.isSelected()) {
-                        OrderDetail orderDetail = new OrderDetail(
-                                variant.getId(),
-                                variant.getName(),
-                                variant.getPicURLList().get(0),
-                                variant.getSizeString(),
-                                variant.getUnitPrice(),
-                                variant.getBuyQuantity());
-                        mOrderDetailList.add(orderDetail);
-                        break;
-                    }
-                }
-            }
-            mOrderDetailAdapter = new OrderDetailAdapter(mOrderDetailList, getContext());
+            mOrderDetailAdapter = new OrderDetailAdapter(mShoppingBag, getContext());
             mRcvOrderDetail.setAdapter(mOrderDetailAdapter);
             mOrderDetailAdapter.setmOnItemClickListener(new OrderDetailAdapter.OnItemClickListener() {
                 @Override
                 public void setOnItemClickListener(int position) {
                     Product product = mShoppingBag.get(position);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(ConstantDataManager.BUNDLE_PRODUCT, product);
+                    bundle.putSerializable(ConstantManager.BUNDLE_PRODUCT, product);
                     EditOrderDetailActivity.intentToEditOrderDetailActivitiy(getActivity(), bundle);
                 }
             });
@@ -164,16 +146,16 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         for (Product product : mShoppingBag) {
             for (ProductVariant variant : product.getProductVariantList()) {
                 if (variant.isSelected()) {
-                    totalOrder += variant.getBuyQuantity() * variant.getUnitPrice();
+                    totalOrder += variant.getQuantity() * variant.getUnitPrice();
                     break;
                 }
             }
         }
 
-        mTxtTotalOrder.setText(CurrencyManager.getPrice(totalOrder, ConstantDataManager.CURRENCY));
-        mTxtShippingFee.setText(CurrencyManager.getPrice(0, ConstantDataManager.CURRENCY));
-        mTxtPromotion.setText("- " + CurrencyManager.getPrice(0, ConstantDataManager.CURRENCY));
-        mTxtTotalAmount.setText(CurrencyManager.getPrice(totalOrder, ConstantDataManager.CURRENCY));
+        mTxtTotalOrder.setText(CurrencyManager.getPrice(totalOrder, ConstantManager.CURRENCY));
+        mTxtShippingFee.setText(CurrencyManager.getPrice(0, ConstantManager.CURRENCY));
+        mTxtPromotion.setText("- " + CurrencyManager.getPrice(0, ConstantManager.CURRENCY));
+        mTxtTotalAmount.setText(CurrencyManager.getPrice(totalOrder, ConstantManager.CURRENCY));
 
     }
 
@@ -190,10 +172,11 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
                 String receiver = mCustomer.getFullName() + " - " + mCustomer.getPhone();
                 mTxtReceiver.setText(receiver);
             }
-            if (mCustomer.getAddress().trim().isEmpty()) {
+            if (mCustomer.getAddress() == null || mCustomer.getAddress().trim().isEmpty()) {
                 mTxtAddress.setText("Vui lòng nhập địa chỉ tại đây!");
             } else {
-                mAddressString = mCustomer.getAddressType() + ": " + mCustomer.getAddress();
+                String[] addressStr = mCustomer.getAddress().split(";");
+                mAddressString = addressStr[0] + ": " + addressStr[1];
                 mTxtAddress.setText(mAddressString);
             }
         }
@@ -205,17 +188,17 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
         switch (view.getId()) {
             case R.id.linear_layout_delivery_info:
                 intent = new Intent(getActivity(), ShippingAddressActivity.class);
-                startActivityForResult(intent, ConstantDataManager.REQUEST_CODE_ADDRESS);
+                startActivityForResult(intent, ConstantManager.REQUEST_CODE_ADDRESS);
 
                 break;
             case R.id.linear_layout_note:
                 intent = new Intent(getActivity(), NoteActivity.class);
-                startActivityForResult(intent, ConstantDataManager.REQUEST_CODE_NOTE);
+                startActivityForResult(intent, ConstantManager.REQUEST_CODE_NOTE);
 
                 break;
             case R.id.linear_layout_payment:
                 intent = new Intent(getActivity(), PaymentActivity.class);
-                startActivityForResult(intent, ConstantDataManager.REQUEST_CODE_SELECT_PAYMENT);
+                startActivityForResult(intent, ConstantManager.REQUEST_CODE_SELECT_PAYMENT);
 
                 break;
             case R.id.button_set_order:
@@ -265,18 +248,17 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     }
 
     private void clickToSetOrder() {
-
         Order order = new Order();
 
         if (mCustomer.getAccessToken().isEmpty()) {
             showInvalidInputDialog();
-        }else{
+        } else {
             order.setAccessToken(mCustomer.getAccessToken());
             order.setNote(mNoteString);
-            if (mAddressString.isEmpty()) {
+            if (mCustomer.getAddress() == null || mCustomer.getAddress().isEmpty()) {
                 showInvalidInputDialog();
             } else {
-                order.setShippingAddress(mAddressString);
+                order.setShippingAddress(mCustomer.getAddress());
                 order.setPaymentType(mPaymentType);
 
                 ArrayList<ProductVariant> variantArrayList = new ArrayList<>();
@@ -328,20 +310,16 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
     @Override
     public void setOrderSuccess(SuccessedOrder successedOrder) {
-        if (successedOrder != null) {
-            if (successedOrder.getOrderId() > 0) {
+        mPresenter.deleteAllProduct();
+        PreferenceUtils.removeStringSharedPreference(getActivity(), ConstantManager.PREFENCED_NOTE);
 
-                mPresenter.deleteAllProduct();
-                PreferenceUtils.removeStringSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
+        OrderSuccessActivity.intentToOrderSuccessActivitiy(getActivity());
+        getActivity().finish();
+    }
 
-                OrderSuccessActivity.intentToOrderSuccessActivitiy(getActivity());
-                getActivity().finish();
-            } else {
-                showOrderFailedDialog();
-            }
-        } else {
-            showOrderFailedDialog();
-        }
+    @Override
+    public void setOrderFailed(String message) {
+        showOrderFailedDialog();
     }
 
     private void showOrderFailedDialog() {
@@ -378,19 +356,19 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case ConstantDataManager.REQUEST_CODE_ADDRESS:
+            case ConstantManager.REQUEST_CODE_ADDRESS:
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     mPresenter.getCustomer();
                 }
                 break;
 
-            case ConstantDataManager.REQUEST_CODE_NOTE:
+            case ConstantManager.REQUEST_CODE_NOTE:
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     getNote();
                 }
                 break;
 
-            case ConstantDataManager.REQUEST_CODE_SELECT_PAYMENT:
+            case ConstantManager.REQUEST_CODE_SELECT_PAYMENT:
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     getPayment();
                 }
@@ -401,7 +379,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
 
     private void getNote() {
         mNoteString = PreferenceUtils.getStringSharedPreference(getActivity(),
-                ConstantDataManager.PREFENCED_NOTE);
+                ConstantManager.PREFENCED_NOTE);
         if (mNoteString.isEmpty()) {
             mTxtNote.setText("Bạn có ghi chú gì không?");
         } else {
@@ -412,7 +390,7 @@ public class CartFragment extends Fragment implements View.OnClickListener, Cart
     private void getPayment() {
 
         mPaymentType = PreferenceUtils.getIntSharedPreference(getActivity(),
-                ConstantDataManager.PREFENCED_PAYMENT);
+                ConstantManager.PREFENCED_PAYMENT);
         if (mPaymentType == 0) {
             mPaymentType = 1;
         }

@@ -25,10 +25,10 @@ public class FirstLoginPresenter {
     }
 
     public void insertCustomerToDB(final Customer customer) {
-        mShoematicRepository.updateCustomer(mContext, customer, new CallBackData<UpdateCustomerResult>() {
+        mShoematicRepository.updateCustomer(mContext, customer, new CallBackData<Customer>() {
             @Override
-            public void onSuccess(UpdateCustomerResult updateCustomerResult) {
-                if (updateCustomerResult != null) {
+            public void onSuccess(Customer customerResult) {
+                if (customerResult != null) {
                     mFirstLoginView.insertCustomerToDBSuccess(customer);
                 } else {
                     mFirstLoginView.insertCustomerToDBFail("");

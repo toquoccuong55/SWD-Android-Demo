@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -26,7 +24,7 @@ import com.facebook.accountkit.ui.LoginType;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.presenter.LoginPresenter;
 import com.shoesshop.groupassignment.room.entity.Customer;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.FacebookCallBackData;
 import com.shoesshop.groupassignment.utils.FacebookHelper;
 import com.shoesshop.groupassignment.view.LoginView;
@@ -35,8 +33,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView {
-    private static final int REQUEST_CODE_ACCOUNT_KIT = 999;
-    private Button mBtnLoginByPhone, mBtnLoginByFacebook;
+
+    private Button mBtnLoginByPhone;
     private String TAG = "LoginActivity";
     private CallbackManager mCallbackManager;
     private LoginPresenter mLoginPresenter;
@@ -57,8 +55,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void intialView() {
         mBtnLoginByPhone = findViewById(R.id.button_login_by_phone);
         mBtnLoginByPhone.setOnClickListener(this);
-        mBtnLoginByFacebook = findViewById(R.id.button_login_by_facebook);
-        mBtnLoginByFacebook.setOnClickListener(this);
 
         mLoginPresenter = new LoginPresenter(LoginActivity.this, LoginActivity.this, getApplication());
     }
@@ -69,9 +65,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.button_login_by_phone:
                 loginByPhoneNumber();
                 break;
-            case R.id.button_login_by_facebook:
-                loginFacebook();
-                break;
         }
     }
 
@@ -81,68 +74,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new AccountKitConfiguration.AccountKitConfigurationBuilder(LoginType.PHONE,
                         AccountKitActivity.ResponseType.TOKEN);
         intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION, configurationBuilder.build());
-        startActivityForResult(intent, REQUEST_CODE_ACCOUNT_KIT);
+        startActivityForResult(intent, ConstantManager.REQUEST_CODE_ACCOUNT_KIT);
 
     }
 
-    private void loginFacebook() {
-        FacebookHelper.loginFacebook(LoginActivity.this);
-        mCallbackManager = CallbackManager.Factory.create();
-        FacebookHelper.handleFacebookLogin(LoginActivity.this, mCallbackManager, new FacebookCallBackData() {
-            @Override
-            public void onSuccess(boolean isLogged) {
-                if (isLogged) {
-                    mLoginPresenter.loginByFacebook(FacebookHelper.getFbAccessToken());
-                }
-            }
-
-            @Override
-            public void onFail(String message) {
-                Log.i(TAG, "đã fail");
-            }
-        });
-    }
-
-    @Override
-    public void loginByFacebookSuccess(Customer customer) {
-        mLoginPresenter.addCustomer(customer);
-    }
-
-    @Override
-    public void loginByFacebookFailed(String message) {
-        showLoginFailedDialog();
-    }
-
-    private void showLoginFailedDialog() {
-        final Dialog dialog = new Dialog(LoginActivity.this);
-        LayoutInflater layoutInflater = LoginActivity.this.getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.dialog_information, null);
-        dialog.setContentView(view);
-
-        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
-        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
-        View viewLine = dialog.findViewById(R.id.view_line);
-        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
-        Button option1 = dialog.findViewById(R.id.button_num1);
-        Button option2 = dialog.findViewById(R.id.button_num2);
-
-        txtTitle.setText("Đăng nhập thất bại");
-        txtSubInfo.setText("Xin hãy kiểm tra lại kết nối");
-        viewLine.setVisibility(View.VISIBLE);
-        lnlOptions.setVisibility(View.VISIBLE);
-        option1.setText("Thử lại");
-        option1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                finish();
-            }
-        });
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ACCOUNT_KIT) {
+        if (requestCode ==  ConstantManager.REQUEST_CODE_ACCOUNT_KIT) {
             final AccountKitLoginResult result = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);
             if (result.getError() != null) {
                 Log.e(TAG, result.getError().getErrorType().getMessage());
@@ -155,6 +94,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onSuccess(boolean isLogged) {
                         if (isLogged) {
                             mLoginPresenter.loginByPhone(result.getAccessToken().getToken());
+                        }else{
+                            showLoginFailedDialog();
                         }
                     }
 
@@ -181,11 +122,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void addCustomerSuccess(Customer customer) {
-        if (customer.getIsFirstLogin() == 1) {
+        if (customer.isFirstLogin() == true) {
             FirstLoginActivity.intentToFirstLoginActivitiy(LoginActivity.this);
         } else {
             HomeActivity.intentToHomeActivitiy(LoginActivity.this);
         }
+    }
+
+    private void showLoginFailedDialog() {
+        final Dialog dialog = new Dialog(LoginActivity.this);
+        LayoutInflater layoutInflater = LoginActivity.this.getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.dialog_information, null);
+        dialog.setContentView(view);
+
+        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
+        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
+        View viewLine = dialog.findViewById(R.id.view_line);
+        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
+        Button option1 = dialog.findViewById(R.id.button_num1);
+        Button option2 = dialog.findViewById(R.id.button_num2);
+
+        txtTitle.setText("Đăng nhập thất bại");
+        txtSubInfo.setText("Xin hãy kiểm tra lại kết nối");
+        viewLine.setVisibility(View.VISIBLE);
+        lnlOptions.setVisibility(View.VISIBLE);
+        option1.setText("Thử lại");
+        option1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void printKeyHash() {

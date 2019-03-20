@@ -16,14 +16,12 @@ public interface ShoematicRepository {
 
     void loginByPhone(Context context, String fbAccessToken, CallBackData<Customer> callBackData);
 
-    void loginByFacebook(Context context, String fbAccessToken, CallBackData<Customer> callBackData);
-
     void getProductList(Context context, CallBackData<List<Product>> callBackData);
 
     void getOrderHistory(Context context, String accessToken, CallBackData<List<OrderHistory>> callBackData);
 
     void setOrder(Context context, Order order, CallBackData<SuccessedOrder> callBackData);
 
-    void updateCustomer(Context context, Customer customer, CallBackData<UpdateCustomerResult> callBackData);
+    void updateCustomer(Context context, Customer customer, CallBackData<Customer> callBackData);
 
 }

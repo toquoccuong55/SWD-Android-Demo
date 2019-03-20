@@ -7,6 +7,7 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
 import com.shoesshop.groupassignment.room.Converter.DataConverter;
+import com.shoesshop.groupassignment.room.Converter.ImageListConverter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,8 +25,9 @@ public class Wishlist implements Serializable {
     @ColumnInfo(name = "unit_price")
     private double unitPrice;
 
+    @TypeConverters(ImageListConverter.class)
     @ColumnInfo(name = "picURL")
-    private String image;
+    private List<String> imageList;
 
     @ColumnInfo(name = "description")
     private String description;
@@ -69,12 +71,12 @@ public class Wishlist implements Serializable {
         isFavorite = favorite;
     }
 
-    public String getImage() {
-        return image;
+    public List<String> getImageList() {
+        return imageList;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
     }
 
     public String getName() {

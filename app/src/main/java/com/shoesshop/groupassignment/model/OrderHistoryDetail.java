@@ -5,14 +5,17 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class OrderHistoryDetail implements Serializable {
-    @SerializedName("id")
-    private int id;
 
-    @SerializedName("productid")
+    @SerializedName("ProductID")
     private int productId;
 
+    @SerializedName("imageURL")
     private String orderDetailImage;
+
+    @SerializedName("Name")
     private String orderDetailTitle;
+
+    @SerializedName("Size")
     private String sizeName;
 
     @SerializedName("UnitPrice")
@@ -27,14 +30,6 @@ public class OrderHistoryDetail implements Serializable {
         this.sizeName = sizeName;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getProductId() {

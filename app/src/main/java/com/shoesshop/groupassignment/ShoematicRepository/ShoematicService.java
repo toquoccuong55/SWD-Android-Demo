@@ -20,13 +20,9 @@ public interface ShoematicService {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Call<ResponseBody> loginByPhone(@Body RequestBody loginModel);
 
-    @FormUrlEncoded
-    @POST(ConfigApi.Api.LOGIN_FACEBOOK)
-    Call<ResponseBody> loginByFacebook(@Field("access_token") String fbAccessToken);
-
-    @FormUrlEncoded
     @POST(ConfigApi.Api.GET_ORDER_HISTORY)
-    Call<ResponseBody> getOrderHistory(@Field("access_token") String AccessToken);
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    Call<ResponseBody> getOrderHistory(@Body RequestBody AccessToken);
 
     @GET(ConfigApi.Api.GET_PRODUCT)
     Call<ResponseBody> getProduct();
@@ -35,7 +31,7 @@ public interface ShoematicService {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Call<ResponseBody> setOrder(@Body RequestBody orderJsonObject);
 
-    @PUT(ConfigApi.Api.UPDATE_CUSTOMER)
+    @POST(ConfigApi.Api.UPDATE_CUSTOMER)
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Call<ResponseBody> updateCustomer(@Body RequestBody customerJsonObject);
 }

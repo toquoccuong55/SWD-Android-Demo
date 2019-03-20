@@ -1,60 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/dp20"
+    android:layout_marginBottom="@dimen/dp16"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/dp14"
-    android:paddingTop="@dimen/dp10"
-    android:paddingRight="@dimen/dp11"
-    android:paddingBottom="@dimen/dp25">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp14"
+        android:paddingTop="@dimen/dp10"
+        android:paddingRight="@dimen/dp11"
+        android:paddingBottom="@dimen/dp10">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_view_order_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order ID #12321412"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp11" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/text_view_order_id"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/text_view_order_time"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Order ID #12321412"
+                    android:text="Order time : 12h11 ngày 12/11/2018"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp11" />
-
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/text_view_order_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Order time : 12h11 ngày 12/11/2018"
-                android:textColor="@color/grey2"
-                android:textSize="@dimen/sp11" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right|center_vertical"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/dp6"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_view_order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trạng thái: Đã thanh toán"
+                android:textColor="@color/brownish_grey"
+                android:textSize="@dimen/sp12" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_view_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_order_history_view_detail"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dp10"
+                        android:text="Xem chi tiết"
+                        android:textColor="@color/strawberry"
+                        android:textSize="@dimen/sp9"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp6"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="GIÁ TRỊ ĐƠN HÀNG"
+                android:layout_gravity="center"
+                android:text="GIÁ TRỊ ĐƠN HÀNG: "
                 android:textColor="@color/grey2"
                 android:textSize="@dimen/sp7"
                 android:textStyle="bold" />
@@ -63,101 +113,21 @@
                 android:id="@+id/text_view_order_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp6"
                 android:text="350.000đ"
                 android:textColor="@color/strawberry"
                 android:textSize="@dimen/sp20"
                 android:textStyle="bold" />
         </LinearLayout>
-    </LinearLayout>
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/dp1"-->
-    <!--android:layout_marginTop="@dimen/dp7"-->
-    <!--android:layout_marginBottom="@dimen/dp19"-->
-    <!--android:alpha="0.16"-->
-    <!--android:background="@color/warm_grey"></View>-->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!--<FrameLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<com.makeramen.roundedimageview.RoundedImageView-->
-        <!--android:id="@+id/image_view_order_detail"-->
-        <!--android:layout_width="@dimen/dp73"-->
-        <!--android:layout_height="@dimen/dp73"-->
-        <!--android:src="@mipmap/ic_shoes"-->
-        <!--app:riv_corner_radius="@dimen/dp20" />-->
-
-        <!--</FrameLayout>-->
-
-        <LinearLayout
-            android:layout_width="@dimen/dp200"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp13"
-            android:orientation="vertical">
-
-            <!--<TextView-->
-            <!--android:id="@+id/text_view_order_detail_name"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Bath bomb Glo AROMA"-->
-            <!--android:textColor="@color/brownish_grey"-->
-            <!--android:textSize="@dimen/sp13"-->
-            <!--android:maxLines="1"-->
-            <!--android:textStyle="bold" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/text_view_order_detail_price"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/dp3"-->
-            <!--android:layout_marginBottom="@dimen/dp3"-->
-            <!--android:text="350.000đ x 1"-->
-            <!--android:textColor="@color/brownish_grey"-->
-            <!--android:textSize="@dimen/sp13" />-->
-
-            <TextView
-                android:id="@+id/text_view_order_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đã thanh toán"
-                android:textColor="@color/brownish_grey"
-                android:textSize="@dimen/sp12" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right|center_vertical">
-
-            <LinearLayout
-                android:id="@+id/linear_layout_view_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_order_history_view_detail"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp10"
-                    android:text="Xem chi tiết"
-                    android:textColor="@color/strawberry"
-                    android:textSize="@dimen/sp9"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </LinearLayout>
-
 
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/image_view_first_shoe"
+        android:layout_width="@dimen/dp100"
+        android:layout_height="@dimen/dp100"
+        android:layout_gravity="right|center"
+        android:layout_marginRight="@dimen/dp16"
+        android:src="@mipmap/ic_default_shoe" />
+
+</FrameLayout>

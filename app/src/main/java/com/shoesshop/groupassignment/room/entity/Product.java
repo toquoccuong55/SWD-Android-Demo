@@ -3,45 +3,48 @@ package com.shoesshop.groupassignment.room.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
 import com.shoesshop.groupassignment.room.Converter.DataConverter;
+import com.shoesshop.groupassignment.room.Converter.ImageListConverter;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity(tableName = "product")
-public class Product implements Serializable, Cloneable {
+public class Product implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int productIDInfo;
 
-    @SerializedName("id")
+    @SerializedName("ID")
     @ColumnInfo(name = "product_id")
     private int id;
 
-    @SerializedName("name")
+    @SerializedName("Name")
     @ColumnInfo(name = "product_name")
     private String name;
 
     @ColumnInfo(name = "unit_price")
     private double unitPrice;
 
-    @SerializedName("picurl")
-    @ColumnInfo(name = "picURL")
-    private String image;
+    @SerializedName("imageList")
+    @TypeConverters(ImageListConverter.class)
+    @ColumnInfo(name = "imageList")
+    private List<String> imageList;
 
-    @SerializedName("description")
-    @ColumnInfo(name = "description")
+    @SerializedName("Description")
+    @ColumnInfo(name = "Description")
     private String description;
 
     @ColumnInfo(name = "isFavorite")
     private boolean isFavorite;
 
-    @SerializedName("variant")
+    @SerializedName("ProductSkus")
     @TypeConverters(DataConverter.class)
-    @ColumnInfo(name = "product_variant_list")
+    @ColumnInfo(name = "variant")
     private List<ProductVariant> productVariantList;
 
     public String getDescription() {
@@ -79,10 +82,12 @@ public class Product implements Serializable, Cloneable {
         this.productIDInfo = productIDInfo;
     }
 
-    public Product(String image, String name, double unitPrice) {
-        this.image = image;
-        this.name = name;
-        this.unitPrice = unitPrice;
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
     }
 
     public boolean isFavorite() {
@@ -91,14 +96,6 @@ public class Product implements Serializable, Cloneable {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getName() {
@@ -117,19 +114,5 @@ public class Product implements Serializable, Cloneable {
         this.unitPrice = unitPrice;
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        Product product = new Product();
-
-        product.setId(id);
-        product.setName(name);
-        product.setUnitPrice(unitPrice);
-        product.setImage(image);
-        product.setDescription(description);
-        product.setFavorite(isFavorite);
-        product.setProductVariantList(productVariantList);
-
-        return product;
-    }
 }
 

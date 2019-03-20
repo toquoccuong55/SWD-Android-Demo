@@ -48,6 +48,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
         }
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), loginModel.toString());
         Call<ResponseBody> serviceCall = clientApi.shoematicService().loginByPhone(body);
+        Log.d("URL = ", clientApi.shoematicService().loginByPhone(body).request().toString());
         serviceCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -64,34 +65,8 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                         if (responseResult.getData() == null) {
                             callBackData.onFail(response.message());
                         }
+
                         Customer customer = responseResult.getData();
-                        customer.setPhone(customer.getPhone().trim());
-
-                        if (!customer.getAddress().trim().isEmpty()) {
-                            String[] addressAndType = customer.getAddress().split(";");
-                            int addresTypeInt = Integer.parseInt(String.valueOf(addressAndType[0]));
-                            String address = addressAndType[1];
-
-                            String addressTypeString = "";
-                            switch (addresTypeInt) {
-                                case 1:
-                                    addressTypeString = "Cơ quan";
-                                    break;
-                                case 2:
-                                    addressTypeString = "Nhà riêng";
-                                    break;
-                                case 3:
-                                    addressTypeString = "Khác";
-                                    break;
-                            }
-
-                            customer.setAddressType(addressTypeString);
-                            customer.setAddress(address);
-                        } else {
-                            customer.setAddressType("");
-                            customer.setAddress("");
-                        }
-
                         callBackData.onSuccess(customer);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -107,75 +82,6 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                 KProgressHUDManager.dismiss(context, khub);
                 callBackData.onFail(t.getMessage());
                 khub.dismiss();
-            }
-        });
-    }
-
-    @Override
-    public void loginByFacebook(final Context context, String fbAccessToken, final CallBackData<Customer> callBackData) {
-        ClientApi clientApi = new ClientApi();//call clienApi
-        Call<ResponseBody> serviceCall = clientApi.shoematicService().loginByFacebook(fbAccessToken);
-        final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
-        Log.e("URL=", clientApi.shoematicService().loginByFacebook(fbAccessToken).request().url().toString());
-        serviceCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                KProgressHUDManager.dismiss(context, khub);
-                if (response.code() == 200 && response.body() != null) {
-                    try {
-
-                        String result = response.body().string();
-
-                        Type type = new TypeToken<ResponseResult<Customer>>() {
-                        }.getType();
-
-                        ResponseResult<Customer> responseResult =
-                                new Gson().fromJson(result, type);
-
-                        if (responseResult.getData() == null) {
-                            callBackData.onFail(response.message());
-                        }
-                        Customer customer = responseResult.getData();
-                        customer.setPhone(customer.getPhone().trim());
-
-                        if (!customer.getAddress().trim().isEmpty()) {
-                            String[] addressAndType = customer.getAddress().split(";");
-                            int addresTypeInt = Integer.parseInt(String.valueOf(addressAndType[0]));
-                            String address = addressAndType[1];
-
-                            String addressTypeString = "";
-                            switch (addresTypeInt) {
-                                case 1:
-                                    addressTypeString = "Cơ quan";
-                                    break;
-                                case 2:
-                                    addressTypeString = "Nhà riêng";
-                                    break;
-                                case 3:
-                                    addressTypeString = "Khác";
-                                    break;
-                            }
-
-                            customer.setAddressType(addressTypeString);
-                            customer.setAddress(address);
-                        } else {
-                            customer.setAddressType("");
-                            customer.setAddress("");
-                        }
-
-                        callBackData.onSuccess(customer);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    callBackData.onFail(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //  KProgressHUDManager.dismiss(context, khub);
-                callBackData.onFail(t.getMessage());
             }
         });
     }
@@ -209,6 +115,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                         } catch (JsonSyntaxException jsonError) {
                             jsonError.printStackTrace();
                         }
+                        callBackData.onFail(response.message());
                     } else {
                         callBackData.onFail(response.message());
                     }
@@ -226,8 +133,15 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
     @Override
     public void getOrderHistory(final Context context, String accessToken, final CallBackData<List<OrderHistory>> callBackData) {
         ClientApi clientApi = new ClientApi();
-        Call<ResponseBody> serviceCall = clientApi.shoematicService().getOrderHistory(accessToken);
-        Log.e("URL=", clientApi.shoematicService().getOrderHistory(accessToken).request().url().toString());
+        JSONObject orderJsonObject = new JSONObject();
+        try {
+            orderJsonObject.put("accessToken", accessToken);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), orderJsonObject.toString());
+        Call<ResponseBody> serviceCall = clientApi.shoematicService().getOrderHistory(body);
+        Log.e("URL=", clientApi.shoematicService().getOrderHistory(body).request().url().toString());
         final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
         serviceCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -271,20 +185,20 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
         ClientApi clientApi = new ClientApi();
         JSONObject orderJsonObject = new JSONObject();
         try {
-            orderJsonObject.put("access_token", order.getAccessToken());
-            orderJsonObject.put("shipping_address", order.getShippingAddress());
-            orderJsonObject.put("payment_type", order.getPaymentType());
-            orderJsonObject.put("notes", order.getNote());
+            orderJsonObject.put("AccessToken", order.getAccessToken());
+            orderJsonObject.put("ShippingAddress", order.getShippingAddress());
+            orderJsonObject.put("PaymentType", order.getPaymentType() == 1 ? "CASH" : "Other");
+            orderJsonObject.put("Note", order.getNote());
 
             JSONArray orderDetailJsonArray = new JSONArray();
             for (ProductVariant variant : order.getOrderDetailList()) {
                 JSONObject orderItemJsonObject = new JSONObject();
-                orderItemJsonObject.put("product_id", variant.getId());
-                orderItemJsonObject.put("quantity", variant.getBuyQuantity());
-                orderItemJsonObject.put("unit_price", variant.getUnitPrice());
+                orderItemJsonObject.put("ProductID", variant.getId());
+                orderItemJsonObject.put("Quantity", variant.getQuantity());
+                orderItemJsonObject.put("UnitPrice", variant.getUnitPrice());
                 orderDetailJsonArray.put(orderItemJsonObject);
             }
-            orderJsonObject.put("order_details", orderDetailJsonArray);
+            orderJsonObject.put("OrderDetailList", orderDetailJsonArray);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -292,6 +206,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), orderJsonObject.toString());
         Call<ResponseBody> serviceCall = clientApi.shoematicService().setOrder(body);
         final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
+        Log.d("", "URL: " + clientApi.shoematicService().setOrder(body).request().toString());
         serviceCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -303,7 +218,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                         }.getType();
 
                         ResponseResult<SuccessedOrder> responseResult = new Gson().fromJson(result, type);
-                        if (responseResult.getData() == null) {
+                        if(responseResult.getStatus().isSuccess() == true){
                             callBackData.onFail(response.message());
                         }
                         SuccessedOrder successedOrder = responseResult.getData();
@@ -326,7 +241,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
     }
 
     @Override
-    public void updateCustomer(final Context context, Customer customer, final CallBackData<UpdateCustomerResult> callBackData) {
+    public void updateCustomer(final Context context, Customer customer, final CallBackData<Customer> callBackData) {
         ClientApi clientApi = new ClientApi();
         JSONObject customerJsonObject = new JSONObject();
         try {
@@ -335,29 +250,14 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
             customerJsonObject.put("phone", customer.getPhone());
             customerJsonObject.put("email", customer.getEmail());
             customerJsonObject.put("address", customer.getAddress());
-            int addressType = 0;
-            switch (customer.getAddressType()) {
-                case "Cơ quan":
-                    addressType = 1;
-                    break;
-                case "Nhà riêng":
-                    addressType = 2;
-                    break;
-                case "Khác":
-                    addressType = 3;
-                    break;
-            }
-            if (addressType != 0) {
-                customerJsonObject.put("address_type", addressType);
-            } else {
-                customerJsonObject.put("address_type", "");
-            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), customerJsonObject.toString());
         Call<ResponseBody> serviceCall = clientApi.shoematicService().updateCustomer(body);
         final KProgressHUD khub = KProgressHUDManager.showProgressBar(context);
+        Log.d("", "URL = : " + clientApi.shoematicService().updateCustomer(body).request().toString());
         serviceCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -365,15 +265,15 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                 if (response.code() == 200 && response.body() != null) {
                     try {
                         String result = response.body().string();
-                        Type type = new TypeToken<ResponseResult<UpdateCustomerResult>>() {
+                        Type type = new TypeToken<ResponseResult<Customer>>() {
                         }.getType();
 
-                        ResponseResult<UpdateCustomerResult> responseResult = new Gson().fromJson(result, type);
+                        ResponseResult<Customer> responseResult = new Gson().fromJson(result, type);
                         if (responseResult.getData() == null) {
                             callBackData.onFail(response.message());
                         }
-                        UpdateCustomerResult updateCustomerResult = responseResult.getData();
-                        callBackData.onSuccess(updateCustomerResult);
+                        Customer customer = responseResult.getData();
+                        callBackData.onSuccess(customer);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (Exception e) {

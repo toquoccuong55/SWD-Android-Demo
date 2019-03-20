@@ -11,7 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.shoesshop.groupassignment.R;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.PreferenceUtils;
 
 public class PaymentActivity extends AppCompatActivity implements View.OnClickListener {
@@ -60,7 +60,7 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
         switch (selectedID) {
             case R.id.radio_button_cash:
                 PreferenceUtils.saveIntSharedPreference(PaymentActivity.this,
-                        ConstantDataManager.PREFENCED_PAYMENT, 1);
+                        ConstantManager.PREFENCED_PAYMENT, 1);
                 break;
         }
         Intent intent = new Intent();

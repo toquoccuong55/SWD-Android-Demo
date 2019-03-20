@@ -32,6 +32,7 @@
                 android:maxLines="1"
                 android:text="Nike Air Force 1 Jester"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="@dimen/sp16" />
 
             <TextView

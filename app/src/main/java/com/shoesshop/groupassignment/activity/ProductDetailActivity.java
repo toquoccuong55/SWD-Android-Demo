@@ -1,9 +1,7 @@
 package com.shoesshop.groupassignment.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +15,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nex3z.flowlayout.FlowLayout;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.adapter.MainSliderAdapter;
 import com.shoesshop.groupassignment.adapter.RelatedProductAdapter;
@@ -27,7 +24,7 @@ import com.shoesshop.groupassignment.presenter.ProductDetailPresenter;
 import com.shoesshop.groupassignment.room.entity.Product;
 import com.shoesshop.groupassignment.model.Size;
 import com.shoesshop.groupassignment.room.entity.Wishlist;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.CurrencyManager;
 import com.shoesshop.groupassignment.utils.GridSpacingItemDecoration;
 import com.shoesshop.groupassignment.utils.PicassoLoadingService;
@@ -39,7 +36,6 @@ import java.util.List;
 import ss.com.bannerslider.Slider;
 
 public class ProductDetailActivity extends AppCompatActivity implements View.OnClickListener, ProductDetailView {
-    public static final String CURRENCY = "đ";
 
     private LinearLayout mLnlBack, mLnlWishlist;
     private Slider mSlider;
@@ -47,10 +43,6 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     private TextView mTxtProductName, mTxtPrice, mTxtDescription, mTxtQuantity,
             mTxtDescrease, mTxtPlus;
     private Button mBtnAddToCart;
-
-    private RecyclerView mRecyclerViewRelatedProducts;
-    private RelatedProductAdapter mRelatedProductAdapter;
-    private List<String> mRelatedProductList;
 
     private RecyclerView mRcvSizeList;
     private List<Size> mSizeList;
@@ -74,24 +66,29 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getInitialIntent() {
-        Bundle bundle = getIntent().getBundleExtra(ConstantDataManager.INTENT_BUNDLE);
+        //get product passed from homefragment
+        Bundle bundle = getIntent().getBundleExtra(ConstantManager.INTENT_BUNDLE);
         if (bundle != null) {
-            mProduct = (Product) bundle.getSerializable(ConstantDataManager.BUNDLE_PRODUCT);
+            mProduct = (Product) bundle.getSerializable(ConstantManager.BUNDLE_PRODUCT);
         }
     }
 
+    //mapping view
     private void initalView() {
         mSlider = findViewById(R.id.slider_product_images);
         mLnlBack = findViewById(R.id.linear_layout_back);
         mLnlBack.setOnClickListener(this);
+
         mLnlWishlist = findViewById(R.id.linear_layout_wishlist);
         mLnlWishlist.setOnClickListener(this);
+
         mTxtPrice = findViewById(R.id.text_view_price);
         mTxtProductName = findViewById(R.id.text_view_product_name);
         mTxtDescription = findViewById(R.id.text_view_description);
-        mRecyclerViewRelatedProducts = findViewById(R.id.recycler_view_related_products);
+
         mBtnAddToCart = findViewById(R.id.button_add_to_cart);
         mBtnAddToCart.setOnClickListener(this);
+
         mTxtQuantity = findViewById(R.id.text_view_quantity);
         mTxtDescrease = findViewById(R.id.text_view_substract);
         mTxtDescrease.setOnClickListener(this);
@@ -106,14 +103,9 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         mRcvSizeList.setLayoutManager(gridLayoutManager);
         int spacing = getResources().getDimensionPixelSize(R.dimen.dp10);
         mRcvSizeList.addItemDecoration(new GridSpacingItemDecoration(numberOfColumn, spacing, true));
-
-
-//        mRecyclerViewRelatedProducts.setHasFixedSize(true);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
-//        mRecyclerViewRelatedProducts.setLayoutManager(layoutManager);
-
     }
 
+    //calculate the number of columns of size
     private int calculateNumberOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
@@ -122,6 +114,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initialData() {
+        //get cart from ROOM
         mProductDetailPresenter = new ProductDetailPresenter(getApplication(), ProductDetailActivity.this);
         mProductDetailPresenter.getShoppingBag();
     }
@@ -131,28 +124,46 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         mShoppingBag = productList;
 
         if (mProduct != null) {
+            //get wishlist from room
             mProductDetailPresenter.getWishList();
 
-            mImageList = mProduct.getProductVariantList().get(0).getPicURLList();
+            //get data for imageList and set imagelist to slider
+            mImageList = mProduct.getImageList();
             if (mImageList.isEmpty()) {
                 mImageList.add("https://img.icons8.com/android/1600/trainers.png");
                 mImageList.add("https://img.icons8.com/android/1600/trainers.png");
                 mImageList.add("https://img.icons8.com/android/1600/trainers.png");
             }
             mSlider.setAdapter(new MainSliderAdapter(mImageList));
+
+            //set product details
             mTxtProductName.setText(mProduct.getName());
             mTxtPrice.setText(CurrencyManager.getPrice(mProduct.getProductVariantList().get(0).getUnitPrice(),
-                    ConstantDataManager.CURRENCY));
+                    ConstantManager.CURRENCY));
 
+            //set data for size list
             mSizeList = new ArrayList<>();
             for (ProductVariant productVariant : mProduct.getProductVariantList()) {
                 Size size = new Size();
                 size.setId(productVariant.getId());
-                size.setName(productVariant.getSizeString());
+                size.setName(String.valueOf(productVariant.getSize()));
                 size.setChecked(false);
                 mSizeList.add(size);
             }
+            //set default: the first size is selected
             mSizeList.get(0).setChecked(true);
+            //set adapter for size recyclerview
+            setSizeAdapter();
+
+            //set data for quantity and description.
+            mTxtQuantity.setText(String.valueOf(1));
+            mTxtDescription.setText(mProduct.getDescription());
+
+        }
+    }
+
+    private void setSizeAdapter() {
+        if (mSizeListAdapter == null) {
             mSizeListAdapter = new SizeListAdapter(mSizeList, ProductDetailActivity.this);
             mRcvSizeList.setAdapter(mSizeListAdapter);
             mSizeListAdapter.setmOnItemClickListener(new SizeListAdapter.OnItemClickListener() {
@@ -164,13 +175,11 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                     mSizeList.get(position).setChecked(true);
                     mSizeListAdapter.notifyDataSetChanged();
                     mTotal = calculateToTal();
-                    mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantDataManager.CURRENCY));
+                    mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantManager.CURRENCY));
                 }
             });
-
-            mTxtQuantity.setText(String.valueOf(1));
-            mTxtDescription.setText(mProduct.getDescription());
-
+        } else {
+            mSizeListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -178,7 +187,6 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     public void showWishList(List<Wishlist> wishlists) {
         mWishList = wishlists;
         if (mWishList == null || mWishList.isEmpty()) {
-
         } else {
             for (Wishlist wishlist : mWishList) {
                 if (mProduct.getId() == wishlist.getId()) {
@@ -214,6 +222,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    //click to add favorite
     private void clickToFavorite() {
         if (mProduct.isFavorite()) {
             mLnlWishlist.setBackground(getResources().getDrawable(R.drawable.background_button_wishlist_off));
@@ -228,13 +237,14 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    //convert product to wishlist item
     private Wishlist convertProductToWishList(Product product) {
         Wishlist wishlist = new Wishlist();
 
         wishlist.setId(product.getId());
         wishlist.setName(product.getName());
         wishlist.setUnitPrice(product.getUnitPrice());
-        wishlist.setImage(product.getImage());
+        wishlist.setImageList(product.getImageList());
         wishlist.setDescription(product.getDescription());
         wishlist.setFavorite(product.isFavorite());
         wishlist.setProductVariantList(product.getProductVariantList());
@@ -242,6 +252,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         return wishlist;
     }
 
+    //click to button -
     private void clickToSubstract() {
         int quantity = Integer.parseInt((String) mTxtQuantity.getText().toString());
         if (quantity >= 2) {
@@ -249,17 +260,19 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
         }
         mTxtQuantity.setText(String.valueOf(quantity));
         mTotal = calculateToTal();
-        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, CURRENCY));
+        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantManager.CURRENCY));
     }
 
+    //click to button +
     private void clickToPlus() {
         int quantity = Integer.parseInt((String) mTxtQuantity.getText().toString());
         quantity += 1;
         mTxtQuantity.setText(String.valueOf(quantity));
         mTotal = calculateToTal();
-        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, CURRENCY));
+        mTxtPrice.setText(CurrencyManager.getPrice(mTotal, ConstantManager.CURRENCY));
     }
 
+    //calculate total amount of product (unitprice * quantity)
     private double calculateToTal() {
         double total = 0;
         int selectedID = 0;
@@ -286,6 +299,7 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
     }
 
     private void clickToButtonAddToCart() {
+        //get selected size
         int selectedID = 0;
         for (Size size : mSizeList) {
             if (size.isChecked()) {
@@ -293,155 +307,32 @@ public class ProductDetailActivity extends AppCompatActivity implements View.OnC
                 break;
             }
         }
-        boolean isInStock = true;
+
         if (selectedID != 0) {
             for (ProductVariant variant : mProduct.getProductVariantList()) {
                 if (variant.getId() == selectedID) {
+                    //set quantity for product variant
                     int quantity = Integer.parseInt(mTxtQuantity.getText().toString().trim());
-                    if (mShoppingBag == null || mShoppingBag.isEmpty()) {
-                        if (quantity > variant.getQuantity()) {
-                            showOutOfDetailStockDialog(variant.getQuantity());
-                            isInStock = false;
-                        }
-                    } else {
-                        boolean isExisted = isExistedInShoppingBag(variant.getId());
-                        if (isExisted) {
-                            isInStock = checkQuantityInOrder(variant.getId(), quantity);
-                        } else {
-                            if (quantity > variant.getQuantity()) {
-                                isInStock = false;
-                            }
-                        }
-                        if (isInStock == false) {
-                            showOutOfStockDialog();
-                        }
-                    }
-                    if (isInStock) {
-                        variant.setBuyQuantity(quantity);
-                        variant.setSelected(true);
-                    }
+                    variant.setQuantity(quantity);
+                    //set variant selected
+                    variant.setSelected(true);
                 }
             }
         }
 
-        if (isInStock) {
-            Product product = null;
-            try {
-                product = (Product) mProduct.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            if (product != null) {
-                mProductDetailPresenter.addProduct(product);
-            } else {
-                mProductDetailPresenter.addProduct(mProduct);
-            }
-            finish();
-        }
-    }
+        //create a new product
+        Product product = new Product();
+        product.setId(mProduct.getId());
+        product.setName(mProduct.getName());
+        product.setUnitPrice(mProduct.getUnitPrice());
+        product.setImageList(mProduct.getImageList());
+        product.setDescription(mProduct.getDescription());
+        product.setFavorite(mProduct.isFavorite());
+        product.setProductVariantList(mProduct.getProductVariantList());
+        //add product to cart
+        mProductDetailPresenter.addProduct(product);
 
-    private boolean isExistedInShoppingBag(int variantId) {
-        boolean isExisted = false;
-        for (Product product : mShoppingBag) {
-            for (ProductVariant variant : product.getProductVariantList()) {
-                if (variant.getId() == variantId && variant.isSelected() == true) {
-                    isExisted = true;
-                }
-            }
-        }
-        return isExisted;
-    }
-
-    private boolean checkQuantityInOrder(int variantId, int quantity) {
-        boolean isInStock = true;
-        int totalBuyQuantity = 0;
-        int inStockQuantity = 0;
-        boolean isExisted = false;
-        for (Product product : mShoppingBag) {
-            for (ProductVariant variant : product.getProductVariantList()) {
-                if (variant.getId() == variantId && variant.isSelected() == true) {
-                    inStockQuantity = variant.getQuantity();
-                    totalBuyQuantity += variant.getBuyQuantity();
-                    isExisted = true;
-                }
-            }
-        }
-        totalBuyQuantity += quantity;
-        if (isExisted) {
-            if (totalBuyQuantity > inStockQuantity) {
-                isInStock = false;
-            }
-        }
-        return isInStock;
-    }
-
-    private void showOutOfDetailStockDialog(int quantity) {
-        final Dialog dialog = new Dialog(ProductDetailActivity.this);
-        LayoutInflater layoutInflater = ProductDetailActivity.this.getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.dialog_information, null);
-        dialog.setContentView(view);
-
-        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
-        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
-        View viewLine = dialog.findViewById(R.id.view_line);
-        View viewLine2 = dialog.findViewById(R.id.view_line2);
-        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
-        Button option1 = dialog.findViewById(R.id.button_num1);
-        Button option2 = dialog.findViewById(R.id.button_num2);
-
-        txtTitle.setVisibility(View.GONE);
-        if (quantity <= 0) {
-            txtSubInfo.setText("Chúng tôi rất tiếc, sản phẩm này đã hết hàng.");
-        } else {
-            txtSubInfo.setText("Chúng tôi rất tiếc, sản phẩm này chỉ còn lại số lượng là " + quantity);
-        }
-        viewLine.setVisibility(View.VISIBLE);
-        viewLine2.setVisibility(View.GONE);
-        lnlOptions.setVisibility(View.VISIBLE);
-        option1.setText("Thử lại");
-        option1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
-        option2.setVisibility(View.GONE);
-
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-    }
-
-
-    private void showOutOfStockDialog() {
-        final Dialog dialog = new Dialog(ProductDetailActivity.this);
-        LayoutInflater layoutInflater = ProductDetailActivity.this.getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.dialog_information, null);
-        dialog.setContentView(view);
-
-        TextView txtTitle = dialog.findViewById(R.id.text_view_dialog_title);
-        TextView txtSubInfo = dialog.findViewById(R.id.text_view_sub_infor);
-        View viewLine = dialog.findViewById(R.id.view_line);
-        View viewLine2 = dialog.findViewById(R.id.view_line2);
-        LinearLayout lnlOptions = dialog.findViewById(R.id.linear_layout_options);
-        Button option1 = dialog.findViewById(R.id.button_num1);
-        Button option2 = dialog.findViewById(R.id.button_num2);
-
-        txtTitle.setVisibility(View.GONE);
-        txtSubInfo.setText("Chúng tôi rất tiếc, sản phẩm này không còn đủ số lượng như yêu cầu");
-        viewLine.setVisibility(View.VISIBLE);
-        viewLine2.setVisibility(View.GONE);
-        lnlOptions.setVisibility(View.VISIBLE);
-        option1.setText("Thử lại");
-        option1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
-        option2.setVisibility(View.GONE);
-
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        finish();
     }
 
 }

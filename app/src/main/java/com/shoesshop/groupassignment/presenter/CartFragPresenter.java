@@ -72,7 +72,7 @@ public class CartFragPresenter {
 
             @Override
             public void onFail(String message) {
-                Log.e("", message );
+                mCartFragView.setOrderFailed(message);
             }
         });
     }

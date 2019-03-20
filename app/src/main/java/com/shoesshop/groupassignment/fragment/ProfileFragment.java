@@ -18,14 +18,13 @@ import android.widget.TextView;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.activity.AboutUsActivity;
 import com.shoesshop.groupassignment.activity.ContactActivity;
-import com.shoesshop.groupassignment.activity.LoginActivity;
 import com.shoesshop.groupassignment.activity.OrderHistoryActivity;
 import com.shoesshop.groupassignment.activity.PersonalInfoActivity;
 import com.shoesshop.groupassignment.activity.ShippingAddressActivity;
 import com.shoesshop.groupassignment.activity.SplashActivity;
 import com.shoesshop.groupassignment.presenter.ProfileFragPresenter;
 import com.shoesshop.groupassignment.room.entity.Customer;
-import com.shoesshop.groupassignment.utils.ConstantDataManager;
+import com.shoesshop.groupassignment.utils.ConstantManager;
 import com.shoesshop.groupassignment.utils.PreferenceUtils;
 import com.shoesshop.groupassignment.view.ProfileFragView;
 
@@ -154,8 +153,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, P
         mPresenter.deleteCustomerInfo();
         mPresenter.deleteAllProduct();
         mPresenter.deleteAllWishList();
-        PreferenceUtils.removeStringSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
-        PreferenceUtils.removeIntSharedPreference(getActivity(), ConstantDataManager.PREFENCED_NOTE);
+        PreferenceUtils.removeStringSharedPreference(getActivity(), ConstantManager.PREFENCED_NOTE);
+        PreferenceUtils.removeIntSharedPreference(getActivity(), ConstantManager.PREFENCED_NOTE);
 
         Intent intent = new Intent(getActivity(), SplashActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

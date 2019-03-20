@@ -13,4 +13,6 @@ public interface CartFragView {
 
     void setOrderSuccess(SuccessedOrder successedOrder);
 
+    void setOrderFailed(String message);
+
 }

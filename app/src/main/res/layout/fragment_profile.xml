@@ -340,7 +340,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp2"
-                android:text="©2018 Shoematic. Ver 1.01"
+                android:text="©2019 Shoematic. Ver 1.01"
                 android:textAlignment="center"
                 android:textColor="@color/charcoal"
                 android:textSize="@dimen/sp12" />
