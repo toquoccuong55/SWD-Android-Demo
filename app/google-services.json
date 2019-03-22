@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "78282727186",
+    "firebase_url": "https://shoematics-f7a71.firebaseio.com",
+    "project_id": "shoematics-f7a71",
+    "storage_bucket": "shoematics-f7a71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78282727186:android:09293a0d02174b49",
+        "android_client_info": {
+          "package_name": "com.shoesshop.groupassignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "78282727186-1qhbp1qrvmont6uia640cpg8ad0jlufb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZlprIYOiR0ymiBVkTgUeMTZrcZYE8tl0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

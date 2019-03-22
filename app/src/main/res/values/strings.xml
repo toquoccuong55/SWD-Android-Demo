@@ -9,4 +9,6 @@
     <string name="company">Cơ quan</string>
     <string name="house">Nhà riêng</string>
     <string name="title_payment_cash">Thanh toán bằng tiền mặt</string>
+
+    <string name="default_notification_channel_id">fcm_default_channel</string>
 </resources>

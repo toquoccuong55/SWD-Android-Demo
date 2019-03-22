@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.presenter.SplashPresenter;
 import com.shoesshop.groupassignment.room.entity.Customer;
@@ -17,6 +18,7 @@ public class SplashActivity extends AppCompatActivity implements SplashView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        FirebaseMessaging.getInstance().subscribeToTopic("SHOEMATICS");
         delaySplashScreen();
     }
 

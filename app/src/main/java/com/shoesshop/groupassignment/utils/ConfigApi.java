@@ -1,7 +1,7 @@
 package com.shoesshop.groupassignment.utils;
 
 public class ConfigApi {
-    public static final String BASE_URL = "http://10.0.2.2:45456/api/";
+    public static final String BASE_URL = "http://10.0.2.2:45455/api/";
 
     public interface Api {
         String LOGIN_FACEBOOK = "Customer/loginByFb";

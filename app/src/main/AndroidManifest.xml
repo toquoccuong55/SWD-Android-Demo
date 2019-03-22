@@ -64,6 +64,15 @@
         <activity android:name=".activity.AboutUsActivity" />
         <activity android:name=".activity.ContactActivity" />
         <activity android:name=".activity.FirstLoginActivity"></activity>
+
+        <service android:name=".firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>
