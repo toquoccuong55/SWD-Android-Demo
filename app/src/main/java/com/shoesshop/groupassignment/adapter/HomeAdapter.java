@@ -57,8 +57,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             viewHolder.mImgProduct.setImageResource(R.mipmap.ic_shoes);
         }
         viewHolder.mTxtProductName.setText(product.getName());
-        double unitPrice = product.getProductVariantList().get(0).getUnitPrice();
-        viewHolder.mTxtUnitPrice.setText(CurrencyManager.getPrice(unitPrice, "đ"));
+        if(!product.getProductVariantList().isEmpty()){
+            double unitPrice = product.getProductVariantList().get(0).getUnitPrice();
+            viewHolder.mTxtUnitPrice.setText(CurrencyManager.getPrice(unitPrice, "đ"));
+        }
         viewHolder.mCardViewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

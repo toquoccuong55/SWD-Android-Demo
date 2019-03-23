@@ -193,7 +193,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
             JSONArray orderDetailJsonArray = new JSONArray();
             for (ProductVariant variant : order.getOrderDetailList()) {
                 JSONObject orderItemJsonObject = new JSONObject();
-                orderItemJsonObject.put("ProductID", variant.getId());
+                orderItemJsonObject.put("ProductSkuID", variant.getId());
                 orderItemJsonObject.put("Quantity", variant.getQuantity());
                 orderItemJsonObject.put("UnitPrice", variant.getUnitPrice());
                 orderDetailJsonArray.put(orderItemJsonObject);
@@ -218,7 +218,7 @@ public class ShoematicRepositoryImpl implements ShoematicRepository {
                         }.getType();
 
                         ResponseResult<SuccessedOrder> responseResult = new Gson().fromJson(result, type);
-                        if(responseResult.getStatus().isSuccess() == true){
+                        if(responseResult.getStatus().isSuccess() == false){
                             callBackData.onFail(response.message());
                         }
                         SuccessedOrder successedOrder = responseResult.getData();

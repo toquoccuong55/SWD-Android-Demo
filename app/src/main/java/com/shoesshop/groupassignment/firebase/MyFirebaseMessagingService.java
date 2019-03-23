@@ -7,17 +7,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.shoesshop.groupassignment.R;
 import com.shoesshop.groupassignment.activity.SplashActivity;
+import com.shoesshop.groupassignment.model.OrderHistory;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
+    private static final String TAG = "MyFirebaseMessagingServ";
     private static final int REQUEST_CODE = 0;
 
-    public MyFirebaseMessagingService(){
+    public MyFirebaseMessagingService() {
 
     }
 
@@ -28,22 +30,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             try {
                 String message = remoteMessage.getData().get("message");
                 String title = remoteMessage.getData().get("title");
-                sendNotification(title, message);
+//                sendNotification(title, message);
+                System.out.println("");
             } catch (Exception e) {
-
+                Log.e(TAG, e.getMessage());
             }
-        }
-
-        if (remoteMessage.getNotification() != null) {
+        } else if (remoteMessage.getNotification() != null) {
             String title = remoteMessage.getNotification().getTitle();
             String message = remoteMessage.getNotification().getBody();
-            sendNotification(title, message);
+//            sendNotification(title, message);
         }
 
     }
 
     public void sendNotification(String title, String messageBody) {
-        Intent intent = new Intent(this, SplashActivity.class);
+        Intent intent = new Intent(this, OrderHistory.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, REQUEST_CODE /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
